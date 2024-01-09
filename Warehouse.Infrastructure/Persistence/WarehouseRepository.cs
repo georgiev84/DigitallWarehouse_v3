@@ -18,38 +18,14 @@ public class WarehouseRepository : IWarehouseRepository
         MockDatabase().GetAwaiter().GetResult();
     }
 
-    public async Task<IEnumerable<Product>> GetProductsAsync(decimal? minPrice, decimal? maxPrice, string size)
+    public async Task<IEnumerable<Product>> GetProductsAsync()
     {
         if (_products == null)
         {
             await MockDatabase();
         }
 
-        if (minPrice.HasValue || maxPrice.HasValue || !string.IsNullOrEmpty(size))
-        {
-            var filteredProducts = _products;
-
-            if (minPrice.HasValue)
-            {
-                filteredProducts = filteredProducts.Where(p => p.Price >= minPrice.Value);
-            }
-
-            if (maxPrice.HasValue)
-            {
-                filteredProducts = filteredProducts.Where(p => p.Price <= maxPrice.Value);
-            }
-
-            if (!string.IsNullOrEmpty(size))
-            {
-                filteredProducts = filteredProducts.Where(p => p.Sizes.Contains(size));
-            }
-
-            return filteredProducts ?? Enumerable.Empty<Product>();
-        }
-        else
-        {
-            return _products ?? Enumerable.Empty<Product>();
-        }
+        return _products ?? Enumerable.Empty<Product>();
     }
 
     /// <summary>

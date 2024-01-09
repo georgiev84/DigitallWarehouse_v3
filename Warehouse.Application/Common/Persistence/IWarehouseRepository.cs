@@ -4,5 +4,5 @@ namespace Warehouse.Application.Common.Persistence;
 
 public interface IWarehouseRepository
 {
-    Task<IEnumerable<Product>> GetProductsAsync(decimal? minPrice, decimal? maxPrice, string size);
+    Task<IEnumerable<Product>> GetProductsAsync();
 }

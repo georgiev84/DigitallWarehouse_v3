@@ -1,4 +1,5 @@
-﻿using Warehouse.Application.Common.Interfaces;
+﻿using System.Text.RegularExpressions;
+using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Persistence;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Responses;
@@ -16,21 +17,18 @@ public class ProductService : IProductService
 
     public async Task<ProductResponse> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string size, string highlight)
     {
-        var products = await _warehouseRepository.GetProductsAsync(minPrice, maxPrice, size);
+        // Fetch all products from DB
+        var allProducts = await _warehouseRepository.GetProductsAsync();
 
-        if (!string.IsNullOrEmpty(highlight))
-        {
-            products = HighlightWords(products, highlight);
-        }
-        // Extracting min and max prices
-        decimal? overallMinPrice = products.Min(p => p.Price);
-        decimal? overallMaxPrice = products.Max(p => p.Price);
+        // Extract min and max prices
+        decimal? overallMinPrice = allProducts.Min(p => p.Price);
+        decimal? overallMaxPrice = allProducts.Max(p => p.Price);
 
-        // Extract sizes
-        var allSizes = products.SelectMany(p => p.Sizes).Distinct().ToArray();
+        // Extract all sizes
+        var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
 
         // Extract and split descriptions
-        var allDescriptions = products.Select(p => p.Description).ToList();
+        var allDescriptions = allProducts.Select(p => p.Description).ToList();
         var wordOccurrences = allDescriptions
             .SelectMany(desc => desc.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries))
             .GroupBy(word => word.ToLower())
@@ -43,6 +41,29 @@ public class ProductService : IProductService
         var excludedWords = wordOccurrences.Take(5).ToList();
         var commonWords = wordOccurrences.Skip(5).Take(10).Except(excludedWords).ToArray();
 
+        // Filter products
+        var filteredProducts = allProducts;
+
+        if (minPrice.HasValue)
+        {
+            filteredProducts = filteredProducts.Where(p => p.Price >= minPrice.Value);
+        }
+
+        if (maxPrice.HasValue)
+        {
+            filteredProducts = filteredProducts.Where(p => p.Price <= maxPrice.Value);
+        }
+
+        if (!string.IsNullOrEmpty(size))
+        {
+            filteredProducts = filteredProducts.Where(p => p.Sizes.Any(s => string.Equals(s, size, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        if (!string.IsNullOrEmpty(highlight))
+        {
+            filteredProducts = HighlightWords(filteredProducts, highlight);
+        }
+
         return new ProductResponse
         {
             Filter = new ProductFilter
@@ -52,7 +73,7 @@ public class ProductService : IProductService
                 AllSizes = allSizes,
                 CommonWords = commonWords
             },
-            Products = products,
+            Products = filteredProducts,
         };
     }
 
@@ -63,7 +84,12 @@ public class ProductService : IProductService
         {
             foreach (var word in highlightWords)
             {
-                product.Description = product.Description.Replace(word, $"<em>{word}</em>");
+                product.Description = Regex.Replace(
+                    product.Description,
+                    $@"\b({Regex.Escape(word)}|{Regex.Escape(word.ToLowerInvariant())})\b",
+                    match => $"<em>{match.Value}</em>",
+                    RegexOptions.IgnoreCase
+                );
             }
         }
         return products;
