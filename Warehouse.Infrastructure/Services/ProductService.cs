@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Persistence;
 using Warehouse.Domain.Entities;
@@ -9,14 +10,18 @@ namespace Warehouse.Infrastructure.Services;
 public class ProductService : IProductService
 {
     private readonly IWarehouseRepository _warehouseRepository;
+    private readonly ILogger<ProductService> _logger;
 
-    public ProductService(IWarehouseRepository warehouseRepository)
+    public ProductService(IWarehouseRepository warehouseRepository, ILogger<ProductService> logger)
     {
         _warehouseRepository = warehouseRepository;
+        _logger = logger;
     }
 
     public async Task<ProductResponse> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string size, string highlight)
     {
+        _logger.LogInformation("Getting Products from Database");
+
         // Fetch all products from DB
         var allProducts = await _warehouseRepository.GetProductsAsync();
 

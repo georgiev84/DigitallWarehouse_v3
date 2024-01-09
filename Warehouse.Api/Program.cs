@@ -1,4 +1,7 @@
+using MediatR;
+using Serilog;
 using Warehouse.Application;
+using Warehouse.Application.Behavior;
 using Warehouse.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,10 +11,15 @@ builder.Services
     .AddApplication()
     .AddInfrastructure();
 
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 var app = builder.Build();
 
@@ -21,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
