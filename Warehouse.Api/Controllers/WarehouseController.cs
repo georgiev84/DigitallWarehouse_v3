@@ -23,6 +23,8 @@ public class WarehouseController : ControllerBase
         [FromQuery(Name = "Highlight")] string highlight = "",
         [FromQuery(Name = "Size")] string size = "")
     {
+        throw new InvalidOperationException();
+
         try
         {
             var query = new ProductQuery
