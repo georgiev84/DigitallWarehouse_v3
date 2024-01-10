@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
+using Warehouse.Api.Filters;
 using Warehouse.Application;
 using Warehouse.Application.Behavior;
 using Warehouse.Infrastructure;
@@ -13,7 +15,8 @@ builder.Services
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ErrorHandlingFilter)));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

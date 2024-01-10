@@ -15,9 +15,9 @@ public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductRespons
 
     public ProductQueryHandler(IProductService productService, IValidator<ProductQuery> productQueryValidator, ILogger<ProductQueryHandler> logger)
     {
-        _productService = productService;
-        _productQueryValidator = productQueryValidator;
-        _logger = logger;
+        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        _productQueryValidator = productQueryValidator ?? throw new ArgumentNullException(nameof(productQueryValidator));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task<ProductResponse> Handle(ProductQuery request, CancellationToken cancellationToken)

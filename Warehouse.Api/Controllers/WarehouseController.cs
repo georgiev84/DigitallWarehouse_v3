@@ -1,12 +1,14 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Warehouse.Api.Filters;
 using Warehouse.Application.Queries.Warehouse;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Api.Controllers;
 
-public class WarehouseController : ApiController
+[Route("api")]
+public class WarehouseController : ControllerBase
 {
     ISender _mediator;
 
@@ -37,7 +39,7 @@ public class WarehouseController : ApiController
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex.Message);
+           return StatusCode(500, ex.Message);
         }
     }
 }

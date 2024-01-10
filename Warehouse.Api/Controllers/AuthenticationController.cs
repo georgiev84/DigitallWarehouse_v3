@@ -1,6 +1,8 @@
-﻿namespace Warehouse.Api.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 
-public class AuthenticationController : ApiController
+namespace Warehouse.Api.Controllers;
+
+public class AuthenticationController : ControllerBase
 {
     // This controller will contain register and login endpoints
 }
