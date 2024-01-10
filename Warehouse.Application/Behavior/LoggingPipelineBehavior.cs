@@ -19,7 +19,7 @@ public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TR
     {
         try
         {
-            _logger.LogInformation("Starting request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
+            _logger.LogInformation("Send request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
 
             var result = await next();
 

@@ -1,5 +1,4 @@
-﻿using Warehouse.Domain.Entities;
-using Warehouse.Domain.Responses;
+﻿using Warehouse.Domain.Responses;
 
 namespace Warehouse.Application.Common.Interfaces;
 

@@ -20,7 +20,7 @@ public class ProductService : IProductService
 
     public async Task<ProductResponse> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string size, string highlight)
     {
-        _logger.LogInformation("Getting Products from Database");
+        _logger.LogInformation("Getting Products from Database...");
 
         // Fetch all products from DB
         var allProducts = await _warehouseRepository.GetProductsAsync();
@@ -47,6 +47,7 @@ public class ProductService : IProductService
         var commonWords = wordOccurrences.Skip(5).Take(10).Except(excludedWords).ToArray();
 
         // Filter products
+        _logger.LogInformation("Filtering Products...");
         var filteredProducts = allProducts;
 
         if (minPrice.HasValue)

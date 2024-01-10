@@ -11,23 +11,26 @@ public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductRespons
 {
     private readonly IProductService _productService;
     private readonly IValidator<ProductQuery> _productQueryValidator;
+    private readonly ILogger<ProductQueryHandler> _logger;
 
-    public ProductQueryHandler(IProductService productService, IValidator<ProductQuery> productQueryValidator)
+    public ProductQueryHandler(IProductService productService, IValidator<ProductQuery> productQueryValidator, ILogger<ProductQueryHandler> logger)
     {
         _productService = productService;
         _productQueryValidator = productQueryValidator;
+        _logger = logger;
     }
 
     public async Task<ProductResponse> Handle(ProductQuery request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Validating request...");
         ValidationResult validationResult = _productQueryValidator.Validate(request);
 
         if (!validationResult.IsValid)
         {
+            _logger.LogInformation("Request Validation Failed.");
             throw new ValidationException(validationResult.Errors);
         }
 
         return await _productService.GetFilteredProductsAsync(request.MinPrice, request.MaxPrice, request.Size, request.Highlight); 
     }
-
 }
