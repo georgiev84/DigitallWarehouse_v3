@@ -6,15 +6,22 @@ Parameters:
 - MaxPrice - filter products by maximal price
 - Size - filter products by size
 - Highlight - higlights the words in Description which are passed from Highlight parameter
-- 
+  
 Example Requests:
+```javascript
 GET /api/filter
-- Returns all products from the database
+// Returns all products from the database
+```
 
+```javascript
 GET /api/filter?MinPrice=10&MaxPrice=20&Highlight=yellow&Size=Small
-- Returns products with minimal price of 10, maximal price of 20, size Medium and highlights the word 'yellow' in Description
+//Returns products with minimal price of 10, maximal price of 20, size Medium and highlights the word 'yellow' in Description
+```
 
-Example Response:
+## Rest API Success Responses
+
+GET multiple items - HTTP Response Code: **200**
+```javascript
 {
   "filter": {
     "minPrice": 14.99,
@@ -67,3 +74,21 @@ Example Response:
     }
   ]
 }
+```
+
+## Rest API Error Responses
+
+GET multiple items - HTTP Response Code: **409**
+```javascript
+{
+  "statusCode": 409,
+  "message": "Operation is not valid due to the current state of the object."
+}
+```
+GET multiple items - HTTP Response Code: **400**
+```javascript
+{
+  "statusCode": 400,
+  "message": "Value cannot be null."
+}
+```
