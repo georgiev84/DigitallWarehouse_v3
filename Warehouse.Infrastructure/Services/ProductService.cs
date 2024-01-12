@@ -20,67 +20,85 @@ public class ProductService : IProductService
 
     public async Task<ProductResponse> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string size, string highlight)
     {
-        _logger.LogInformation("Getting Products from Database...");
-
-        // Fetch all products from DB
-        var allProducts = await _warehouseRepository.GetProductsAsync();
-
-        // Extract min and max prices
-        decimal? overallMinPrice = allProducts.Min(p => p.Price);
-        decimal? overallMaxPrice = allProducts.Max(p => p.Price);
-
-        // Extract all sizes
-        var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
-
-        // Extract and split descriptions
-        var allDescriptions = allProducts.Select(p => p.Description).ToList();
-        var wordOccurrences = allDescriptions
-            .SelectMany(desc => desc.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries))
-            .GroupBy(word => word.ToLower())
-            .Select(group => new { Word = group.Key, Count = group.Count() })
-            .OrderByDescending(x => x.Count)
-            .Select(x => x.Word)
-            .ToList();
-
-        // Exctract common words
-        var excludedWords = wordOccurrences.Take(5).ToList();
-        var commonWords = wordOccurrences.Skip(5).Take(10).Except(excludedWords).ToArray();
-
-        // Filter products
-        _logger.LogInformation("Filtering Products...");
-        var filteredProducts = allProducts;
-
-        if (minPrice.HasValue)
+        try
         {
-            filteredProducts = filteredProducts.Where(p => p.Price >= minPrice.Value);
-        }
+            _logger.LogInformation("Getting Products from Database...");
 
-        if (maxPrice.HasValue)
-        {
-            filteredProducts = filteredProducts.Where(p => p.Price <= maxPrice.Value);
-        }
-
-        if (!string.IsNullOrEmpty(size))
-        {
-            filteredProducts = filteredProducts.Where(p => p.Sizes.Any(s => string.Equals(s, size, StringComparison.OrdinalIgnoreCase)));
-        }
-
-        if (!string.IsNullOrEmpty(highlight))
-        {
-            filteredProducts = HighlightWords(filteredProducts, highlight);
-        }
-
-        return new ProductResponse
-        {
-            Filter = new ProductFilter
+            // Fetch all products from DB
+            var allProducts = await _warehouseRepository.GetProductsAsync();
+            if (allProducts == null)
             {
-                MinPrice = overallMinPrice,
-                MaxPrice = overallMaxPrice,
-                AllSizes = allSizes,
-                CommonWords = commonWords
-            },
-            Products = filteredProducts,
-        };
+                _logger.LogError("Failed to retrieve products from the database.");
+
+                return new ProductResponse
+                {
+                    Filter = new ProductFilter(),
+                    Products = Enumerable.Empty<Product>()
+                };
+            }
+
+            // Extract min and max prices
+            decimal? overallMinPrice = allProducts.Min(p => p.Price);
+            decimal? overallMaxPrice = allProducts.Max(p => p.Price);
+
+            // Extract all sizes
+            var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
+
+            // Extract and split descriptions
+            var allDescriptions = allProducts.Select(p => p.Description).ToList();
+            var wordOccurrences = allDescriptions
+                .SelectMany(desc => desc.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries))
+                .GroupBy(word => word.ToLower())
+                .Select(group => new { Word = group.Key, Count = group.Count() })
+                .OrderByDescending(x => x.Count)
+                .Select(x => x.Word)
+                .ToList();
+
+            // Exctract common words
+            var excludedWords = wordOccurrences.Take(5).ToList();
+            var commonWords = wordOccurrences.Skip(5).Take(10).Except(excludedWords).ToArray();
+
+            // Filter products
+            _logger.LogInformation("Filtering Products...");
+            var filteredProducts = allProducts;
+
+            if (minPrice.HasValue)
+            {
+                filteredProducts = filteredProducts.Where(p => p.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                filteredProducts = filteredProducts.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            if (!string.IsNullOrEmpty(size))
+            {
+                filteredProducts = filteredProducts.Where(p => p.Sizes.Any(s => string.Equals(s, size, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            if (!string.IsNullOrEmpty(highlight))
+            {
+                filteredProducts = HighlightWords(filteredProducts, highlight);
+            }
+
+            return new ProductResponse
+            {
+                Filter = new ProductFilter
+                {
+                    MinPrice = overallMinPrice,
+                    MaxPrice = overallMaxPrice,
+                    AllSizes = allSizes,
+                    CommonWords = commonWords
+                },
+                Products = filteredProducts,
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"An error occurred while getting products: {ex.Message}");
+            throw;
+        }
     }
 
     private IEnumerable<Product> HighlightWords(IEnumerable<Product> products, string highlight)
