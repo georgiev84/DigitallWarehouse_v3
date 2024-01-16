@@ -1,19 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using Warehouse.Domain.Errors;
+using System.Data;
+using System.Net;
+using Warehouse.Api.Errors;
 
 namespace Warehouse.Api.Filters;
 
 public class ErrorHandlingFilter : IExceptionFilter
 {
-    ILogger<ErrorHandlingFilter> _logger;
-
-    public ErrorHandlingFilter(ILogger<ErrorHandlingFilter> logger)
-    {
-        _logger = logger;
-    }
-
     public void OnException(ExceptionContext context)
     {
         var exception = context.Exception;
@@ -21,23 +16,34 @@ public class ErrorHandlingFilter : IExceptionFilter
 
         var error = new Error
         {
-            StatusCode = 500,
+            StatusCode = HttpStatusCode.InternalServerError,
             Message = exception.Message
         };
 
-        if (exceptionType == typeof(ArgumentNullException))
+        if (exceptionType == typeof(AutoMapperMappingException))
+        {
+            error.Message = "Error mapping objects";
+            error.StatusCode = HttpStatusCode.BadRequest;
+        }
+        else if (exceptionType == typeof(ArgumentNullException))
         {
             error.Message = exception.Message;
-            error.StatusCode = 400;
+            error.StatusCode = HttpStatusCode.BadRequest;
         }
         else if (exceptionType == typeof(InvalidOperationException))
         {
+
+            context.Result = new NotFoundResult();
+            error.StatusCode = HttpStatusCode.InternalServerError;
+            error.Message = "Inwvalid Operation";
+        }
+        else if (exceptionType == typeof(DBConcurrencyException))
+        {
             error.Message = exception.Message;
-            error.StatusCode = 409;
+            error.StatusCode = HttpStatusCode.Conflict;
         }
 
-        _logger.LogError("Exception occured in {Method} with Message: {Exception}", context.ActionDescriptor?.DisplayName, error.Message);
-
         context.Result = new JsonResult(error);
+        context.ExceptionHandled = true;
     }
 }

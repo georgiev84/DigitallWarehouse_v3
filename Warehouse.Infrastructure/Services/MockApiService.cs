@@ -5,12 +5,12 @@ using Warehouse.Domain.Entities;
 
 namespace Warehouse.Infrastructure.Services;
 
-public class ExternalApiService : IExternalApiService
+public class MockApiService : IMockApiService
 {
-    private readonly ILogger<ExternalApiService> _logger;
+    private readonly ILogger<MockApiService> _logger;
     private readonly HttpClient _httpClient;
 
-    public ExternalApiService(ILogger<ExternalApiService> logger, HttpClient httpClient)
+    public MockApiService(ILogger<MockApiService> logger, HttpClient httpClient)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));

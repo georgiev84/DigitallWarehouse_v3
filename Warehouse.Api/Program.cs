@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 using Warehouse.Api.Filters;
 using Warehouse.Application;
@@ -9,6 +8,7 @@ using Warehouse.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services
     .AddApplication()
     .AddInfrastructure();

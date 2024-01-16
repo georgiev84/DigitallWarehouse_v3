@@ -1,6 +1,7 @@
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Warehouse.Application.Common.Persistence;
+using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities;
 using Warehouse.Infrastructure.Services;
 
@@ -48,14 +49,14 @@ public class ProductServiceTests
         var result = await warehouseService.GetFilteredProductsAsync(10, 100, "Small", "red");
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Equal("Sample Product 1", testProducts[0].Title);
-        Assert.Equal(25.99m, testProducts[0].Price);
-        Assert.Contains("Small", testProducts[0].Sizes);
-        Assert.Contains("Medium", testProducts[0].Sizes);
-        Assert.Equal("Description for Sample Product 1.", testProducts[0].Description);
+        result.Should().NotBeNull();
+        result.Filter.Should().NotBeNull();
+        result.Products.Should().NotBeNull().And.HaveCount(2);
+        result.Products!.First().Title.Should().Be("Sample Product 1");
+        result.Products!.First().Price.Should().Be(25.99m);
+        result.Products!.First().Sizes.Should().Contain("Small").And.Contain("Medium");
+        result.Products!.First().Description.Should().Be("Description for Sample Product 1.");
     }
-
 
     [Fact]
     public async Task GetFilteredProductsAsync_HighlightWords_Should_Highlight_Matching_Words()
@@ -83,10 +84,9 @@ public class ProductServiceTests
         var result = await warehouseService.GetFilteredProductsAsync(null, null, null, "Sample");
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Single(result.Products);
-        Assert.Contains("<em>Sample</em>", result.Products.First().Description);
-        Assert.DoesNotContain("Description for Sample Product 1.", result.Products.First().Description);
+        result.Should().NotBeNull();
+        result.Products.Should().NotBeNull().And.HaveCount(1);
+        result.Products.First().Description.Should().Contain("<em>Sample</em>").And.NotContain("Description for Sample Product 1.");
     }
 
     [Fact]
@@ -104,12 +104,13 @@ public class ProductServiceTests
         var result = await warehouseService.GetFilteredProductsAsync(null, null, null, null);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.NotNull(result.Filter);
-        Assert.Null(result.Filter.AllSizes);
-        Assert.Null(result.Filter.CommonWords);
-        Assert.Null(result.Filter.MaxPrice);
-        Assert.Null(result.Filter.MinPrice);
-        Assert.Empty(result.Products);
+        result.Should().NotBeNull();
+        result.Filter.Should().NotBeNull();
+        result.Filter.AllSizes.Should().BeNull();
+        result.Filter.CommonWords.Should().BeNull();
+        result.Filter.MaxPrice.Should().BeNull();
+        result.Filter.MinPrice.Should().BeNull();
+        result.Products.Should().BeEmpty();
+
     }
 }

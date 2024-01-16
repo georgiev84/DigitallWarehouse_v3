@@ -6,7 +6,7 @@ namespace Warehouse.Application.Behavior;
 
 public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : IRequest<TResponse>
-    where TResponse : ProductResponse
+    where TResponse : ProductDomainModel
 {
     private readonly ILogger<LoggingPipelineBehavior<TRequest, TResponse>> _logger;
 

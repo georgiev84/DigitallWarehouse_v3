@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Text.RegularExpressions;
 using Warehouse.Application.Common.Interfaces;
-using Warehouse.Application.Common.Persistence;
+using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Responses;
+using Warehouse.Infrastructure.Extensions;
 
 namespace Warehouse.Infrastructure.Services;
 
@@ -18,7 +18,7 @@ public class ProductService : IProductService
         _logger = logger;
     }
 
-    public async Task<ProductResponse> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string size, string highlight)
+    public async Task<ProductDomainModel> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string size, string highlight)
     {
         try
         {
@@ -30,7 +30,7 @@ public class ProductService : IProductService
             {
                 _logger.LogError("Failed to retrieve products from the database.");
 
-                return new ProductResponse
+                return new ProductDomainModel
                 {
                     Filter = new ProductFilter(),
                     Products = Enumerable.Empty<Product>()
@@ -62,27 +62,12 @@ public class ProductService : IProductService
             _logger.LogInformation("Filtering Products...");
             var filteredProducts = allProducts;
 
-            if (minPrice.HasValue)
-            {
-                filteredProducts = filteredProducts.Where(p => p.Price >= minPrice.Value);
-            }
+            filteredProducts = filteredProducts.FilterByMinPrice(minPrice);
+            filteredProducts = filteredProducts.FilterByMaxPrice(maxPrice);
+            filteredProducts = filteredProducts.FilterBySize(size);
+            filteredProducts = filteredProducts.HighlightWords(highlight);
 
-            if (maxPrice.HasValue)
-            {
-                filteredProducts = filteredProducts.Where(p => p.Price <= maxPrice.Value);
-            }
-
-            if (!string.IsNullOrEmpty(size))
-            {
-                filteredProducts = filteredProducts.Where(p => p.Sizes.Any(s => string.Equals(s, size, StringComparison.OrdinalIgnoreCase)));
-            }
-
-            if (!string.IsNullOrEmpty(highlight))
-            {
-                filteredProducts = HighlightWords(filteredProducts, highlight);
-            }
-
-            return new ProductResponse
+            return new ProductDomainModel
             {
                 Filter = new ProductFilter
                 {
@@ -99,23 +84,5 @@ public class ProductService : IProductService
             _logger.LogError($"An error occurred while getting products: {ex.Message}");
             throw;
         }
-    }
-
-    private IEnumerable<Product> HighlightWords(IEnumerable<Product> products, string highlight)
-    {
-        var highlightWords = highlight.Split(',').Select(w => w.Trim()).ToList();
-        foreach (var product in products)
-        {
-            foreach (var word in highlightWords)
-            {
-                product.Description = Regex.Replace(
-                    product.Description,
-                    $@"\b({Regex.Escape(word)}|{Regex.Escape(word.ToLowerInvariant())})\b",
-                    match => $"<em>{match.Value}</em>",
-                    RegexOptions.IgnoreCase
-                );
-            }
-        }
-        return products;
     }
 }

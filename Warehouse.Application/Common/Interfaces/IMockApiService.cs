@@ -2,7 +2,7 @@
 
 namespace Warehouse.Application.Common.Interfaces;
 
-public interface IExternalApiService
+public interface IMockApiService
 {
     Task<IEnumerable<Product>> GetProductsAsync(string url);
 }

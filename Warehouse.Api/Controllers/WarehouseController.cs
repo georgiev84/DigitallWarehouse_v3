@@ -1,45 +1,21 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Warehouse.Api.Filters;
+using Warehouse.Api.Models;
+using Warehouse.Application.Models.Dto;
 using Warehouse.Application.Queries.Warehouse;
-using Warehouse.Domain.Entities;
 
 namespace Warehouse.Api.Controllers;
 
-[Route("api")]
-public class WarehouseController : ControllerBase
+public class WarehouseController : ApiController
 {
-    ISender _mediator;
-
-    public WarehouseController(ISender mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpGet("filter")]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery(Name = "MinPrice")] decimal? minPrice,
-        [FromQuery(Name = "MaxPrice")] decimal? maxPrice,
-        [FromQuery(Name = "Highlight")] string highlight = "",
-        [FromQuery(Name = "Size")] string size = "")
+    public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetProducts([FromServices] ISender _mediator, [FromServices] IMapper _mapper, [FromQuery] ProductFilterModelDto productFilter)
     {
-        try
-        {
-            var query = new ProductQuery
-            {
-                MinPrice = minPrice,
-                MaxPrice = maxPrice,
-                Highlight = highlight,
-                Size = size
-            };
+        var query = _mapper.Map<ProductQuery>(productFilter);
 
-            var products = await _mediator.Send(query);
+        var products = await _mediator.Send(query);
 
-            return Ok(products);
-        }
-        catch (Exception ex)
-        {
-           return StatusCode(500, ex.Message);
-        }
+        return Ok(products);
     }
 }
