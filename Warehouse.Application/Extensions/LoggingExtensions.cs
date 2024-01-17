@@ -12,6 +12,4 @@ public static partial class LoggingExtensions
 
     [LoggerMessage(EventId = 0, Level = LogLevel.Error, Message = "Error occurred while handling {RequestName}, {DateTimeUtc}, with Exception: {ExceptionMessage}")]
     public static partial void LogErrorRequest(this ILogger logger, string RequestName, DateTime DateTimeUtc, string ExceptionMessage);
-
-
 }
