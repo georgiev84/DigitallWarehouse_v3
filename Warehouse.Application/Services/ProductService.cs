@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
+using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
 using Warehouse.Infrastructure.Extensions;
@@ -26,13 +27,13 @@ public class ProductService : IProductService
     {
         try
         {
-            _logger.LogInformation("Getting Products from Database...");
+            LoggingExtensions.LogGettingProducts(_logger);
 
             // Fetch all products from DB
             var allProducts = await _warehouseRepository.GetProductsAsync();
             if (allProducts == null)
             {
-                _logger.LogError("Failed to retrieve products from the database.");
+                LoggingExtensions.LogErrorFetchingProducts(_logger);
 
                 return new ProductDto
                 {
@@ -56,7 +57,7 @@ public class ProductService : IProductService
             var commonWords = wordOccurrences.Skip(5).Take(10).Except(excludedWords).ToArray();
 
             // Filter products
-            _logger.LogInformation("Filtering Products...");
+            LoggingExtensions.LogFilteringProducts(_logger);
             var filteredProducts = allProducts;
 
             filteredProducts = filteredProducts
@@ -79,7 +80,7 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            _logger.LogError($"An error occurred while getting products: {ex.Message}");
+            LoggingExtensions.LogErrorFetchingProducts(_logger);
             throw;
         }
     }
