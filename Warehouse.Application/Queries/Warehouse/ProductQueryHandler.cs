@@ -15,7 +15,11 @@ public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductRespons
     private readonly ILogger<ProductQueryHandler> _logger;
     private readonly IMapper _mapper;
 
-    public ProductQueryHandler(IProductService productService, IValidator<ProductQuery> productQueryValidator, ILogger<ProductQueryHandler> logger, IMapper mapper)
+    public ProductQueryHandler(
+        IProductService productService, 
+        IValidator<ProductQuery> 
+        productQueryValidator, 
+        ILogger<ProductQueryHandler> logger, IMapper mapper)
     {
         _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         _productQueryValidator = productQueryValidator ?? throw new ArgumentNullException(nameof(productQueryValidator));

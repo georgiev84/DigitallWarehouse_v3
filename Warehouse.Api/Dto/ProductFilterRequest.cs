@@ -1,6 +1,6 @@
 ﻿namespace Warehouse.Api.Models;
 
-public class ProductFilterModelDto
+public class ProductFilterRequest
 {
     public decimal? MinPrice { get; set; }
     public decimal? MaxPrice { get; set; }

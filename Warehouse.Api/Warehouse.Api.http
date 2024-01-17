@@ -1,6 +1,10 @@
 @Warehouse.Api_HostAddress = http://localhost:5140
 
-GET {{Warehouse.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Get Filtered Products
+GET {{Warehouse.Api_HostAddress}}/api/Warehouse?MinPrice=10&MaxPrice=20&Highlight=yellow&Size=small
+accept:  application/json
 
-###
+### Get All Products
+GET {{Warehouse.Api_HostAddress}}/api/Warehouse
+accept:  application/json
+

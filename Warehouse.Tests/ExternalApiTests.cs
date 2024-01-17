@@ -15,7 +15,7 @@ public class ExternalApiTests
     {
         // Arrange
         var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-        // Set up the SendAsync method behavior.
+
         httpMessageHandlerMock
             .Protected()
             .Setup<Task<HttpResponseMessage>>(
@@ -24,7 +24,6 @@ public class ExternalApiTests
                 ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
 
-        // create the HttpClient with the mocked HttpMessageHandler
         var httpClient = new HttpClient(httpMessageHandlerMock.Object);
 
         var logger = new Mock<ILogger<MockApiService>>();
@@ -44,7 +43,7 @@ public class ExternalApiTests
     {
         // Arrange
         var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-        // Set up the SendAsync method behavior.
+
         httpMessageHandlerMock
             .Protected()
             .Setup<Task<HttpResponseMessage>>(

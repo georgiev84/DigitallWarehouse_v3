@@ -18,7 +18,11 @@ public class ProductService : IProductService
         _logger = logger;
     }
 
-    public async Task<ProductDomainModel> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string size, string highlight)
+    public async Task<ProductDomainModel> GetFilteredProductsAsync(
+        decimal? minPrice, 
+        decimal? maxPrice, 
+        string? size, 
+        string? highlight)
     {
         try
         {

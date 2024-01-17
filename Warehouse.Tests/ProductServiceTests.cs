@@ -111,6 +111,5 @@ public class ProductServiceTests
         result.Filter.MaxPrice.Should().BeNull();
         result.Filter.MinPrice.Should().BeNull();
         result.Products.Should().BeEmpty();
-
     }
 }
