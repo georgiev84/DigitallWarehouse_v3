@@ -13,7 +13,6 @@ public class WarehouseRepository : IWarehouseRepository
     public WarehouseRepository(IMockApiService externalApiService)
     {
         _externalApiService = externalApiService ?? throw new ArgumentNullException(nameof(externalApiService)); ; ;
-        FetchProducts().GetAwaiter().GetResult();
     }
 
     /// <summary>
