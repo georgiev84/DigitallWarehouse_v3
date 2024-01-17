@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using System.Net;
-using System.Text.Json;
-using Warehouse.Domain.Entities;
 using Warehouse.Infrastructure.Services;
-using Xunit;
 
 
 namespace Warehouse.Tests;
@@ -17,7 +15,7 @@ public class ExternalApiTests
     {
         // Arrange
         var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-        // Set up the SendAsync method behavior.
+
         httpMessageHandlerMock
             .Protected()
             .Setup<Task<HttpResponseMessage>>(
@@ -26,19 +24,18 @@ public class ExternalApiTests
                 ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
 
-        // create the HttpClient with the mocked HttpMessageHandler
         var httpClient = new HttpClient(httpMessageHandlerMock.Object);
 
-        var logger = new Mock<ILogger<ExternalApiService>>();
+        var logger = new Mock<ILogger<MockApiService>>();
 
-        var apiService = new ExternalApiService(logger.Object, httpClient);
+        var apiService = new MockApiService(logger.Object, httpClient);
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<Exception>(() => apiService.GetProductsAsync("https://example.com/dummyUrl"));
 
         // Assert the inner exception type and message
-        Assert.IsType<HttpRequestException>(exception.InnerException);
-        Assert.Contains("Failed to fetch products. Status code: BadRequest", exception.InnerException.Message);
+        exception.InnerException.Should().BeOfType<HttpRequestException>()
+                                .Which.Message.Should().Be("Failed to fetch products. Status code: BadRequest");
     }
 
     [Fact]
@@ -46,7 +43,7 @@ public class ExternalApiTests
     {
         // Arrange
         var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-        // Set up the SendAsync method behavior.
+
         httpMessageHandlerMock
             .Protected()
             .Setup<Task<HttpResponseMessage>>(
@@ -62,18 +59,17 @@ public class ExternalApiTests
 
         var httpClient = new HttpClient(httpMessageHandlerMock.Object);
 
-        var logger = new Mock<ILogger<ExternalApiService>>();
+        var logger = new Mock<ILogger<MockApiService>>();
 
-        var apiService = new ExternalApiService(logger.Object, httpClient);
+        var apiService = new MockApiService(logger.Object, httpClient);
 
         // Act
         var products = await apiService.GetProductsAsync("https://example.com/dummyUrl");
 
         // Assert
-        Assert.NotNull(products);
-        Assert.Single(products); 
-        Assert.Equal("Product1", products.First().Title);
-        Assert.Equal(19.99m, products.First().Price);
+        products.Should().NotBeNull();
+        products.Should().HaveCount(1);
+        products.First().Title.Should().Be("Product1");
+        products.First().Price.Should().Be(19.99m);
     }
-
 }

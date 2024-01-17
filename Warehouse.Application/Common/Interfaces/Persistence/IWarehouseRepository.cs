@@ -1,6 +1,6 @@
 ﻿using Warehouse.Domain.Entities;
 
-namespace Warehouse.Application.Common.Persistence;
+namespace Warehouse.Application.Common.Interfaces.Persistence;
 
 public interface IWarehouseRepository
 {

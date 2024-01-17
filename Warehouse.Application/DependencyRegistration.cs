@@ -4,12 +4,13 @@ using System.Reflection;
 
 namespace Warehouse.Application;
 
-public static class DependencyInjection
+public static class DependencyRegistration
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(config => config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         return services;
     }
 }
