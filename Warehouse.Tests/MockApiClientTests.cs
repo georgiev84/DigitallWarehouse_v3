@@ -3,12 +3,11 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using System.Net;
-using Warehouse.Infrastructure.Services;
-
+using Warehouse.Infrastructure.Client;
 
 namespace Warehouse.Tests;
 
-public class ExternalApiTests
+public class MockApiClientTests
 {
     [Fact]
     public async Task GetProductsAsync_UnsuccessfulResponse_ThrowsHttpRequestException()
@@ -26,9 +25,9 @@ public class ExternalApiTests
 
         var httpClient = new HttpClient(httpMessageHandlerMock.Object);
 
-        var logger = new Mock<ILogger<MockApiService>>();
+        var logger = new Mock<ILogger<MockApiCLient>>();
 
-        var apiService = new MockApiService(logger.Object, httpClient);
+        var apiService = new MockApiCLient(logger.Object, httpClient);
 
         // Act & Assert
         var exception = await Assert.ThrowsAsync<Exception>(() => apiService.GetProductsAsync("https://example.com/dummyUrl"));
@@ -59,9 +58,9 @@ public class ExternalApiTests
 
         var httpClient = new HttpClient(httpMessageHandlerMock.Object);
 
-        var logger = new Mock<ILogger<MockApiService>>();
+        var logger = new Mock<ILogger<MockApiCLient>>();
 
-        var apiService = new MockApiService(logger.Object, httpClient);
+        var apiService = new MockApiCLient(logger.Object, httpClient);
 
         // Act
         var products = await apiService.GetProductsAsync("https://example.com/dummyUrl");

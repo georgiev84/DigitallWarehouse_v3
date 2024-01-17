@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Warehouse.Api.Errors;
+namespace Warehouse.Api.Models.Errors;
 
 public class Error
 {

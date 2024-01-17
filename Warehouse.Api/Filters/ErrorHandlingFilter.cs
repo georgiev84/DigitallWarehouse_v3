@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data;
 using System.Net;
-using Warehouse.Api.Errors;
+using Warehouse.Api.Models.Errors;
 
 namespace Warehouse.Api.Filters;
 

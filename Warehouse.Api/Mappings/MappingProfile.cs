@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Warehouse.Application.Queries.Warehouse;
-using Warehouse.Api.Models;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Api.Dto;
+using Warehouse.Api.Models.Responses;
+using Warehouse.Api.Models.Requests;
 
 namespace Warehouse.Api.Mappings;
 
@@ -21,6 +21,6 @@ public class MappingProfile : Profile
 
     private void MapFromDtoToResponse()
     {
-        CreateMap<ProductResponseDto, ProductDto>();
+        CreateMap<ProductDto, ProductResponse>();
     }
 }

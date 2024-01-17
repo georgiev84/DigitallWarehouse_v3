@@ -2,7 +2,7 @@
 
 namespace Warehouse.Application.Common.Interfaces;
 
-public interface IMockApiService
+public interface IMockApiClient
 {
     Task<IEnumerable<Product>> GetProductsAsync(string url);
 }

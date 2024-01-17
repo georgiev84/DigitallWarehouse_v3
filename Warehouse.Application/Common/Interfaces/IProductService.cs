@@ -1,8 +1,8 @@
-﻿using Warehouse.Domain.Responses;
+﻿using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Common.Interfaces;
 
 public interface IProductService
 {
-    Task<ProductDomainModel> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string? size, string? highlight);
+    Task<ProductDto> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string? size, string? highlight);
 }

@@ -3,14 +3,14 @@ using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Domain.Entities;
 
-namespace Warehouse.Infrastructure.Services;
+namespace Warehouse.Infrastructure.Client;
 
-public class MockApiService : IMockApiService
+public class MockApiCLient : IMockApiClient
 {
-    private readonly ILogger<MockApiService> _logger;
+    private readonly ILogger<MockApiCLient> _logger;
     private readonly HttpClient _httpClient;
 
-    public MockApiService(ILogger<MockApiService> logger, HttpClient httpClient)
+    public MockApiCLient(ILogger<MockApiCLient> logger, HttpClient httpClient)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));

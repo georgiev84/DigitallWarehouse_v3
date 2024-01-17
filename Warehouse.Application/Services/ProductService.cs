@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
+using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
-using Warehouse.Domain.Responses;
 using Warehouse.Infrastructure.Extensions;
 
 namespace Warehouse.Infrastructure.Services;
@@ -18,7 +18,7 @@ public class ProductService : IProductService
         _logger = logger;
     }
 
-    public async Task<ProductDomainModel> GetFilteredProductsAsync(
+    public async Task<ProductDto> GetFilteredProductsAsync(
         decimal? minPrice, 
         decimal? maxPrice, 
         string? size, 
@@ -34,7 +34,7 @@ public class ProductService : IProductService
             {
                 _logger.LogError("Failed to retrieve products from the database.");
 
-                return new ProductDomainModel
+                return new ProductDto
                 {
                     Filter = new ProductFilter(),
                     Products = Enumerable.Empty<Product>()
@@ -49,14 +49,7 @@ public class ProductService : IProductService
             var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
 
             // Extract and split descriptions
-            var allDescriptions = allProducts.Select(p => p.Description).ToList();
-            var wordOccurrences = allDescriptions
-                .SelectMany(desc => desc.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries))
-                .GroupBy(word => word.ToLower())
-                .Select(group => new { Word = group.Key, Count = group.Count() })
-                .OrderByDescending(x => x.Count)
-                .Select(x => x.Word)
-                .ToList();
+            var wordOccurrences = allProducts.GetWordOccurrences();
 
             // Exctract common words
             var excludedWords = wordOccurrences.Take(5).ToList();
@@ -66,12 +59,13 @@ public class ProductService : IProductService
             _logger.LogInformation("Filtering Products...");
             var filteredProducts = allProducts;
 
-            filteredProducts = filteredProducts.FilterByMinPrice(minPrice);
-            filteredProducts = filteredProducts.FilterByMaxPrice(maxPrice);
-            filteredProducts = filteredProducts.FilterBySize(size);
-            filteredProducts = filteredProducts.HighlightWords(highlight);
+            filteredProducts = filteredProducts
+                .FilterByMinPrice(minPrice)
+                .FilterByMaxPrice(maxPrice)
+                .FilterBySize(size)
+                .HighlightWords(highlight);
 
-            return new ProductDomainModel
+            return new ProductDto
             {
                 Filter = new ProductFilter
                 {

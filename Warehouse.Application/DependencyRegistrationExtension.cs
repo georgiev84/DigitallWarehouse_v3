@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Warehouse.Application;
 
-public static class DependencyRegistration
+public static class DependencyRegistrationExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {

@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Api.Models;
+﻿namespace Warehouse.Api.Models.Requests;
 
 public class ProductFilterRequest
 {

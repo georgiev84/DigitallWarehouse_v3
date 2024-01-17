@@ -3,7 +3,7 @@ using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Queries.Warehouse;
 
-public record ProductQuery : IRequest<ProductResponseDto>
+public record ProductQuery : IRequest<ProductDto>
 {
     public decimal? MinPrice { get; set; }
     public decimal? MaxPrice { get; set; }

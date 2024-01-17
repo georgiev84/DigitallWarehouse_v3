@@ -8,7 +8,7 @@ using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Queries.Warehouse;
 
-public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductResponseDto>
+public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductDto>
 {
     private readonly IProductService _productService;
     private readonly IValidator<ProductQuery> _productQueryValidator;
@@ -27,7 +27,7 @@ public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductRespons
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
     }
 
-    public async Task<ProductResponseDto> Handle(ProductQuery request, CancellationToken cancellationToken)
+    public async Task<ProductDto> Handle(ProductQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Validating request...");
         ValidationResult validationResult = _productQueryValidator.Validate(request);
@@ -40,6 +40,6 @@ public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductRespons
 
         var result =  await _productService.GetFilteredProductsAsync(request.MinPrice, request.MaxPrice, request.Size, request.Highlight);
 
-        return _mapper.Map<ProductResponseDto>(result);
+        return _mapper.Map<ProductDto>(result);
     }
 }

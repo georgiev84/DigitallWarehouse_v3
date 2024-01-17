@@ -53,4 +53,17 @@ public static class ProductExtensions
         }
         return products;
     }
+
+    public static List<string> GetWordOccurrences(this IEnumerable<Product> products)
+    {
+        var allDescriptions = products.Select(p => p.Description).ToList();
+
+        return allDescriptions
+            .SelectMany(desc => desc.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries))
+            .GroupBy(word => word.ToLower())
+            .Select(group => new { Word = group.Key, Count = group.Count() })
+            .OrderByDescending(x => x.Count)
+            .Select(x => x.Word)
+            .ToList();
+    }
 }

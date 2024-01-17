@@ -1,10 +1,9 @@
 ﻿using Warehouse.Domain.Entities;
 
-namespace Warehouse.Domain.Responses;
+namespace Warehouse.Application.Models.Dto;
 
-public class ProductDomainModel
+public class ProductDto
 {
     public ProductFilter? Filter { get; set; }
     public IEnumerable<Product>? Products { get; set; }
-   
 }
