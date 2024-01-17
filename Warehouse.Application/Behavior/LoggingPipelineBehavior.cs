@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using Warehouse.Domain.Responses;
+using Warehouse.Application.Extensions;
+using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Behavior;
 
 public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : IRequest<TResponse>
-    where TResponse : ProductDomainModel
+    where TResponse : ProductResponseDto
 {
     private readonly ILogger<LoggingPipelineBehavior<TRequest, TResponse>> _logger;
 
@@ -19,17 +20,17 @@ public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TR
     {
         try
         {
-            _logger.LogInformation("Send request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
+            LoggingExtensions.LogSendRequest(_logger, typeof(TRequest).Name, DateTime.UtcNow);
 
             var result = await next();
 
-            _logger.LogInformation("Completed request {@RequestName}, {@DateTimeUtc}", typeof(TRequest).Name, DateTime.UtcNow);
+            LoggingExtensions.LogCompleteRequest(_logger, typeof(TRequest).Name, DateTime.UtcNow);
 
             return result;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error occurred while handling {@RequestType}", typeof(TRequest).Name);
+            LoggingExtensions.LogErrorRequest(_logger, typeof(TRequest).Name, DateTime.UtcNow, ex.Message);
             throw;
         }
     }
