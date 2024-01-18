@@ -21,7 +21,6 @@ public class ErrorHandlingFilter : IExceptionFilter
             Message = exception.Message
         };
 
-
         if (exceptionType == typeof(DBConcurrencyException))
         {
             error.Message = exception.Message;
