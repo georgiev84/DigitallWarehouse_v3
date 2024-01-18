@@ -3,7 +3,7 @@ using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Exceptions;
 using Warehouse.Infrastructure.Extensions;
 
 namespace Warehouse.Infrastructure.Services;
@@ -31,15 +31,11 @@ public class ProductService : IProductService
 
             // Fetch all products from DB
             var allProducts = await _warehouseRepository.GetProductsAsync();
+
             if (allProducts == null)
             {
                 LoggingExtensions.LogErrorFetchingProducts(_logger);
-
-                return new ProductDto
-                {
-                    Filter = new ProductFilter(),
-                    Products = Enumerable.Empty<Product>()
-                };
+                throw new ProductNotFoundException("No products found in the database");
             }
 
             // Extract min and max prices
@@ -80,7 +76,7 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            LoggingExtensions.LogErrorFetchingProducts(_logger);
+            LoggingExtensions.LogErrorFetchingProducts(_logger, ex.Message);
             throw;
         }
     }
