@@ -19,11 +19,7 @@ public class ProductService : IProductService
         _logger = logger;
     }
 
-    public async Task<ProductDto> GetFilteredProductsAsync(
-        decimal? minPrice, 
-        decimal? maxPrice, 
-        string? size, 
-        string? highlight)
+    public async Task<ProductDto> GetFilteredProductsAsync(ItemsDto items)
     {
         try
         {
@@ -57,10 +53,10 @@ public class ProductService : IProductService
             var filteredProducts = allProducts;
 
             filteredProducts = filteredProducts
-                .FilterByMinPrice(minPrice)
-                .FilterByMaxPrice(maxPrice)
-                .FilterBySize(size)
-                .HighlightWords(highlight);
+                .FilterByMinPrice(items.MinPrice)
+                .FilterByMaxPrice(items.MaxPrice)
+                .FilterBySize(items.Size)
+                .HighlightWords(items.Highlight);
 
             return new ProductDto
             {

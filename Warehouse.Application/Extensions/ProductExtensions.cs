@@ -5,7 +5,7 @@ namespace Warehouse.Infrastructure.Extensions;
 
 public static class ProductExtensions
 {
-    public static IEnumerable<Product> HighlightWords(this IEnumerable<Product> products, string highlight)
+    public static IEnumerable<Product> HighlightWords(this IEnumerable<Product> products, string? highlight)
     {
         if (!string.IsNullOrEmpty(highlight))
         {
@@ -26,7 +26,7 @@ public static class ProductExtensions
         return products;
     }
 
-    public static IEnumerable<Product> FilterBySize(this IEnumerable<Product> products, string size)
+    public static IEnumerable<Product> FilterBySize(this IEnumerable<Product> products, string? size)
     {
         if (string.IsNullOrEmpty(size))
         {
