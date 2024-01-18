@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities;
+using Warehouse.Domain.Exceptions;
 using Warehouse.Infrastructure.Services;
 
 namespace Warehouse.Tests;
@@ -90,7 +91,7 @@ public class ProductServiceTests
     }
 
     [Fact]
-    public async Task GetFilteredProductsAsync_ReturnEmptyProductResponse()
+    public async Task GetFilteredProductsAsync_ReturnProductNotFounException()
     {
         // Arrange
         var mockWarehouseRepository = new Mock<IWarehouseRepository>();
@@ -100,16 +101,10 @@ public class ProductServiceTests
 
         var warehouseService = new ProductService(mockWarehouseRepository.Object, mockLogger.Object);
 
-        // Act
-        var result = await warehouseService.GetFilteredProductsAsync(null, null, null, null);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Filter.Should().NotBeNull();
-        result.Filter.AllSizes.Should().BeNull();
-        result.Filter.CommonWords.Should().BeNull();
-        result.Filter.MaxPrice.Should().BeNull();
-        result.Filter.MinPrice.Should().BeNull();
-        result.Products.Should().BeEmpty();
+        // Act & Assert
+        await Assert.ThrowsAsync<ProductNotFoundException>(async () =>
+        {
+            await warehouseService.GetFilteredProductsAsync(null, null, null, null);
+        });
     }
 }
