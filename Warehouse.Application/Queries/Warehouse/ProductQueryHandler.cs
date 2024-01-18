@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Warehouse.Application.Common.Interfaces;
+using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Queries.Warehouse;
@@ -29,12 +30,12 @@ public record ProductQueryHandler : IRequestHandler<ProductQuery, ProductDto>
 
     public async Task<ProductDto> Handle(ProductQuery request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Validating request...");
-        ValidationResult validationResult = _productQueryValidator.Validate(request);
+        LoggingExtensions.LogValidatingRequest(_logger);
+        var validationResult = _productQueryValidator.Validate(request);
 
         if (!validationResult.IsValid)
         {
-            _logger.LogInformation("Request Validation Failed.");
+            LoggingExtensions.LogRequestValidationFailed(_logger);
             throw new ValidationException(validationResult.Errors);
         }
 

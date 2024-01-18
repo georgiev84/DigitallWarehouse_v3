@@ -24,4 +24,10 @@ public static partial class LoggingExtensions
 
     [LoggerMessage(EventId = 7, Level = LogLevel.Error, Message = "An error occurred while getting products: {Message}")]
     public static partial void LogErrorFetchingProducts(this ILogger logger, string Message);
+
+    [LoggerMessage(EventId = 8, Level = LogLevel.Information, Message = "Validating request...")]
+    public static partial void LogValidatingRequest(this ILogger logger);
+
+    [LoggerMessage(EventId = 9, Level = LogLevel.Error, Message = "Request Validation Failed.")]
+    public static partial void LogRequestValidationFailed(this ILogger logger);
 }

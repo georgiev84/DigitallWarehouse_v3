@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Domain.Entities;
+using Warehouse.Infrastructure.Extensions;
 
 namespace Warehouse.Infrastructure.Client;
 
@@ -18,8 +19,8 @@ public class MockApiCLient : IMockApiClient
 
     public async Task<IEnumerable<Product>> GetProductsAsync(string url)
     {
-        _logger.LogInformation("Fetching information from External API...");
-
+        MockApiClientLoggerExtensions.LogApiFetch(_logger);
+        
         try
         {
             var response = await _httpClient.GetAsync(url);
@@ -30,13 +31,12 @@ public class MockApiCLient : IMockApiClient
                 var products = JsonSerializer.Deserialize<IEnumerable<Product>>(content,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                _logger.LogDebug("API response: " + content);
-
+                MockApiClientLoggerExtensions.LogApiResponse(_logger, content);
                 return products;
             }
             else
             {
-                _logger.LogInformation("Failed to fetch products.");
+                MockApiClientLoggerExtensions.LogFailedFetchProducts(_logger);
                 throw new HttpRequestException($"Failed to fetch products. Status code: {response.StatusCode}");
             }
         }
