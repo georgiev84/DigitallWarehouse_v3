@@ -1,9 +1,9 @@
 using MediatR;
 using Serilog;
 using Warehouse.Api.Filters;
-using Warehouse.Application;
+using Warehouse.Application.Extensions;
 using Warehouse.Application.Behavior;
-using Warehouse.Infrastructure;
+using Warehouse.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

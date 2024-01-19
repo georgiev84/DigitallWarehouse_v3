@@ -7,7 +7,7 @@ using Warehouse.Infrastructure.Configuration;
 using Warehouse.Infrastructure.Persistence;
 using Warehouse.Infrastructure.Services;
 
-namespace Warehouse.Infrastructure;
+namespace Warehouse.Infrastructure.Extensions;
 
 public static class DependencyRegistrationExtension
 {

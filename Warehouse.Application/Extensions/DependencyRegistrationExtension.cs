@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Warehouse.Application;
+namespace Warehouse.Application.Extensions;
 
 public static class DependencyRegistrationExtension
 {
