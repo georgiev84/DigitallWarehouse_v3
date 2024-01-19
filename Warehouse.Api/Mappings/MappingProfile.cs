@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Warehouse.Application.Queries.Warehouse;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Api.Models.Responses;
 using Warehouse.Api.Models.Requests;
+using Warehouse.Application.Features.Queries.Product;
 
 namespace Warehouse.Api.Mappings;
 

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Warehouse.Application.Models.Dto;
 
-namespace Warehouse.Application.Queries.Warehouse;
+namespace Warehouse.Application.Features.Queries.Product;
 
 public record ProductQuery : IRequest<ProductDto>
 {

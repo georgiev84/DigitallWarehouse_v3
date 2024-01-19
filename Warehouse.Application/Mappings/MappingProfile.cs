@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Warehouse.Application.Features.Queries.Product;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Application.Queries.Warehouse;
 
 namespace Warehouse.Application.Mappings;
 

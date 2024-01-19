@@ -14,6 +14,7 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddControllers(options => options.Filters.Add(typeof(ErrorHandlingFilter)));
 

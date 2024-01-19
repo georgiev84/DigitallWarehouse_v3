@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Warehouse.Application.Features.Queries.Product;
 
 namespace Warehouse.Application.Extensions;
 
@@ -30,4 +31,7 @@ public static partial class LoggingExtensions
 
     [LoggerMessage(EventId = 9, Level = LogLevel.Error, Message = "Request Validation Failed.")]
     public static partial void LogRequestValidationFailed(this ILogger logger);
+
+    [LoggerMessage(EventId = 13, Level = LogLevel.Debug, Message = "Executing Handler with request: {ProductQuery}")]
+    public static partial void LogRequestHandlerMessage(this ILogger logger, ProductQuery ProductQuery);
 }
