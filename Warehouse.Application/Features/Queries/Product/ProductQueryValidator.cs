@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Warehouse.Application.Models.Constants;
 
-namespace Warehouse.Application.Queries.Warehouse;
+namespace Warehouse.Application.Features.Queries.Product;
 
 public sealed class ProductQueryValidator : AbstractValidator<ProductQuery>
 {

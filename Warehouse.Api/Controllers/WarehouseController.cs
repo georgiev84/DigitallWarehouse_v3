@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Warehouse.Api.Models.Requests;
 using Warehouse.Api.Models.Responses;
-using Warehouse.Application.Queries.Warehouse;
+using Warehouse.Application.Features.Queries.Product;
 
 namespace Warehouse.Api.Controllers;
 
