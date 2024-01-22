@@ -3,6 +3,7 @@ using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto;
+using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 using Warehouse.Infrastructure.Extensions;
 
@@ -12,11 +13,13 @@ public class ProductService : IProductService
 {
     private readonly IWarehouseRepository _warehouseRepository;
     private readonly ILogger<ProductService> _logger;
+    private readonly IRepository<Product> _productRepository;
 
-    public ProductService(IWarehouseRepository warehouseRepository, ILogger<ProductService> logger)
+    public ProductService(IWarehouseRepository warehouseRepository, ILogger<ProductService> logger, IRepository<Product> productRepository)
     {
         _warehouseRepository = warehouseRepository;
         _logger = logger;
+        _productRepository = productRepository;
     }
 
     public async Task<ProductDto> GetFilteredProductsAsync(ItemsDto items)
@@ -27,6 +30,7 @@ public class ProductService : IProductService
 
             // Fetch all products from DB
             var allProducts = await _warehouseRepository.GetProductsAsync();
+            var allProductsFromGenec = await _productRepository.GetAllAsync();
 
             if (allProducts == null)
             {
@@ -37,6 +41,7 @@ public class ProductService : IProductService
             // Extract min and max prices
             decimal? overallMinPrice = allProducts.Min(p => p.Price);
             decimal? overallMaxPrice = allProducts.Max(p => p.Price);
+
 
             // Extract all sizes
             var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
