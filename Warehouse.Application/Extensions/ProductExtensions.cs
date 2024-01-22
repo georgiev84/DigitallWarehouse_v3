@@ -62,6 +62,7 @@ public static class ProductExtensions
             .SelectMany(desc => desc.Split(new[] { ' ', '.', ',' }, StringSplitOptions.RemoveEmptyEntries))
             .GroupBy(word => word.ToLower())
             .Select(group => new { Word = group.Key, Count = group.Count() })
+            .OrderBy(x => x.Word)
             .OrderByDescending(x => x.Count)
             .Select(x => x.Word)
             .ToList();
