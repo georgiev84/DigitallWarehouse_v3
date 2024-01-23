@@ -3,9 +3,10 @@
 namespace Warehouse.Domain.Entities;
 public class ProductGroup
 {
-    public Guid ProductGroupId { get; set; }
+    public Guid ProductId { get; set; }
 
-    public string GroupName { get; set; }
+    public Guid GroupId { get; set; }
 
-    public ICollection<Product> Products { get; set; }
+    public Product Product { get; set; }
+    public Group Group { get; set; }
 }

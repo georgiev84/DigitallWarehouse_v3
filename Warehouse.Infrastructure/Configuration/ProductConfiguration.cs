@@ -7,6 +7,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {
-        throw new NotImplementedException();
+        // Brand -> Product
+        // One to many
+        builder.HasOne(p => p.Brand)
+            .WithMany(s => s.Products)
+            .HasForeignKey(p => p.SizeId);
     }
 }
