@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Infrastructure.Persistence.Contexts;
 
@@ -12,7 +13,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         _dbContext = dbContext;
     }
 
-    public async Task<List<TEntity>> GetAllAsync()
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return await _dbContext.Set<TEntity>().ToListAsync();
     }
@@ -41,4 +42,5 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         _dbContext.Set<TEntity>().Remove(entity);
     }
+
 }

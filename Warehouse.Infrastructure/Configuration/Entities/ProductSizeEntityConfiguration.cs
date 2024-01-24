@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
 
-namespace Warehouse.Infrastructure.Configuration;
-public class ProductSizeConfiguration : IEntityTypeConfiguration<ProductSize>
+namespace Warehouse.Infrastructure.Configuration.Entities;
+public class ProductSizeEntityConfiguration : IEntityTypeConfiguration<ProductSize>
 {
     public void Configure(EntityTypeBuilder<ProductSize> builder)
     {

@@ -33,7 +33,7 @@ public static class ProductExtensions
             return products;
         }
 
-        return products.Where(p => p.Sizes.Any(s => string.Equals(s, size, StringComparison.OrdinalIgnoreCase)));
+        return products.Where(p => p.ProductSizes.Any(ps => string.Equals(ps.Size.Name, size, StringComparison.OrdinalIgnoreCase)));
     }
 
     public static IEnumerable<Product> FilterByMinPrice(this IEnumerable<Product> products, decimal? minPrice)

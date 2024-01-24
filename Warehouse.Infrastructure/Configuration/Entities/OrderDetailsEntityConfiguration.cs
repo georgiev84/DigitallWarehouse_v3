@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
 
-namespace Warehouse.Infrastructure.Configuration;
-public class OrderDetailsConfiguration : IEntityTypeConfiguration<OrderDetails>
+namespace Warehouse.Infrastructure.Configuration.Entities;
+public class OrderDetailsEntityConfiguration : IEntityTypeConfiguration<OrderDetails>
 {
     public void Configure(EntityTypeBuilder<OrderDetails> builder)
     {
@@ -16,5 +16,8 @@ public class OrderDetailsConfiguration : IEntityTypeConfiguration<OrderDetails>
         builder.HasOne(od => od.Product)
             .WithMany(p => p.OrderDetails)
             .HasForeignKey(od => od.ProductId);
+
+        builder.Property(p => p.Price)
+            .HasColumnType("decimal(18, 2)");
     }
 }

@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
 
-namespace Warehouse.Infrastructure.Configuration;
-public class ProductGroupConfigurationpublic : IEntityTypeConfiguration<ProductGroup>
+namespace Warehouse.Infrastructure.Configuration.Entities;
+public class ProductGroupEntityConfiguration : IEntityTypeConfiguration<ProductGroup>
 {
     public void Configure(EntityTypeBuilder<ProductGroup> builder)
     {

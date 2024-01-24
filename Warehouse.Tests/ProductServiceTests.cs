@@ -25,28 +25,42 @@ public class ProductServiceTests
             {
                 Title = "Sample Product 1",
                 Price = 25.99m,
-                Sizes = new List<string> { "Small", "Medium" },
+                ProductSizes = new List<ProductSize>
+                {
+                    new ProductSize { Size = new Size { Name = "Small" } },
+                    new ProductSize { Size = new Size { Name = "Medium" } }
+                },
                 Description = "Description for Sample Product 1."
             },
             new Product
             {
                 Title = "Sample Product 2",
                 Price = 35.49m,
-                Sizes = new List<string> { "Large", "Extra Large" },
+                ProductSizes = new List<ProductSize>
+                {
+                    new ProductSize { Size = new Size { Name = "Large" } },
+                    new ProductSize { Size = new Size { Name = "Extra Large" } }
+                },
                 Description = "Description for Sample Product 2."
             },
             new Product
             {
                 Title = "Sample Product 3",
                 Price = 19.99m,
-                Sizes = new List<string> { "Small", "Medium", "Large" },
+                ProductSizes = new List<ProductSize>
+                {
+                    new ProductSize { Size = new Size { Name = "Small" } },
+                    new ProductSize { Size = new Size { Name = "Medium" } },
+                    new ProductSize { Size = new Size { Name = "Large" } }
+                },
                 Description = "Description for red Product 3."
             }
         };
 
+
         mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync(testProducts);
 
-        var warehouseService = new ProductService(mockWarehouseRepository.Object, mockLogger.Object, mockProductRepository.Object);
+        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = 10,
@@ -64,7 +78,7 @@ public class ProductServiceTests
         result.Products.Should().NotBeNull().And.HaveCount(1);
         result.Products!.First().Title.Should().Be("Sample Product 3");
         result.Products!.First().Price.Should().Be(19.99m);
-        result.Products!.First().Sizes.Should().Contain("Small").And.Contain("Medium").And.Contain("Large");
+        result.Products!.First().ProductSizes.Select(ps => ps.Size.Name).Should().Contain("Small").And.Contain("Medium").And.Contain("Large");
         result.Products!.First().Description.Should().Be("Description for <em>red</em> Product 3.");
     }
 
@@ -77,19 +91,24 @@ public class ProductServiceTests
         var mockProductRepository = new Mock<IRepository<Product>>();
 
         var testProducts = new List<Product>
-    {
-        new Product
         {
-            Title = "Sample Product 1",
-            Price = 25.99m,
-            Sizes = new List<string> { "Small", "Medium" },
-            Description = "Description for red Product 1."
-        }
-    };
+            new Product
+            {
+                Title = "Sample Product 1",
+                Price = 25.99m,
+                ProductSizes = new List<ProductSize>
+                {
+                    new ProductSize { Size = new Size { Name = "Small" } },
+                    new ProductSize { Size = new Size { Name = "Medium" } }
+                },
+                Description = "Description for Sample Product 1."
+            }
+        };
+
 
         mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync(testProducts);
 
-        var warehouseService = new ProductService(mockWarehouseRepository.Object, mockLogger.Object, mockProductRepository.Object);
+        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = null,
@@ -116,7 +135,7 @@ public class ProductServiceTests
 
         mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync((List<Product>)null);
 
-        var warehouseService = new ProductService(mockWarehouseRepository.Object, mockLogger.Object, mockProductRepository.Object);
+        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = null,

@@ -6,18 +6,18 @@ using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 using Warehouse.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Warehouse.Infrastructure.Services;
 
 public class ProductService : IProductService
 {
-    private readonly IWarehouseRepository _warehouseRepository;
     private readonly ILogger<ProductService> _logger;
     private readonly IRepository<Product> _productRepository;
 
-    public ProductService(IWarehouseRepository warehouseRepository, ILogger<ProductService> logger, IRepository<Product> productRepository)
+    public ProductService(ILogger<ProductService> logger, IRepository<Product> productRepository)
     {
-        _warehouseRepository = warehouseRepository;
         _logger = logger;
         _productRepository = productRepository;
     }
@@ -29,8 +29,19 @@ public class ProductService : IProductService
             LoggingExtensions.LogGettingProducts(_logger);
 
             // Fetch all products from DB
-            var allProducts = await _warehouseRepository.GetProductsAsync();
-            var allProductsFromGenec = await _productRepository.GetAllAsync();
+            var allProducts1 = await _productRepository.GetAllAsync();
+
+            var allProducts = _productRepository
+                .GetQueryable()
+                .Include(p => p.ProductGroups)  
+                .Include(p => p.OrderDetails)    
+                .Include(p => p.ProductSizes)  
+                .Include(p => p.Brand)
+                .AsEnumerable();           // Include Brand navigation property
+
+
+
+
 
             if (allProducts == null)
             {
@@ -44,7 +55,12 @@ public class ProductService : IProductService
 
 
             // Extract all sizes
-            var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
+            var allSizes = _productRepository.GetQueryable()
+                        .SelectMany(p => p.ProductSizes)
+                        .Select(ps => ps.Size)
+                        .Distinct();
+;
+            //var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
 
             // Extract and split descriptions
             var wordOccurrences = allProducts.GetWordOccurrences();

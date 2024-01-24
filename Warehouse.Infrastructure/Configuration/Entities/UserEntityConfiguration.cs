@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
 
-namespace Warehouse.Infrastructure.Configuration;
-public class UserConfiguration : IEntityTypeConfiguration<User>
+namespace Warehouse.Infrastructure.Configuration.Entities;
+public class UserEntityConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
