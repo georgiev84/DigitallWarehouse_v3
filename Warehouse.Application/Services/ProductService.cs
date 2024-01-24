@@ -6,7 +6,6 @@ using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 using Warehouse.Infrastructure.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace Warehouse.Infrastructure.Services;
@@ -14,12 +13,12 @@ namespace Warehouse.Infrastructure.Services;
 public class ProductService : IProductService
 {
     private readonly ILogger<ProductService> _logger;
-    private readonly IRepository<Product> _productRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ProductService(ILogger<ProductService> logger, IRepository<Product> productRepository)
+    public ProductService(ILogger<ProductService> logger, IUnitOfWork unitOfWork)
     {
         _logger = logger;
-        _productRepository = productRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ProductDto> GetFilteredProductsAsync(ItemsDto items)
@@ -29,17 +28,17 @@ public class ProductService : IProductService
             LoggingExtensions.LogGettingProducts(_logger);
 
             // Fetch all products from DB
-            var allProducts1 = await _productRepository.GetAllAsync();
 
-            var allProducts = _productRepository
-                .GetQueryable()
-                .Include(p => p.ProductGroups)  
-                .Include(p => p.OrderDetails)    
-                .Include(p => p.ProductSizes)  
-                .Include(p => p.Brand)
-                .AsEnumerable();           // Include Brand navigation property
+            var allProducts = await _unitOfWork.Products.GetAll();
+            var allProducts1 = await _unitOfWork.Products.GetProductsAsync();
 
-
+            //var allProducts = _productRepository
+            //    .GetQueryable()
+            //    .Include(p => p.ProductSizes)
+            //        .ThenInclude(ps => ps.Size)
+            //    .Include(p => p.Brand)
+            //    .Include(p => p.ProductGroups)
+            //        .ThenInclude(pg => pg.Group).AsEnumerable();
 
 
 
@@ -53,14 +52,7 @@ public class ProductService : IProductService
             decimal? overallMinPrice = allProducts.Min(p => p.Price);
             decimal? overallMaxPrice = allProducts.Max(p => p.Price);
 
-
-            // Extract all sizes
-            var allSizes = _productRepository.GetQueryable()
-                        .SelectMany(p => p.ProductSizes)
-                        .Select(ps => ps.Size)
-                        .Distinct();
-;
-            //var allSizes = allProducts.SelectMany(p => p.Sizes).Distinct().ToArray();
+            var sizeNames = await _unitOfWork.Sizes.GetSizeNamesAsync();
 
             // Extract and split descriptions
             var wordOccurrences = allProducts.GetWordOccurrences();
@@ -85,7 +77,7 @@ public class ProductService : IProductService
                 {
                     MinPrice = overallMinPrice,
                     MaxPrice = overallMaxPrice,
-                    AllSizes = allSizes,
+                    AllSizes = sizeNames,
                     CommonWords = commonWords
                 },
                 Products = filteredProducts,

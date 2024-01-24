@@ -4,6 +4,7 @@ using Warehouse.Api.Filters;
 using Warehouse.Application.Extensions;
 using Warehouse.Application.Behavior;
 using Warehouse.Infrastructure.Extensions;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,12 @@ builder.Services
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-builder.Services.AddControllers(options => options.Filters.Add(typeof(ErrorHandlingFilter)));
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ErrorHandlingFilter)))
+    .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            //options.JsonSerializerOptions.WriteIndented = true;
+        });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

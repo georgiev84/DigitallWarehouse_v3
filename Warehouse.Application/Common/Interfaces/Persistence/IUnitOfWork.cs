@@ -1,5 +1,7 @@
 ﻿namespace Warehouse.Application.Common.Interfaces.Persistence;
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
-    Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    IProductRepository Products { get; }
+    ISizeRepository Sizes { get; }
+    int Save();
 }

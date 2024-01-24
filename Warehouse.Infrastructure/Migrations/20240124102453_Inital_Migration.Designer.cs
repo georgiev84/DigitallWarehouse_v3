@@ -12,7 +12,7 @@ using Warehouse.Infrastructure.Persistence.Contexts;
 namespace Warehouse.Infrastructure.Migrations
 {
     [DbContext(typeof(WarehouseDbContext))]
-    [Migration("20240124073533_Inital_Migration")]
+    [Migration("20240124102453_Inital_Migration")]
     partial class Inital_Migration
     {
         /// <inheritdoc />
@@ -123,9 +123,14 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SizeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("OrderId", "ProductId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("SizeId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -361,9 +366,17 @@ namespace Warehouse.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Warehouse.Domain.Entities.Size", "Size")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("Warehouse.Domain.Entities.Payment", b =>
@@ -460,6 +473,8 @@ namespace Warehouse.Infrastructure.Migrations
 
             modelBuilder.Entity("Warehouse.Domain.Entities.Size", b =>
                 {
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("ProductSizes");
                 });
 

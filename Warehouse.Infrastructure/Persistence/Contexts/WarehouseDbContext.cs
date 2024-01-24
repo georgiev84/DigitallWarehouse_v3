@@ -90,4 +90,10 @@ public class WarehouseDbContext : DbContext
 
         base.OnModelCreating(builder);
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        //optionsBuilder.UseLazyLoadingProxies(); // Enable lazy loading
+        base.OnConfiguring(optionsBuilder);
+    }
 }

@@ -16,8 +16,10 @@ public class ProductServiceTests
     {
         // Arrange
         var mockWarehouseRepository = new Mock<IWarehouseRepository>();
-        var mockProductRepository = new Mock<IRepository<Product>>();
+        var mockProductRepository = new Mock<IGenericRepository<Product>>();
+        var mockSizeRepository = new Mock<IGenericRepository<Size>>();
         var mockLogger = new Mock<ILogger<ProductService>>();
+        var mockIUnitOfWork = new Mock<IUnitOfWork>();
 
         var testProducts = new List<Product>
         {
@@ -60,7 +62,7 @@ public class ProductServiceTests
 
         mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync(testProducts);
 
-        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object);
+        var warehouseService = new ProductService(mockLogger.Object,);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = 10,
@@ -88,7 +90,8 @@ public class ProductServiceTests
         // Arrange
         var mockWarehouseRepository = new Mock<IWarehouseRepository>();
         var mockLogger = new Mock<ILogger<ProductService>>();
-        var mockProductRepository = new Mock<IRepository<Product>>();
+        var mockProductRepository = new Mock<IGenericRepository<Product>>();
+        var mockSizeRepository = new Mock<IGenericRepository<Size>>();
 
         var testProducts = new List<Product>
         {
@@ -108,7 +111,7 @@ public class ProductServiceTests
 
         mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync(testProducts);
 
-        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object);
+        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object, mockSizeRepository.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = null,
@@ -131,11 +134,12 @@ public class ProductServiceTests
         // Arrange
         var mockWarehouseRepository = new Mock<IWarehouseRepository>();
         var mockLogger = new Mock<ILogger<ProductService>>();
-        var mockProductRepository = new Mock<IRepository<Product>>();
+        var mockProductRepository = new Mock<IGenericRepository<Product>>();
+        var mockSizeRepository = new Mock<IGenericRepository<Size>>();
 
         mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync((List<Product>)null);
 
-        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object);
+        var warehouseService = new ProductService(mockLogger.Object, mockProductRepository.Object, mockSizeRepository.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = null,

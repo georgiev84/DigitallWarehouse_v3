@@ -5,6 +5,7 @@ using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Infrastructure.Client;
 using Warehouse.Infrastructure.Configuration;
+using Warehouse.Infrastructure.Persistence;
 using Warehouse.Infrastructure.Persistence.Contexts;
 using Warehouse.Infrastructure.Persistence.Repositories;
 using Warehouse.Infrastructure.Services;
@@ -21,7 +22,10 @@ public static class DependencyRegistrationExtension
         }
 
         services.AddDbContext<WarehouseDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("WarehouseDbConnection")));
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ISizeRepository, SizeRepository>();
         services.Configure<MockyClientConfiguration>(configuration.GetSection("MockyClient"));
         services.AddHttpClient<MockApiCLient>();
         services.AddScoped<IMockApiClient, MockApiCLient>();
