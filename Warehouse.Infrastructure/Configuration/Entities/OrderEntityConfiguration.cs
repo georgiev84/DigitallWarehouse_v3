@@ -7,6 +7,9 @@ public class OrderEntityConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
+        builder.Property(o => o.PaymentId).IsRequired(false);
+        builder.Property(o => o.UserId).IsRequired(false);
+
         builder.HasOne(o => o.User)
             .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId);
