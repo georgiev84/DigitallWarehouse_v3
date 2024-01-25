@@ -3,7 +3,6 @@ using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 using Warehouse.Infrastructure.Extensions;
 
@@ -28,19 +27,7 @@ public class ProductService : IProductService
             LoggingExtensions.LogGettingProducts(_logger);
 
             // Fetch all products from DB
-
-            var allProducts = await _unitOfWork.Products.GetAll();
-            var allProducts1 = await _unitOfWork.Products.GetProductsAsync();
-
-            //var allProducts = _productRepository
-            //    .GetQueryable()
-            //    .Include(p => p.ProductSizes)
-            //        .ThenInclude(ps => ps.Size)
-            //    .Include(p => p.Brand)
-            //    .Include(p => p.ProductGroups)
-            //        .ThenInclude(pg => pg.Group).AsEnumerable();
-
-
+            var allProducts = await _unitOfWork.Products.GetProductsDetailsAsync();
 
             if (allProducts == null)
             {

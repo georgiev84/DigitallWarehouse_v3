@@ -175,7 +175,8 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
@@ -185,7 +186,8 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -196,21 +198,39 @@ namespace Warehouse.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Id = new Guid("88888888-8888-8888-8888-888888888888"),
                             BrandId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            Description = "Description for Product 1",
-                            Price = 29.99m,
+                            Description = "Description for Product 3",
+                            Price = 19.99m,
                             SizeId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            Title = "Product 1"
+                            Title = "Product 3"
                         },
                         new
                         {
-                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Id = new Guid("99999999-9999-9999-9999-999999999999"),
                             BrandId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            Description = "Description for Product 2",
-                            Price = 39.99m,
+                            Description = "Description for Product 4",
+                            Price = 49.99m,
+                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Title = "Product 4"
+                        },
+                        new
+                        {
+                            Id = new Guid("12345678-1234-5678-9012-345678901234"),
+                            BrandId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Description = "Description for Product 5",
+                            Price = 59.99m,
+                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Title = "Product 5"
+                        },
+                        new
+                        {
+                            Id = new Guid("23456789-2345-6789-0123-456789012345"),
+                            BrandId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Description = "Description for Product 6",
+                            Price = 34.99m,
                             SizeId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            Title = "Product 2"
+                            Title = "Product 6"
                         });
                 });
 
@@ -231,8 +251,23 @@ namespace Warehouse.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ProductId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            ProductId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            GroupId = new Guid("99999999-9999-9999-9999-999999999999")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("99999999-9999-9999-9999-999999999999"),
                             GroupId = new Guid("88888888-8888-8888-8888-888888888888")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("12345678-1234-5678-9012-345678901234"),
+                            GroupId = new Guid("88888888-8888-8888-8888-888888888888")
+                        },
+                        new
+                        {
+                            ProductId = new Guid("23456789-2345-6789-0123-456789012345"),
+                            GroupId = new Guid("99999999-9999-9999-9999-999999999999")
                         });
                 });
 
@@ -256,9 +291,27 @@ namespace Warehouse.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ProductId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            ProductId = new Guid("88888888-8888-8888-8888-888888888888"),
+                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            QuantityInStock = 30
+                        },
+                        new
+                        {
+                            ProductId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            SizeId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            QuantityInStock = 20
+                        },
+                        new
+                        {
+                            ProductId = new Guid("12345678-1234-5678-9012-345678901234"),
                             SizeId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            QuantityInStock = 50
+                            QuantityInStock = 15
+                        },
+                        new
+                        {
+                            ProductId = new Guid("23456789-2345-6789-0123-456789012345"),
+                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            QuantityInStock = 25
                         });
                 });
 
@@ -302,7 +355,8 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -319,11 +373,13 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

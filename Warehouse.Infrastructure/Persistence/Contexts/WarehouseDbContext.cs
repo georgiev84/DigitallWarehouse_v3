@@ -47,20 +47,40 @@ public class WarehouseDbContext : DbContext
         builder.Entity<Product>().HasData(
             new Product
             {
-                Id = Guid.Parse("66666666-6666-6666-6666-666666666666"),
-                Title = "Product 1",
-                Description = "Description for Product 1",
-                Price = 29.99m,
+                Id = Guid.Parse("88888888-8888-8888-8888-888888888888"),
+                Title = "Product 3",
+                Description = "Description for Product 3",
+                Price = 19.99m,
                 BrandId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
                 SizeId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
                 // Include other product properties
             },
             new Product
             {
-                Id = Guid.Parse("77777777-7777-7777-7777-777777777777"),
-                Title = "Product 2",
-                Description = "Description for Product 2",
-                Price = 39.99m,
+                Id = Guid.Parse("99999999-9999-9999-9999-999999999999"),
+                Title = "Product 4",
+                Description = "Description for Product 4",
+                Price = 49.99m,
+                BrandId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                // Include other product properties
+            },
+            new Product
+            {
+                Id = Guid.Parse("12345678-1234-5678-9012-345678901234"),
+                Title = "Product 5",
+                Description = "Description for Product 5",
+                Price = 59.99m,
+                BrandId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                // Include other product properties
+            },
+            new Product
+            {
+                Id = Guid.Parse("23456789-2345-6789-0123-456789012345"),
+                Title = "Product 6",
+                Description = "Description for Product 6",
+                Price = 34.99m,
                 BrandId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
                 SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
                 // Include other product properties
@@ -73,19 +93,23 @@ public class WarehouseDbContext : DbContext
             new Group { Id = Guid.Parse("99999999-9999-9999-9999-999999999999"), Name = "Group 2" }
         );
 
-        // Seed ProductGroups (many-to-many)
+        // Seed ProductGroups (many-to-many) for the new products
         builder.Entity<ProductGroup>().HasData(
-            new ProductGroup { ProductId = Guid.Parse("66666666-6666-6666-6666-666666666666"), GroupId = Guid.Parse("88888888-8888-8888-8888-888888888888") }
+            new ProductGroup { ProductId = Guid.Parse("88888888-8888-8888-8888-888888888888"), GroupId = Guid.Parse("99999999-9999-9999-9999-999999999999") },
+            new ProductGroup { ProductId = Guid.Parse("99999999-9999-9999-9999-999999999999"), GroupId = Guid.Parse("88888888-8888-8888-8888-888888888888") },
+            new ProductGroup { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), GroupId = Guid.Parse("88888888-8888-8888-8888-888888888888") },
+            new ProductGroup { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), GroupId = Guid.Parse("99999999-9999-9999-9999-999999999999") }
         // Add more ProductGroups as needed
         );
 
         // Seed ProductSizes (many-to-many)
         builder.Entity<ProductSize>().HasData(
-            new ProductSize { ProductId = Guid.Parse("66666666-6666-6666-6666-666666666666"), SizeId = Guid.Parse("33333333-3333-3333-3333-333333333333"), QuantityInStock = 50 }
+            new ProductSize { ProductId = Guid.Parse("88888888-8888-8888-8888-888888888888"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
+            new ProductSize { ProductId = Guid.Parse("99999999-9999-9999-9999-999999999999"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 },
+            new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("33333333-3333-3333-3333-333333333333"), QuantityInStock = 15 },
+            new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 25 }
         // Add more ProductSizes as needed
         );
-
-
 
 
         base.OnModelCreating(builder);

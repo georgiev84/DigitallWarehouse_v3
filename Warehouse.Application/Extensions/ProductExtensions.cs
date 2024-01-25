@@ -1,11 +1,11 @@
 ﻿using System.Text.RegularExpressions;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Models;
 
 namespace Warehouse.Infrastructure.Extensions;
 
 public static class ProductExtensions
 {
-    public static IEnumerable<Product> HighlightWords(this IEnumerable<Product> products, string? highlight)
+    public static IEnumerable<ProductDetailsDto> HighlightWords(this IEnumerable<ProductDetailsDto> products, string? highlight)
     {
         if (!string.IsNullOrEmpty(highlight))
         {
@@ -26,17 +26,21 @@ public static class ProductExtensions
         return products;
     }
 
-    public static IEnumerable<Product> FilterBySize(this IEnumerable<Product> products, string? size)
+    public static IEnumerable<ProductDetailsDto> FilterBySize(this IEnumerable<ProductDetailsDto> products, string? size)
     {
         if (string.IsNullOrEmpty(size))
         {
             return products;
         }
 
-        return products.Where(p => p.ProductSizes.Any(ps => string.Equals(ps.Size.Name, size, StringComparison.OrdinalIgnoreCase)));
+        var filteredProducts = products.Where(p =>
+            p.Sizes != null &&
+            p.Sizes.Any(sizeName => string.Equals(sizeName, size, StringComparison.OrdinalIgnoreCase)));
+
+        return filteredProducts;
     }
 
-    public static IEnumerable<Product> FilterByMinPrice(this IEnumerable<Product> products, decimal? minPrice)
+    public static IEnumerable<ProductDetailsDto> FilterByMinPrice(this IEnumerable<ProductDetailsDto> products, decimal? minPrice)
     {
         if (minPrice.HasValue)
         {
@@ -45,7 +49,7 @@ public static class ProductExtensions
         return products;
     }
 
-    public static IEnumerable<Product> FilterByMaxPrice(this IEnumerable<Product> products, decimal? maxPrice)
+    public static IEnumerable<ProductDetailsDto> FilterByMaxPrice(this IEnumerable<ProductDetailsDto> products, decimal? maxPrice)
     {
         if (maxPrice.HasValue)
         {
@@ -54,7 +58,7 @@ public static class ProductExtensions
         return products;
     }
 
-    public static List<string> GetWordOccurrences(this IEnumerable<Product> products)
+    public static List<string> GetWordOccurrences(this IEnumerable<ProductDetailsDto> products)
     {
         var allDescriptions = products.Select(p => p.Description).ToList();
 
