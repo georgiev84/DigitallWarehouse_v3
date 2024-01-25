@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Warehouse.Domain.Entities;
 using Warehouse.Domain.Models;
 
 namespace Warehouse.Infrastructure.Extensions;
@@ -10,21 +11,40 @@ public static class ProductExtensions
         if (!string.IsNullOrEmpty(highlight))
         {
             var highlightWords = highlight.Split(',').Select(w => w.Trim()).ToList();
+            var updatedProducts = new List<ProductDetailsDto>();
+
             foreach (var product in products)
             {
+                var updatedProduct = new ProductDetailsDto
+                {
+                    Id = product.Id,
+                    Title = product.Title,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Brand = product.Brand,
+                    Groups = new List<string>(product.Groups),
+                    Sizes = new List<SizeDto>(product.Sizes)
+                };
+
                 foreach (var word in highlightWords)
                 {
-                    product.Description = Regex.Replace(
-                        product.Description,
+                    updatedProduct.Description = Regex.Replace(
+                        updatedProduct.Description,
                         $@"\b({Regex.Escape(word)}|{Regex.Escape(word.ToLowerInvariant())})\b",
                         match => $"<em>{match.Value}</em>",
                         RegexOptions.IgnoreCase
                     );
                 }
+
+                updatedProducts.Add(updatedProduct);
             }
+
+            return updatedProducts;
         }
+
         return products;
     }
+
 
     public static IEnumerable<ProductDetailsDto> FilterBySize(this IEnumerable<ProductDetailsDto> products, string? size)
     {
@@ -34,8 +54,8 @@ public static class ProductExtensions
         }
 
         var filteredProducts = products.Where(p =>
-            p.Sizes != null &&
-            p.Sizes.Any(sizeName => string.Equals(sizeName, size, StringComparison.OrdinalIgnoreCase)));
+            p.Sizes != null && 
+            p.Sizes.Any(sizeName => string.Equals(sizeName.Name, size, StringComparison.OrdinalIgnoreCase)));
 
         return filteredProducts;
     }

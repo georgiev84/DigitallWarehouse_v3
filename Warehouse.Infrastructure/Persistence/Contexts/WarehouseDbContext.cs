@@ -32,8 +32,8 @@ public class WarehouseDbContext : DbContext
 
         // Seed Brands
         builder.Entity<Brand>().HasData(
-            new Brand { Id = Guid.Parse("11111111-1111-1111-1111-111111111111"), Name = "Brand 1" },
-            new Brand { Id = Guid.Parse("22222222-2222-2222-2222-222222222222"), Name = "Brand 2" }
+            new Brand { Id = Guid.Parse("11111111-1111-1111-1111-111111111111"), Name = "Adidas" },
+            new Brand { Id = Guid.Parse("22222222-2222-2222-2222-222222222222"), Name = "Nike" }
         );
 
         // Seed Sizes
@@ -41,6 +41,16 @@ public class WarehouseDbContext : DbContext
             new Size { Id = Guid.Parse("33333333-3333-3333-3333-333333333333"), Name = "Small" },
             new Size { Id = Guid.Parse("44444444-4444-4444-4444-444444444444"), Name = "Medium" },
             new Size { Id = Guid.Parse("55555555-5555-5555-5555-555555555555"), Name = "Large" }
+        );
+
+        // Seed OrderStatus
+        builder.Entity<OrderStatus>().HasData(
+            new OrderStatus { Id = Guid.Parse("11111111-2222-2321-2321-111111111111"), Name = "Pending" },
+            new OrderStatus { Id = Guid.Parse("22222222-1111-1234-4321-222222222222"), Name = "Processing" },
+            new OrderStatus { Id = Guid.Parse("33333333-3322-1122-4444-333333333333"), Name = "Shipped" },
+            new OrderStatus { Id = Guid.Parse("44444444-5555-5555-6666-666666666666"), Name = "Completed" },
+            new OrderStatus { Id = Guid.Parse("77777777-7777-7777-8888-888888888888"), Name = "Cancelled" }
+
         );
 
         // Seed Products
@@ -52,8 +62,7 @@ public class WarehouseDbContext : DbContext
                 Description = "Description for Product 3",
                 Price = 19.99m,
                 BrandId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                SizeId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
-                // Include other product properties
+
             },
             new Product
             {
@@ -62,8 +71,6 @@ public class WarehouseDbContext : DbContext
                 Description = "Description for Product 4",
                 Price = 49.99m,
                 BrandId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
-                // Include other product properties
             },
             new Product
             {
@@ -72,25 +79,23 @@ public class WarehouseDbContext : DbContext
                 Description = "Description for Product 5",
                 Price = 59.99m,
                 BrandId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"),
-                // Include other product properties
+
             },
             new Product
-            {
+            {                   
                 Id = Guid.Parse("23456789-2345-6789-0123-456789012345"),
-                Title = "Product 6",
-                Description = "Description for Product 6",
+                Title = "Classic Jeans",
+                Description = "Timeless classic jeans in blue for a casual and versatile look.",
                 Price = 34.99m,
                 BrandId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
-                // Include other product properties
+
             }
         );
 
         // Seed Groups
         builder.Entity<Group>().HasData(
-            new Group { Id = Guid.Parse("88888888-8888-8888-8888-888888888888"), Name = "Group 1" },
-            new Group { Id = Guid.Parse("99999999-9999-9999-9999-999999999999"), Name = "Group 2" }
+            new Group { Id = Guid.Parse("88888888-8888-8888-8888-888888888888"), Name = "Male" },
+            new Group { Id = Guid.Parse("99999999-9999-9999-9999-999999999999"), Name = "Female" }
         );
 
         // Seed ProductGroups (many-to-many) for the new products
@@ -105,19 +110,24 @@ public class WarehouseDbContext : DbContext
         // Seed ProductSizes (many-to-many)
         builder.Entity<ProductSize>().HasData(
             new ProductSize { ProductId = Guid.Parse("88888888-8888-8888-8888-888888888888"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
-            new ProductSize { ProductId = Guid.Parse("99999999-9999-9999-9999-999999999999"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 },
-            new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("33333333-3333-3333-3333-333333333333"), QuantityInStock = 15 },
-            new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 25 }
-        // Add more ProductSizes as needed
-        );
+            new ProductSize { ProductId = Guid.Parse("88888888-8888-8888-8888-888888888888"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 },
 
+            new ProductSize { ProductId = Guid.Parse("99999999-9999-9999-9999-999999999999"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
+
+            new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
+            new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 },
+
+
+
+            new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
+            new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 }
+        );
 
         base.OnModelCreating(builder);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //optionsBuilder.UseLazyLoadingProxies(); // Enable lazy loading
         base.OnConfiguring(optionsBuilder);
     }
 }

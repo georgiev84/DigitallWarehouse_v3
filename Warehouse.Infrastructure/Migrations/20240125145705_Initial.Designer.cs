@@ -12,7 +12,7 @@ using Warehouse.Infrastructure.Persistence.Contexts;
 namespace Warehouse.Infrastructure.Migrations
 {
     [DbContext(typeof(WarehouseDbContext))]
-    [Migration("20240125114243_Initial")]
+    [Migration("20240125145705_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -43,12 +43,12 @@ namespace Warehouse.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            Name = "Brand 1"
+                            Name = "Adidas"
                         },
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            Name = "Brand 2"
+                            Name = "Nike"
                         });
                 });
 
@@ -70,12 +70,12 @@ namespace Warehouse.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("88888888-8888-8888-8888-888888888888"),
-                            Name = "Group 1"
+                            Name = "Male"
                         },
                         new
                         {
                             Id = new Guid("99999999-9999-9999-9999-999999999999"),
-                            Name = "Group 2"
+                            Name = "Female"
                         });
                 });
 
@@ -148,6 +148,33 @@ namespace Warehouse.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrderStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-2222-2321-2321-111111111111"),
+                            Name = "Pending"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-1111-1234-4321-222222222222"),
+                            Name = "Processing"
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3322-1122-4444-333333333333"),
+                            Name = "Shipped"
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-5555-5555-6666-666666666666"),
+                            Name = "Completed"
+                        },
+                        new
+                        {
+                            Id = new Guid("77777777-7777-7777-8888-888888888888"),
+                            Name = "Cancelled"
+                        });
                 });
 
             modelBuilder.Entity("Warehouse.Domain.Entities.Payment", b =>
@@ -205,7 +232,7 @@ namespace Warehouse.Infrastructure.Migrations
                             BrandId = new Guid("11111111-1111-1111-1111-111111111111"),
                             Description = "Description for Product 3",
                             Price = 19.99m,
-                            SizeId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Title = "Product 3"
                         },
                         new
@@ -214,7 +241,7 @@ namespace Warehouse.Infrastructure.Migrations
                             BrandId = new Guid("22222222-2222-2222-2222-222222222222"),
                             Description = "Description for Product 4",
                             Price = 49.99m,
-                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Title = "Product 4"
                         },
                         new
@@ -223,17 +250,17 @@ namespace Warehouse.Infrastructure.Migrations
                             BrandId = new Guid("11111111-1111-1111-1111-111111111111"),
                             Description = "Description for Product 5",
                             Price = 59.99m,
-                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Title = "Product 5"
                         },
                         new
                         {
                             Id = new Guid("23456789-2345-6789-0123-456789012345"),
                             BrandId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            Description = "Description for Product 6",
+                            Description = "Timeless classic jeans in blue for a casual and versatile look.",
                             Price = 34.99m,
-                            SizeId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            Title = "Product 6"
+                            SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Title = "Classic Jeans"
                         });
                 });
 
@@ -300,21 +327,39 @@ namespace Warehouse.Infrastructure.Migrations
                         },
                         new
                         {
-                            ProductId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            ProductId = new Guid("88888888-8888-8888-8888-888888888888"),
                             SizeId = new Guid("44444444-4444-4444-4444-444444444444"),
                             QuantityInStock = 20
                         },
                         new
                         {
+                            ProductId = new Guid("99999999-9999-9999-9999-999999999999"),
+                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            QuantityInStock = 30
+                        },
+                        new
+                        {
                             ProductId = new Guid("12345678-1234-5678-9012-345678901234"),
-                            SizeId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            QuantityInStock = 15
+                            SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            QuantityInStock = 30
+                        },
+                        new
+                        {
+                            ProductId = new Guid("12345678-1234-5678-9012-345678901234"),
+                            SizeId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            QuantityInStock = 20
                         },
                         new
                         {
                             ProductId = new Guid("23456789-2345-6789-0123-456789012345"),
                             SizeId = new Guid("55555555-5555-5555-5555-555555555555"),
-                            QuantityInStock = 25
+                            QuantityInStock = 30
+                        },
+                        new
+                        {
+                            ProductId = new Guid("23456789-2345-6789-0123-456789012345"),
+                            SizeId = new Guid("44444444-4444-4444-4444-444444444444"),
+                            QuantityInStock = 20
                         });
                 });
 
@@ -328,6 +373,9 @@ namespace Warehouse.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Sizes");
@@ -336,17 +384,20 @@ namespace Warehouse.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            Name = "Small"
+                            Name = "Small",
+                            QuantityInStock = 0
                         },
                         new
                         {
                             Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            Name = "Medium"
+                            Name = "Medium",
+                            QuantityInStock = 0
                         },
                         new
                         {
                             Id = new Guid("55555555-5555-5555-5555-555555555555"),
-                            Name = "Large"
+                            Name = "Large",
+                            QuantityInStock = 0
                         });
                 });
 

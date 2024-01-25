@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Models;
@@ -32,7 +33,6 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         //    })
         //    .ToListAsync();
 
-
         var result = _dbContext.Products
             .Select(p => new ProductDetailsDto
             {
@@ -40,15 +40,10 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                 Title = p.Title,
                 Description = p.Description,
                 Price = p.Price,
-                BrandName = p.Brand.Name,
+                Brand = p.Brand.Name,
                 Groups = p.ProductGroups.Select(pg => pg.Group.Name).ToList(),
-                Sizes = p.ProductSizes.Select(ps => ps.Size.Name).ToList()
+                Sizes = p.ProductSizes.Select(ps => new SizeDto { Name = ps.Size.Name, QuantityInStock = ps.QuantityInStock }).ToList()
             });
-
-        var sql = result.ToQueryString();
-        Console.WriteLine(sql);
-
-
 
         return result;
     }
