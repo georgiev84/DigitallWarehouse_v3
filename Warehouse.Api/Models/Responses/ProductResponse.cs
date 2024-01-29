@@ -1,6 +1,4 @@
 ﻿using Warehouse.Application.Models.Dto;
-using Warehouse.Domain.Entities;
-using Warehouse.Domain.Models;
 
 namespace Warehouse.Api.Models.Responses;
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data;
@@ -26,10 +27,17 @@ public class ErrorHandlingFilter : IExceptionFilter
             error.Message = exception.Message;
             error.StatusCode = HttpStatusCode.Conflict;
         }
-        else if(exceptionType == typeof(ProductNotFoundException))
+
+        if(exceptionType == typeof(ProductNotFoundException))
         {
             error.Message = exception.Message;
             error.StatusCode = HttpStatusCode.NotFound;
+        }
+
+        if (exceptionType == typeof(ProductCreationException))
+        {
+            error.Message = exception.Message;
+            error.StatusCode = HttpStatusCode.Conflict;
         }
 
         context.Result = new JsonResult(error);

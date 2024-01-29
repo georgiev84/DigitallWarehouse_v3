@@ -12,7 +12,7 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
         _dbContext = context;
     }
 
-    public async Task<TEntity> GetById(int id)
+    public async Task<TEntity> GetById(Guid id)
     {
         return await _dbContext.Set<TEntity>().FindAsync(id);
     }

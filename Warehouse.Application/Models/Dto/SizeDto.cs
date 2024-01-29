@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Domain.Models;
+﻿namespace Warehouse.Application.Models.Dto;
 public class SizeDto
 {
     public string Name { get; set; }

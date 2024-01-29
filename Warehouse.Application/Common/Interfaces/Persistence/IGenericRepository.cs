@@ -3,7 +3,7 @@
 namespace Warehouse.Application.Common.Interfaces.Persistence;
 public interface IGenericRepository<TEntity> where TEntity : class
 {
-    Task<TEntity> GetById(int id);
+    Task<TEntity> GetById(Guid id);
     Task<IEnumerable<TEntity>> GetAll();
     Task Add(TEntity entity);
     void Delete(TEntity entity);

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Warehouse.Infrastructure\Warehouse.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Dto\" />
+  </ItemGroup>
+
 </Project>

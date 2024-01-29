@@ -1,6 +1,4 @@
-﻿using Warehouse.Domain.Entities;
-using Warehouse.Domain.Models;
-
+﻿
 namespace Warehouse.Application.Models.Dto;
 
 public class ProductDto
