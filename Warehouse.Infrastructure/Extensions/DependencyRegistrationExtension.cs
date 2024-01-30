@@ -29,7 +29,6 @@ public static class DependencyRegistrationExtension
         services.Configure<MockyClientConfiguration>(configuration.GetSection("MockyClient"));
         services.AddHttpClient<MockApiCLient>();
         services.AddScoped<IMockApiClient, MockApiCLient>();
-        services.AddScoped<IWarehouseRepository, WarehouseRepository>();
         services.AddScoped<IProductService, ProductService>();
         
         return services;

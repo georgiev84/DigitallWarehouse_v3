@@ -42,4 +42,39 @@ public class ProductsController : BaseController
 
         return CreatedAtAction(nameof(CreateProduct), new { id = result.Id }, mappedResult);
     }
+
+    [HttpPut("{productId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateProduct(
+        [FromQuery] Guid productId,
+        [FromBody] ProductUpdateRequest productUpdateRequest,
+        [FromServices] ISender _mediator,
+         [FromServices] IMapper _mapper)
+    {
+        productUpdateRequest.Id = productId;
+        var command = _mapper.Map<UpdateProductCommand>(productUpdateRequest);
+
+        var result = await _mediator.Send(command);
+
+        var mappedResult = _mapper.Map<UpdateProductResponse>(result);
+
+        return Ok(mappedResult);
+    }
+
+    [HttpDelete("{productId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteProduct(
+    [FromRoute] Guid productId,
+    [FromServices] ISender _mediator)
+    {
+        var command = new DeleteProductCommand(productId);
+
+        await _mediator.Send(command);
+
+        return NoContent();
+    }
 }

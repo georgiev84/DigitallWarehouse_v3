@@ -1,4 +1,6 @@
+using AutoMapper;
 using FluentAssertions;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Warehouse.Application.Common.Interfaces.Persistence;
@@ -15,11 +17,11 @@ public class ProductServiceTests
     public async Task GetFilteredProductsAsync_Should_Return_ProductResponse()
     {
         // Arrange
-        var mockWarehouseRepository = new Mock<IWarehouseRepository>();
         var mockProductRepository = new Mock<IGenericRepository<Product>>();
         var mockSizeRepository = new Mock<IGenericRepository<Size>>();
         var mockLogger = new Mock<ILogger<ProductService>>();
         var mockIUnitOfWork = new Mock<IUnitOfWork>();
+        var mockMapper = new Mock<IMapper>();
 
         var testProducts = new List<Product>
         {
@@ -59,10 +61,7 @@ public class ProductServiceTests
             }
         };
 
-
-        mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync(testProducts);
-
-        var warehouseService = new ProductService(mockLogger.Object, mockIUnitOfWork.Object);
+        var warehouseService = new ProductService(mockLogger.Object, mockIUnitOfWork.Object, mockMapper.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = 10,
@@ -88,13 +87,13 @@ public class ProductServiceTests
     public async Task GetFilteredProductsAsync_HighlightWords_Should_Highlight_Matching_Words()
     {
         // Arrange
-        var mockWarehouseRepository = new Mock<IWarehouseRepository>();
         var mockLogger = new Mock<ILogger<ProductService>>();
-        var mockProductRepository = new Mock<IGenericRepository<Product>>();
-        var mockSizeRepository = new Mock<IGenericRepository<Size>>();
+        var mockProductRepository = new Mock<IProductRepository>();
+        var mockSizeRepository = new Mock<ISizeRepository>();
         var mockIUnitOfWork = new Mock<IUnitOfWork>();
+        var mockMapper = new Mock<IMapper>();
 
-        var testProducts = new List<Product>
+        var testProducts1 = new List<Product>
         {
             new Product
             {
@@ -106,13 +105,83 @@ public class ProductServiceTests
                     new ProductSize { Size = new Size { Name = "Medium" } }
                 },
                 Description = "Description for Sample Product 1."
-            }
+            },
         };
 
+        var testProducts = new Product
+        {
+                Id = Guid.NewGuid(), // Set the product ID
+                Title = "Sample Product",
+                Description = "This is a sample product",
+                Price = 99.99m,
+                Brand = new Brand
+                {
+                    Id = Guid.NewGuid(), // Set the brand ID
+                    Name = "Sample Brand"
+                },
+                ProductSizes = new List<ProductSize>
+        {
+            new ProductSize
+            {
+                ProductId = Guid.NewGuid(), // Set the product ID
+                SizeId = Guid.NewGuid(), // Set the size ID
+                QuantityInStock = 10,
+                Size = new Size
+                {
+                    Id = Guid.NewGuid(), // Set the size ID
+                    Name = "Large"
+                }
+            },
+            new ProductSize
+            {
+                ProductId = Guid.NewGuid(), // Set the product ID
+                SizeId = Guid.NewGuid(), // Set the size ID
+                QuantityInStock = 5,
+                Size = new Size
+                {
+                    Id = Guid.NewGuid(), // Set the size ID
+                    Name = "Medium"
+                }
+            }
+        },
+                ProductGroups = new List<ProductGroup>
+        {
+            new ProductGroup
+            {
+                ProductId = Guid.NewGuid(), // Set the product ID
+                GroupId = Guid.NewGuid(), // Set the group ID
+                Group = new Group
+                {
+                    Id = Guid.NewGuid(), // Set the group ID
+                    Name = "Group A"
+                }
+            },
+            new ProductGroup
+            {
+                ProductId = Guid.NewGuid(), // Set the product ID
+                GroupId = Guid.NewGuid(), // Set the group ID
+                Group = new Group
+                {
+                    Id = Guid.NewGuid(), // Set the group ID
+                    Name = "Group B"
+                }
+            }
+        }
+            };
 
-        mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync(testProducts);
+        // Now you have a test product with all related entities included
 
-        var warehouseService = new ProductService(mockLogger.Object, mockIUnitOfWork.Object);
+        mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts1);
+
+
+        mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
+        mockIUnitOfWork.Setup(u => u.Products).Returns(mockProductRepository.Object);
+
+        //mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
+        //mockIUnitOfWork.Setup(u => u.Products.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
+
+
+        var warehouseService = new ProductService(mockLogger.Object, mockIUnitOfWork.Object, mockMapper.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = null,
@@ -133,15 +202,15 @@ public class ProductServiceTests
     public async Task GetFilteredProductsAsync_ReturnProductNotFounException()
     {
         // Arrange
-        var mockWarehouseRepository = new Mock<IWarehouseRepository>();
         var mockLogger = new Mock<ILogger<ProductService>>();
         var mockProductRepository = new Mock<IGenericRepository<Product>>();
         var mockSizeRepository = new Mock<IGenericRepository<Size>>();
         var mockIUnitOfWork = new Mock<IUnitOfWork>();
+        var mockMapper = new Mock<IMapper>();
 
-        mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync((List<Product>)null);
+        //mockWarehouseRepository.Setup(repo => repo.GetProductsAsync()).ReturnsAsync((List<Product>)null);
 
-        var warehouseService = new ProductService(mockLogger.Object, mockIUnitOfWork.Object);
+        var warehouseService = new ProductService(mockLogger.Object, mockIUnitOfWork.Object, mockMapper.Object);
         var mockRequestItem = new ItemsDto
         {
             MinPrice = null,

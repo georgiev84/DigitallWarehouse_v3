@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
@@ -110,12 +111,73 @@ public class ProductService : IProductService
         _unitOfWork.Save();
 
         var checkedProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(product.Id);
-        if (checkedProduct == null)
-        {
-            throw new ProductCreationException("Failed to create product.");
-        }
+
+        //var checkedProductId = product.Id;
+        //if (checkedProductId == Guid.Empty)
+        //{
+        //    throw new ProductCreationException("Failed to create product.");
+        //}
+
         var productDto = _mapper.Map<CreateProductDetailsDto>(checkedProduct);
 
         return productDto;
+    }
+
+    public async Task<UpdateProductDetailsDto> UpdateProductAsync(UpdateProductCommand command)
+    {
+        var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
+        if (existingProduct == null)
+        {
+            throw new ProductNotFoundException($"Product with ID {command.Id} not found.");
+        }
+
+        existingProduct.Title = command.Title;
+        existingProduct.Description = command.Description;
+        existingProduct.Price = command.Price;
+        existingProduct.BrandId = command.BrandId;
+
+        foreach (var newSize in command.SizeInformation)
+        {
+            var existingSize = existingProduct.ProductSizes.FirstOrDefault(ps => ps.SizeId == newSize.SizeId);
+            if (existingSize != null)
+            {
+                existingSize.QuantityInStock = newSize.Quantity;
+            }
+            else
+            {
+                existingProduct.ProductSizes.Add(new ProductSize
+                {
+                    SizeId = newSize.SizeId,
+                    QuantityInStock = newSize.Quantity
+                });
+            }
+        }
+
+        existingProduct.ProductGroups.Clear(); 
+        foreach (var groupId in command.GroupIds)
+        {
+            existingProduct.ProductGroups.Add(new ProductGroup
+            {
+                GroupId = groupId
+            });
+        }
+
+        _unitOfWork.Save();
+
+        var updatedProductDto = _mapper.Map<UpdateProductDetailsDto>(existingProduct);
+
+        return updatedProductDto;
+    }
+
+    public async Task DeleteProductAsync(Guid id)
+    {
+        var product = await _unitOfWork.Products.GetById(id);
+        if (product == null)
+        {
+            throw new ProductNotFoundException($"Product with Id: {id} not found!");
+        }
+
+        _unitOfWork.Products.Delete(product);
+        _unitOfWork.Save();
     }
 }

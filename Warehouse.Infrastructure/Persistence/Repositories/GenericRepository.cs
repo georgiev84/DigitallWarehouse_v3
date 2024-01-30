@@ -29,6 +29,11 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
 
     public void Delete(TEntity entity)
     {
+        if (_dbContext.Entry(entity).State == EntityState.Detached)
+        {
+            _dbContext.Set<TEntity>().Attach(entity);
+        }
+
         _dbContext.Set<TEntity>().Remove(entity);
     }
 

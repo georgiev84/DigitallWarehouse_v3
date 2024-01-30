@@ -19,6 +19,7 @@ public class MappingProfile : Profile
     {
         CreateMap<ProductFilterRequest, ProductQuery>();
         CreateMap<ProductCreateRequest, CreateProductCommand>();
+        CreateMap<ProductUpdateRequest, UpdateProductCommand>();
     }
 
     private void MapFromDtoToResponse()
@@ -27,5 +28,6 @@ public class MappingProfile : Profile
         CreateMap<SizeInformationRequest, SizeInformationDto>();
         CreateMap<SizeDto, SizeResponse>();
         CreateMap<CreateProductDetailsDto, CreateProductResponse>();
+        CreateMap<UpdateProductDetailsDto, UpdateProductResponse>();
     }
 }

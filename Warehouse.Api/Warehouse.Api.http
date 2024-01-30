@@ -1,10 +1,73 @@
 @Warehouse.Api_HostAddress = http://localhost:5140
 
 ### Get Filtered Products
-GET {{Warehouse.Api_HostAddress}}/api/Warehouse?MinPrice=10&MaxPrice=20&Highlight=yellow&Size=small
+GET {{Warehouse.Api_HostAddress}}/api/products?MinPrice=10&MaxPrice=20&Highlight=yellow&Size=small
 accept:  application/json
 
 ### Get All Products
-GET {{Warehouse.Api_HostAddress}}/api/Warehouse
+GET {{Warehouse.Api_HostAddress}}/api/products
 accept:  application/json
+
+### Create Product
+POST {{Warehouse.Api_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "brandId": "22222222-2222-2222-2222-222222222222",
+  "title": "Test Sweatshirt",
+  "description": "Test Product",
+  "price": 41,
+  "quantityInStock": 31,
+  "groupIds": [
+    "88888888-8888-8888-8888-888888888888",
+    "99999999-9999-9999-9999-999999999999"
+  ],
+  "sizeInformation": [
+    {
+      "sizeId": "33333333-3333-3333-3333-333333333333",
+      "quantity": 31
+    },
+    {
+      "sizeId": "44444444-4444-4444-4444-444444444444",
+      "quantity": 32
+    },
+    {
+      "sizeId": "55555555-5555-5555-5555-555555555555",
+      "quantity": 33
+    }
+  ]
+}
+
+### Update Product
+PUT {{Warehouse.Api_HostAddress}}/api/products/aa36e6e6-39b1-4e43-611e-08dc1e59bebd
+Content-Type: application/json
+
+{
+  "brandId": "22222222-2222-2222-2222-222222222222",
+  "title": "Test Sweatshirt",
+  "description": "Test Product",
+  "price": 41,
+  "quantityInStock": 31,
+  "groupIds": [
+    "88888888-8888-8888-8888-888888888888",
+    "99999999-9999-9999-9999-999999999999"
+  ],
+  "sizeInformation": [
+    {
+      "sizeId": "33333333-3333-3333-3333-333333333333",
+      "quantity": 31
+    },
+    {
+      "sizeId": "44444444-4444-4444-4444-444444444444",
+      "quantity": 32
+    },
+    {
+      "sizeId": "55555555-5555-5555-5555-555555555555",
+      "quantity": 33
+    }
+  ]
+}
+
+### Delete Product
+DELETE {{Warehouse.Api_HostAddress}}/api/products/aa36e6e6-39b1-4e43-611e-08dc1e59bebd
 
