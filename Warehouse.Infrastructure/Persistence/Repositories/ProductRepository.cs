@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities;
+using Warehouse.Domain.Exceptions;
 using Warehouse.Infrastructure.Persistence.Contexts;
 
 namespace Warehouse.Infrastructure.Persistence.Repositories;
@@ -30,7 +31,11 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
         .FirstOrDefaultAsync();
 
+        if (result == null)
+        {
+            throw new ProductNotFoundException($"Order with ID {productId} not found.");
+        }
+
         return result;
     }
-
 }

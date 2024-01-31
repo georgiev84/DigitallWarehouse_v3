@@ -30,7 +30,8 @@ public static class DependencyRegistrationExtension
         services.AddHttpClient<MockApiCLient>();
         services.AddScoped<IMockApiClient, MockApiCLient>();
         services.AddScoped<IProductService, ProductService>();
-        
+        services.AddScoped<IOrderRepository, OrderRepository>();
+
         return services;
     }
 }

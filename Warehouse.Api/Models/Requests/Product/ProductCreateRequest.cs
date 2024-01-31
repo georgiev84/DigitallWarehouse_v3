@@ -1,8 +1,7 @@
-﻿namespace Warehouse.Api.Models.Requests;
+﻿namespace Warehouse.Api.Models.Requests.Product;
 
-public class ProductUpdateRequest
+public class ProductCreateRequest
 {
-    public Guid Id { get; set; }
     public Guid BrandId { get; set; }
 
     public string Title { get; set; }

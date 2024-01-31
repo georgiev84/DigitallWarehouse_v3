@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using Warehouse.Application.Models.Constants;
 
-namespace Warehouse.Application.Features.Commands.Product;
-public class CreateProductValidator : AbstractValidator<CreateProductCommand>
+namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
+public class ProductCreateValidator : AbstractValidator<ProductCreateCommand>
 {
-    public CreateProductValidator()
+    public ProductCreateValidator()
     {
         RuleFor(command => command.BrandId)
              .NotEmpty().WithMessage("BrandId is required.");
@@ -22,7 +22,6 @@ public class CreateProductValidator : AbstractValidator<CreateProductCommand>
 
         RuleFor(command => command.GroupIds)
             .NotEmpty().WithMessage("At least one GroupId must be provided.");
-
 
         RuleFor(command => command.SizeInformation)
             .NotEmpty().WithMessage("At least one Size must be provided.");

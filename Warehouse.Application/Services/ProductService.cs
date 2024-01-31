@@ -4,7 +4,8 @@ using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
-using Warehouse.Application.Features.Commands.Product;
+using Warehouse.Application.Features.Commands.Product.ProductCreate;
+using Warehouse.Application.Features.Commands.Product.Update;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
@@ -87,7 +88,7 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<CreateProductDetailsDto> CreateProductAsync(CreateProductCommand command)
+    public async Task<CreateProductDetailsDto> CreateProductAsync(ProductCreateCommand command)
     {
 
         var product = new Product
@@ -111,12 +112,6 @@ public class ProductService : IProductService
         _unitOfWork.Save();
 
         var checkedProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(product.Id);
-
-        //var checkedProductId = product.Id;
-        //if (checkedProductId == Guid.Empty)
-        //{
-        //    throw new ProductCreationException("Failed to create product.");
-        //}
 
         var productDto = _mapper.Map<CreateProductDetailsDto>(checkedProduct);
 

@@ -110,71 +110,78 @@ public class ProductServiceTests
 
         var testProducts = new Product
         {
-                Id = Guid.NewGuid(), // Set the product ID
-                Title = "Sample Product",
-                Description = "This is a sample product",
-                Price = 99.99m,
-                Brand = new Brand
-                {
-                    Id = Guid.NewGuid(), // Set the brand ID
-                    Name = "Sample Brand"
-                },
-                ProductSizes = new List<ProductSize>
-        {
-            new ProductSize
+            Id = Guid.Parse("82cc78c9-465b-4823-5444-08dc1e5a3106"),
+            Title = "Petar Product",
+            Description = "Boxing gloves",
+            Price = 41,
+            Brand = new Brand
             {
-                ProductId = Guid.NewGuid(), // Set the product ID
-                SizeId = Guid.NewGuid(), // Set the size ID
-                QuantityInStock = 10,
-                Size = new Size
-                {
-                    Id = Guid.NewGuid(), // Set the size ID
-                    Name = "Large"
-                }
+                Id = Guid.NewGuid(), // Generate a new Guid for the brand ID
+                Name = "Nike"
             },
-            new ProductSize
+            ProductGroups = new List<ProductGroup>
+    {
+        new ProductGroup
+        {
+            GroupId = Guid.NewGuid(), // Generate a new Guid for the group ID
+            Group = new Group
             {
-                ProductId = Guid.NewGuid(), // Set the product ID
-                SizeId = Guid.NewGuid(), // Set the size ID
-                QuantityInStock = 5,
-                Size = new Size
-                {
-                    Id = Guid.NewGuid(), // Set the size ID
-                    Name = "Medium"
-                }
+                Id = Guid.NewGuid(), // Generate a new Guid for the group ID
+                Name = "Male"
             }
         },
-                ProductGroups = new List<ProductGroup>
+        new ProductGroup
         {
-            new ProductGroup
+            GroupId = Guid.NewGuid(), // Generate a new Guid for the group ID
+            Group = new Group
             {
-                ProductId = Guid.NewGuid(), // Set the product ID
-                GroupId = Guid.NewGuid(), // Set the group ID
-                Group = new Group
-                {
-                    Id = Guid.NewGuid(), // Set the group ID
-                    Name = "Group A"
-                }
-            },
-            new ProductGroup
-            {
-                ProductId = Guid.NewGuid(), // Set the product ID
-                GroupId = Guid.NewGuid(), // Set the group ID
-                Group = new Group
-                {
-                    Id = Guid.NewGuid(), // Set the group ID
-                    Name = "Group B"
-                }
+                Id = Guid.NewGuid(), // Generate a new Guid for the group ID
+                Name = "Female"
             }
         }
-            };
+    },
+            ProductSizes = new List<ProductSize>
+    {
+        new ProductSize
+        {
+            SizeId = Guid.NewGuid(), // Generate a new Guid for the size ID
+            QuantityInStock = 13,
+            Size = new Size
+            {
+                Id = Guid.NewGuid(), // Generate a new Guid for the size ID
+                Name = "Small"
+            }
+        },
+        new ProductSize
+        {
+            SizeId = Guid.NewGuid(), // Generate a new Guid for the size ID
+            QuantityInStock = 13,
+            Size = new Size
+            {
+                Id = Guid.NewGuid(), // Generate a new Guid for the size ID
+                Name = "Medium"
+            }
+        },
+        new ProductSize
+        {
+            SizeId = Guid.NewGuid(), // Generate a new Guid for the size ID
+            QuantityInStock = 13,
+            Size = new Size
+            {
+                Id = Guid.NewGuid(), // Generate a new Guid for the size ID
+                Name = "Large"
+            }
+        }
+    }
+        };
+
 
         // Now you have a test product with all related entities included
 
         mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts1);
 
 
-        mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
+        //mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
         mockIUnitOfWork.Setup(u => u.Products).Returns(mockProductRepository.Object);
 
         //mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts);

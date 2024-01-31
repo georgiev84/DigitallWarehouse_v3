@@ -7,11 +7,14 @@ public class UnitOfWork : IUnitOfWork
     private readonly WarehouseDbContext _dbContext;
     public IProductRepository Products { get; }
     public ISizeRepository Sizes { get; }
-    public UnitOfWork(WarehouseDbContext dbContext, IProductRepository productRepository, ISizeRepository sizes)
+
+    public IOrderRepository Orders { get; }
+    public UnitOfWork(WarehouseDbContext dbContext, IProductRepository productRepository, ISizeRepository sizes, IOrderRepository orders)
     {
         _dbContext = dbContext;
         Products = productRepository;
         Sizes = sizes;
+        Orders = orders;
     }
 
     public int Save()

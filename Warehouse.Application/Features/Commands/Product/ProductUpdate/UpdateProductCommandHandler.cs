@@ -3,7 +3,7 @@ using MediatR;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Models.Dto;
 
-namespace Warehouse.Application.Features.Commands.Product;
+namespace Warehouse.Application.Features.Commands.Product.Update;
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, UpdateProductDetailsDto>
 {
     private readonly IProductService _productService;

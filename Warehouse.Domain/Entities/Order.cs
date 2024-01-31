@@ -20,6 +20,4 @@ public class Order
     public Payment Payment { get; set; }
 
     public OrderStatus Status { get; set; }
-
-
 }

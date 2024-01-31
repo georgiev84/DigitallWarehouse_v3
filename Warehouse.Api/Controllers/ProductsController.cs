@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Warehouse.Api.Models.Requests;
+using Warehouse.Api.Models.Requests.Product;
 using Warehouse.Api.Models.Responses;
-using Warehouse.Application.Features.Commands.Product;
+using Warehouse.Application.Features.Commands.Product.ProductCreate;
+using Warehouse.Application.Features.Commands.Product.Delete;
+using Warehouse.Application.Features.Commands.Product.Update;
 using Warehouse.Application.Features.Queries.Product;
 
 namespace Warehouse.Api.Controllers;
@@ -34,7 +36,7 @@ public class ProductsController : BaseController
         [FromServices] ISender _mediator,
          [FromServices] IMapper _mapper)
     {
-        var command = _mapper.Map<CreateProductCommand>(productCreateRequest);
+        var command = _mapper.Map<ProductCreateCommand>(productCreateRequest);
 
         var result = await _mediator.Send(command);
 

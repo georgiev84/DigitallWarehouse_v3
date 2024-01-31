@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Warehouse.Application.Models.Dto;
 
-namespace Warehouse.Application.Features.Commands.Product;
+namespace Warehouse.Application.Features.Commands.Product.Update;
 public record UpdateProductCommand(
     Guid Id,
     Guid BrandId,

@@ -2,7 +2,7 @@
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Models.Dto;
 
-namespace Warehouse.Application.Features.Commands.Product;
+namespace Warehouse.Application.Features.Commands.Product.Delete;
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
 {
     private readonly IProductService _productService;

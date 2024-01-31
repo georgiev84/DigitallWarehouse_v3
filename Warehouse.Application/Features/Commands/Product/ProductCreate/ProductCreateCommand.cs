@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Warehouse.Application.Models.Dto;
 
-namespace Warehouse.Application.Features.Commands.Product;
-public record CreateProductCommand(
+namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
+public record ProductCreateCommand(
     Guid BrandId,
     string Title,
     string Description,
