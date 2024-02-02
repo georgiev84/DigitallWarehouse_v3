@@ -33,7 +33,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
         if (result == null)
         {
-            throw new ProductNotFoundException($"Order with ID {productId} not found.");
+            throw new ProductNotFoundException($"Product with ID {productId} not found.");
         }
 
         return result;

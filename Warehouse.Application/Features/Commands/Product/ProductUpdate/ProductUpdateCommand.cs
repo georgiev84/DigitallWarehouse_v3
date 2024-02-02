@@ -2,7 +2,7 @@
 using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Features.Commands.Product.Update;
-public record UpdateProductCommand(
+public record ProductUpdateCommand(
     Guid Id,
     Guid BrandId,
     string Title,

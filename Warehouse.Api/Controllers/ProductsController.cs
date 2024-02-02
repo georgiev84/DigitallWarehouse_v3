@@ -6,7 +6,7 @@ using Warehouse.Api.Models.Responses;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Application.Features.Commands.Product.Delete;
 using Warehouse.Application.Features.Commands.Product.Update;
-using Warehouse.Application.Features.Queries.Product;
+using Warehouse.Application.Features.Queries.Product.ProductList;
 
 namespace Warehouse.Api.Controllers;
 
@@ -18,7 +18,7 @@ public class ProductsController : BaseController
          [FromServices] ISender _mediator,
          [FromServices] IMapper _mapper)
     {
-        var query = _mapper.Map<ProductQuery>(productFilter);
+        var query = _mapper.Map<ProductListQuery>(productFilter);
 
         var products = await _mediator.Send(query);
 
@@ -56,7 +56,7 @@ public class ProductsController : BaseController
          [FromServices] IMapper _mapper)
     {
         productUpdateRequest.Id = productId;
-        var command = _mapper.Map<UpdateProductCommand>(productUpdateRequest);
+        var command = _mapper.Map<ProductUpdateCommand>(productUpdateRequest);
 
         var result = await _mediator.Send(command);
 

@@ -1,29 +1,29 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
+using MediatR;
 using Warehouse.Application.Common.Interfaces;
+using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Features.Commands.Product.Update;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 
-
-namespace Warehouse.Infrastructure.Services;
-
-public class ProductService : IProductService
+namespace Warehouse.Application.Features.Commands.Product.Update;
+public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand, UpdateProductDetailsDto>
 {
-    private readonly ILogger<ProductService> _logger;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IProductService _productService;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IProductFactory _productFactory;
 
-    public ProductService(ILogger<ProductService> logger, IUnitOfWork unitOfWork, IMapper mapper)
+    public ProductUpdateCommandHandler(IProductService productService, IMapper mapper, IUnitOfWork unitOfWork, IProductFactory productFactory)
     {
-        _logger = logger;
+        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _unitOfWork = unitOfWork;
-        _mapper = mapper;
+        _productFactory = productFactory;
     }
 
-    public async Task<UpdateProductDetailsDto> UpdateProductAsync(ProductUpdateCommand command)
+    public async Task<UpdateProductDetailsDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)
     {
         var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
         if (existingProduct == null)
@@ -53,7 +53,7 @@ public class ProductService : IProductService
             }
         }
 
-        existingProduct.ProductGroups.Clear(); 
+        existingProduct.ProductGroups.Clear();
         foreach (var groupId in command.GroupIds)
         {
             existingProduct.ProductGroups.Add(new ProductGroup
@@ -67,17 +67,5 @@ public class ProductService : IProductService
         var updatedProductDto = _mapper.Map<UpdateProductDetailsDto>(existingProduct);
 
         return updatedProductDto;
-    }
-
-    public async Task DeleteProductAsync(Guid id)
-    {
-        var product = await _unitOfWork.Products.GetById(id);
-        if (product == null)
-        {
-            throw new ProductNotFoundException($"Product with Id: {id} not found!");
-        }
-
-        _unitOfWork.Products.Delete(product);
-        _unitOfWork.Save();
     }
 }

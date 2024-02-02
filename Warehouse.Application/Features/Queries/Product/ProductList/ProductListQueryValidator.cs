@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Warehouse.Application.Models.Constants;
 
-namespace Warehouse.Application.Features.Queries.Product;
+namespace Warehouse.Application.Features.Queries.Product.ProductList;
 
-public sealed class ProductQueryValidator : AbstractValidator<ProductQuery>
+public sealed class ProductListQueryValidator : AbstractValidator<ProductListQuery>
 {
-    public ProductQueryValidator()
+    public ProductListQueryValidator()
     {
         RuleFor(p => p.MinPrice)
             .Empty()

@@ -47,7 +47,6 @@ Content-Type: application/json
   "title": "Test Sweatshirt",
   "description": "Test Product",
   "price": 41,
-  "quantityInStock": 31,
   "groupIds": [
     "88888888-8888-8888-8888-888888888888",
     "99999999-9999-9999-9999-999999999999"

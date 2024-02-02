@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
-using Warehouse.Application.Features.Queries.Product;
+using Warehouse.Application.Features.Queries.Product.ProductList;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
 
@@ -16,7 +16,7 @@ public class MappingProfile : Profile
 
     private void MapFromQueryCommandEntityToDto()
     {
-        CreateMap<ProductQuery, ItemsDto>();
+        CreateMap<ProductListQuery, ItemsDto>();
         CreateMap<ProductCreateCommand, CreateProductDetailsDto>();
         CreateMap<CreateOrderCommand, CreateOrderDto>();
         CreateMap<Product, ProductDetailsDto>()
@@ -31,8 +31,8 @@ public class MappingProfile : Profile
 
         CreateMap<Product, UpdateProductDetailsDto>()
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
-            .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()))
-            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList()));
+            .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Any() ? src.ProductGroups.Select(pg => pg.Group.Name).ToList() : null))
+            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Any() ? src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList() : null));
 
         CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))

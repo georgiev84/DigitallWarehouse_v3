@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Common.Interfaces;
+using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Infrastructure.Client;
 using Warehouse.Infrastructure.Configuration;
+using Warehouse.Infrastructure.Factories;
 using Warehouse.Infrastructure.Persistence;
 using Warehouse.Infrastructure.Persistence.Contexts;
 using Warehouse.Infrastructure.Persistence.Repositories;
@@ -31,7 +33,7 @@ public static class DependencyRegistrationExtension
         services.AddScoped<IMockApiClient, MockApiCLient>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IOrderRepository, OrderRepository>();
-
+        services.AddScoped<IProductFactory, ProductFactory>();
         return services;
     }
 }

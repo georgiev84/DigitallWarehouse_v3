@@ -6,8 +6,6 @@ namespace Warehouse.Application.Common.Interfaces;
 
 public interface IProductService
 {
-    Task<ProductDto> GetFilteredProductsAsync(ItemsDto items);
-    Task<CreateProductDetailsDto> CreateProductAsync(ProductCreateCommand command);
-    Task<UpdateProductDetailsDto> UpdateProductAsync(UpdateProductCommand command);
+    Task<UpdateProductDetailsDto> UpdateProductAsync(ProductUpdateCommand command);
     Task DeleteProductAsync(Guid id);
 }
