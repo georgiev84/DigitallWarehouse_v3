@@ -79,8 +79,8 @@ Content-Type: application/json
     "paymentId": "11111111-2222-2321-2321-111111111321",
     "orderDate": "2024-02-05T11:35:45.648Z",
     "userId": "11111111-2222-2321-2321-111111111456",
-    "totalAmount": 100,
-    "orderDetails": [
+    "totalAmount": 104,
+    "orderLines": [
         {
             "productId": "1868E00B-02D8-433F-8F9A-08DC1E533E6C",
             "sizeId": "33333333-3333-3333-3333-333333333333",
@@ -99,15 +99,18 @@ Content-Type: application/json
 ### Get Single Order with all Details
 GET {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
 
+### Get Order List
+GET {{Warehouse.Api_HostAddress}}/api/orders
+
 
 ### Update Order
 PUT {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
 
 {
   "id": "6428982e-3517-4952-60e7-08dc2649016c",
-  "status": "Pending",
+  "statusId": "22222222-1111-1234-4321-222222222222",
   "orderDate": "2024-02-05T11:35:45.648",
-  "fullName": "John Doe",
+  "userId": "11111111-2222-2321-2321-111111111456",
   "totalAmount": 101,
   "orderLines": [
     {
@@ -115,23 +118,19 @@ PUT {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016
       "productId": "1868e00b-02d8-433f-8f9a-08dc1e533e6c",
       "sizeId": "33333333-3333-3333-3333-333333333333",
       "quantity": 2,
-      "price": 13,
-      "order": null,
-      "product": "Test Sweatshirt",
-      "size": null
+      "price": 13
     },
     {
       "orderId": "6428982e-3517-4952-60e7-08dc2649016c",
       "productId": "ea99fb0e-3c5c-4283-7e56-08dc1e5373d0",
       "sizeId": "33333333-3333-3333-3333-333333333333",
       "quantity": 1,
-      "price": 214,
-      "order": null,
-      "product": "Test Product",
-      "size": null
+      "price": 214
     }
   ]
 }
 
+### Delete Order
+DELETE {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
 
 

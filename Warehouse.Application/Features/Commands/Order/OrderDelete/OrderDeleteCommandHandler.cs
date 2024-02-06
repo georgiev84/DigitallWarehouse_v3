@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Features.Commands.Product.Delete;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderDelete;

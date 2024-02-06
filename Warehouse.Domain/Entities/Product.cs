@@ -17,7 +17,7 @@ public class Product
     public bool IsDeleted { get; set; }
 
     public ICollection<ProductGroup> ProductGroups { get; set; }
-    public ICollection<OrderDetails> OrderDetails { get; set; }
+    public ICollection<OrderLine> OrderLines { get; set; }
     public ICollection<ProductSize> ProductSizes { get; set; }
     public Brand Brand { get; set; }
 }

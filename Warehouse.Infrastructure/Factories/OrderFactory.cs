@@ -14,7 +14,7 @@ public class OrderFactory : IOrderFactory
             OrderDate = command.OrderDate,
             UserId = command.UserId,
             TotalAmount = command.TotalAmount,
-            OrderDetails = command.OrderDetails
+            OrderLines = command.OrderLines
         };
 
         return order;

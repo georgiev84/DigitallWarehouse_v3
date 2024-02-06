@@ -2,11 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Warehouse.Api.Models.Requests.Product;
-using Warehouse.Api.Models.Responses;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Application.Features.Commands.Product.Delete;
 using Warehouse.Application.Features.Commands.Product.Update;
 using Warehouse.Application.Features.Queries.Product.ProductList;
+using Warehouse.Api.Models.Responses.ProductResponses;
 
 namespace Warehouse.Api.Controllers;
 
@@ -22,7 +22,7 @@ public class ProductsController : BaseController
 
         var products = await _mediator.Send(query);
 
-        var mappedProducts = _mapper.Map<ProductResponse>(products);
+        var mappedProducts = _mapper.Map<ProductDetailedResponse>(products);
 
         return Ok(mappedProducts);
     }
@@ -40,7 +40,7 @@ public class ProductsController : BaseController
 
         var result = await _mediator.Send(command);
 
-        var mappedResult = _mapper.Map<CreateProductResponse>(result);
+        var mappedResult = _mapper.Map<ProductCreateResponse>(result);
 
         return CreatedAtAction(nameof(CreateProduct), new { id = result.Id }, mappedResult);
     }
@@ -60,7 +60,7 @@ public class ProductsController : BaseController
 
         var result = await _mediator.Send(command);
 
-        var mappedResult = _mapper.Map<UpdateProductResponse>(result);
+        var mappedResult = _mapper.Map<ProductUpdateResponse>(result);
 
         return Ok(mappedResult);
     }

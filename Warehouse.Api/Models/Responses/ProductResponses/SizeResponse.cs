@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Api.Models.Responses;
+﻿namespace Warehouse.Api.Models.Responses.ProductResponses;
 
 public class SizeResponse
 {

@@ -17,7 +17,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         var result = await _dbContext.Orders
             .Include(o => o.User)
             .Include(o=> o.Status)
-            .Include(o => o.OrderDetails)
+            .Include(o => o.OrderLines)
                 .ThenInclude(od=>od.Product)
                 .ThenInclude(p => p.ProductSizes)
                 .ThenInclude(ps => ps.Size)

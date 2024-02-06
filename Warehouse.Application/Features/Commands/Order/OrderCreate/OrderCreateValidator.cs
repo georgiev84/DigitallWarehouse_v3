@@ -14,6 +14,6 @@ public class OrderCreateValidator : AbstractValidator<OrderCreateCommand>
 
         RuleFor(x => x.TotalAmount).GreaterThan(0).WithMessage("TotalAmount must be greater than 0.");
 
-        RuleForEach(x => x.OrderDetails).SetValidator(new OrderDetailsValidator());
+        RuleForEach(x => x.OrderLines).SetValidator(new OrderLineValidator());
     }
 }

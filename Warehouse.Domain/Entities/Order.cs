@@ -14,7 +14,7 @@ public class Order
     public bool IsDeleted { get; set; }
     public User User { get; set; }
 
-    public ICollection<OrderDetails> OrderDetails { get; set; }
+    public ICollection<OrderLine> OrderLines { get; set; }
 
     public Payment Payment { get; set; }
 

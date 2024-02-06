@@ -3,9 +3,9 @@ using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
-public class OrderDetailsValidator : AbstractValidator<OrderDetails>
+public class OrderLineValidator : AbstractValidator<OrderLine>
 {
-    public OrderDetailsValidator()
+    public OrderLineValidator()
     {
         RuleFor(x => x.OrderId).NotEmpty().WithMessage("OrderId is required.");
         RuleFor(x => x.ProductId).NotEmpty().WithMessage("ProductId is required.");

@@ -42,13 +42,13 @@ public class MappingProfile : Profile
         CreateMap<Order, OrderWithDetailsDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
-            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderDetails));
+            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines));
 
-        CreateMap<OrderDetails, OrderLinesDto>()
+        CreateMap<OrderLine, OrderLineDto>()
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product.Title)) // Map Product name from Product.Title property
-            .ForMember(dest => dest.Size, opt => opt.MapFrom(src => src.Size.Name)); // Map Size name from Size.Name property
+            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product.Title)) 
+            .ForMember(dest => dest.Size, opt => opt.MapFrom(src => src.Size.Name));
 
         CreateMap<Order, OrderCreateDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -62,7 +62,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId ?? Guid.Empty))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name ))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
-            .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.ToList()));
+            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines.ToList()));
 
     }
 }

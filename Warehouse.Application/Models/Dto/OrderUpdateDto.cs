@@ -12,5 +12,5 @@ public class OrderUpdateDto
 
     public string? FullName { get; set; }
     public decimal TotalAmount { get; set; }
-    public List<OrderLinesDto> OrderDetails { get; set; }
+    public List<OrderLineDto>? OrderLines { get; set; }
 }

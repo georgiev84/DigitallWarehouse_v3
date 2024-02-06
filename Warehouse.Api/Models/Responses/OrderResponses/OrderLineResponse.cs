@@ -1,6 +1,4 @@
-﻿using Warehouse.Domain.Entities;
-
-namespace Warehouse.Api.Models.Responses;
+﻿namespace Warehouse.Api.Models.OrderResponses.Orders;
 
 public class OrderLineResponse
 {

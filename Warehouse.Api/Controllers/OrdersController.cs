@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Warehouse.Api.Models.OrderResponses.Orders;
 using Warehouse.Api.Models.Requests.Orders;
-using Warehouse.Api.Models.Responses;
+using Warehouse.Api.Models.Responses.OrderResponses;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Application.Features.Commands.Order.OrderDelete;
 using Warehouse.Application.Features.Commands.Order.OrderUpdate;
-using Warehouse.Application.Features.Commands.Product.Delete;
 using Warehouse.Application.Features.Queries.Order.OrderGetAll;
 using Warehouse.Application.Features.Queries.Order.OrderGetSingle;
 
@@ -40,7 +40,7 @@ public class OrdersController : BaseController
 
         var order = await _mediator.Send(query);
 
-        var mappedProducts = _mapper.Map<OrderWithDetailsResponse>(order);
+        var mappedProducts = _mapper.Map<OrderDetailedResponse>(order);
 
         return Ok(mappedProducts);
     }
@@ -58,7 +58,7 @@ public class OrdersController : BaseController
 
         var result = await _mediator.Send(command);
 
-        var mappedResult = _mapper.Map<CreateOrderResponse>(result);
+        var mappedResult = _mapper.Map<OrderCreateResponse>(result);
 
         return CreatedAtAction(nameof(CreateOrder), new { id = result.Id }, mappedResult);
     }
@@ -78,7 +78,7 @@ public class OrdersController : BaseController
 
         var result = await _mediator.Send(command);
 
-        var mappedResult = _mapper.Map<OrderWithDetailsResponse>(result);
+        var mappedResult = _mapper.Map<OrderDetailedResponse>(result);
 
         return Ok(mappedResult);
     }

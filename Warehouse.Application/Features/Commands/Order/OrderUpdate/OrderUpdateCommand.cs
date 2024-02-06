@@ -10,5 +10,5 @@ public record OrderUpdateCommand(
     DateTime OrderDate, 
     Guid UserId, 
     decimal TotalAmount, 
-    List<OrderDetails> OrderLines) : IRequest<OrderUpdateDto>;
+    List<OrderLine> OrderLines) : IRequest<OrderUpdateDto>;
 

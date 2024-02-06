@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 using Warehouse.Domain.Entities;
 using Warehouse.Infrastructure.Configuration.Entities;
 
@@ -11,7 +10,7 @@ public class WarehouseDbContext : DbContext
     }
     public DbSet<User> Users { get; set; }
     public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderDetails> OrderDetails { get; set; }
+    public DbSet<OrderLine> OrderLines { get; set; }
     public DbSet<OrderStatus> OrderStatus { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Group> Groups { get; set; }
@@ -28,7 +27,7 @@ public class WarehouseDbContext : DbContext
         builder.ApplyConfiguration(new ProductSizeEntityConfiguration());
         builder.ApplyConfiguration(new ProductGroupEntityConfiguration());
         builder.ApplyConfiguration(new OrderEntityConfiguration());
-        builder.ApplyConfiguration(new OrderDetailsEntityConfiguration());
+        builder.ApplyConfiguration(new OrderLinesEntityConfiguration());
 
         // Seed Brands
         builder.Entity<Brand>().HasData(

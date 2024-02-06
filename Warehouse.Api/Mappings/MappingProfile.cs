@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Api.Models.Responses;
 using Warehouse.Api.Models.Requests;
 using Warehouse.Api.Models.Requests.Product;
 using Warehouse.Api.Models.Requests.Orders;
@@ -12,6 +11,10 @@ using Warehouse.Application.Features.Queries.Order.OrderGetSingle;
 using Warehouse.Application.Features.Queries.Product.ProductList;
 using Warehouse.Application.Features.Commands.Order.OrderUpdate;
 using Warehouse.Domain.Entities;
+using Warehouse.Api.Models.OrderResponses.Orders;
+using Warehouse.Api.Models.Responses.ProductResponses;
+using Warehouse.Api.Models.Responses.OrderResponses;
+
 
 namespace Warehouse.Api.Mappings;
 
@@ -32,24 +35,24 @@ public class MappingProfile : Profile
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
         CreateMap<OrderCreateRequest, OrderCreateCommand>();
         CreateMap<OrderUpdateRequest, OrderUpdateCommand>();
-        CreateMap<OrderLinesUpdateRequest, OrderDetails>();
+        CreateMap<OrderLineUpdateRequest, OrderLine>();
     }
 
     private void MapFromDtoToResponse()
     {
-        CreateMap<ProductDto, ProductResponse>();
+        CreateMap<ProductDto, ProductDetailedResponse>();
         CreateMap<SizeInformationRequest, SizeInformationDto>();
         CreateMap<SizeDto, SizeResponse>();
-        CreateMap<OrderUpdateDto, CreateProductResponse>();
-        CreateMap<UpdateProductDetailsDto, UpdateProductResponse>();
+        CreateMap<OrderUpdateDto, ProductCreateResponse>();
+        CreateMap<UpdateProductDetailsDto, ProductUpdateResponse>();
         CreateMap<OrderDto, OrderResponse>();
-        CreateMap<OrderCreateDto, CreateOrderResponse>();
+        CreateMap<OrderCreateDto, OrderCreateResponse>();
         CreateMap<OrderUpdateDto, OrderUpdateResponse>();
-        CreateMap<OrderLinesDto, OrderLineResponse>();
-        CreateMap<OrderWithDetailsDto, OrderWithDetailsResponse>();
+        CreateMap<OrderLineDto, OrderLineResponse>();
+        CreateMap<OrderWithDetailsDto, OrderDetailedResponse>();
         CreateMap<OrderUpdateDto, OrderUpdateResponse>();
-        CreateMap<OrderUpdateDto, OrderWithDetailsResponse>()
-            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderDetails));
+        CreateMap<OrderUpdateDto, OrderDetailedResponse>()
+            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines));
         
     }
 }
