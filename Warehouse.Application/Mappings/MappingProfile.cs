@@ -17,8 +17,8 @@ public class MappingProfile : Profile
     private void MapFromQueryCommandEntityToDto()
     {
         CreateMap<ProductListQuery, ItemsDto>();
-        CreateMap<ProductCreateCommand, CreateProductDetailsDto>();
-        CreateMap<CreateOrderCommand, CreateOrderDto>();
+        CreateMap<ProductCreateCommand, OrderUpdateDto>();
+        CreateMap<OrderCreateCommand, OrderCreateDto>();
         CreateMap<Product, ProductDetailsDto>()
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
             .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()))
@@ -37,5 +37,32 @@ public class MappingProfile : Profile
         CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
+
+
+        CreateMap<Order, OrderWithDetailsDto>()
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
+            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderDetails));
+
+        CreateMap<OrderDetails, OrderLinesDto>()
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product.Title)) // Map Product name from Product.Title property
+            .ForMember(dest => dest.Size, opt => opt.MapFrom(src => src.Size.Name)); // Map Size name from Size.Name property
+
+        CreateMap<Order, OrderCreateDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
+            .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.OrderDate))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
+            .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.TotalAmount));
+
+        CreateMap<Order, OrderUpdateDto>()
+            .ForMember(dest => dest.PaymentId, opt => opt.MapFrom(src => src.PaymentId ?? Guid.Empty))
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId ?? Guid.Empty))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name ))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
+            .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails.ToList()));
+
     }
 }

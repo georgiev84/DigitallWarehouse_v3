@@ -28,40 +28,4 @@ public class ProductFactory : IProductFactory
 
         return product;
     }
-
-    public Product UpdateProductAsync(Product existingProduct, ProductUpdateCommand command)
-    {
-        existingProduct.Title = command.Title;
-        existingProduct.Description = command.Description;
-        existingProduct.Price = command.Price;
-        existingProduct.BrandId = command.BrandId;
-
-        foreach (var newSize in command.SizeInformation)
-        {
-            var existingSize = existingProduct.ProductSizes.FirstOrDefault(ps => ps.SizeId == newSize.SizeId);
-            if (existingSize != null)
-            {
-                existingSize.QuantityInStock = newSize.Quantity;
-            }
-            else
-            {
-                existingProduct.ProductSizes.Add(new ProductSize
-                {
-                    SizeId = newSize.SizeId,
-                    QuantityInStock = newSize.Quantity
-                });
-            }
-        }
-
-        existingProduct.ProductGroups.Clear();
-        foreach (var groupId in command.GroupIds)
-        {
-            existingProduct.ProductGroups.Add(new ProductGroup
-            {
-                GroupId = groupId
-            });
-        }
-
-        return existingProduct;
-    }
 }

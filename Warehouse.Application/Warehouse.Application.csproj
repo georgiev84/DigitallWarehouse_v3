@@ -20,9 +20,4 @@
     <ProjectReference Include="..\Warehouse.Domain\Warehouse.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Commands\Order\OrderDelete\" />
-    <Folder Include="Features\Commands\Order\OrderUpdate\" />
-  </ItemGroup>
-
 </Project>

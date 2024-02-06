@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Warehouse.Domain.Entities;
+﻿namespace Warehouse.Domain.Entities;
 public class Order
 {
     public Guid Id { get; set; }
@@ -13,6 +11,7 @@ public class Order
     public Guid? UserId { get; set; }
 
     public decimal TotalAmount { get; set; }
+    public bool IsDeleted { get; set; }
     public User User { get; set; }
 
     public ICollection<OrderDetails> OrderDetails { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Warehouse.Infrastructure.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using Warehouse.Infrastructure.Persistence.Contexts;
 namespace Warehouse.Infrastructure.Migrations
 {
     [DbContext(typeof(WarehouseDbContext))]
-    partial class WarehouseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205124753_SeedUsers")]
+    partial class SeedUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,11 +84,6 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
@@ -210,11 +208,6 @@ namespace Warehouse.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 2)");
 
@@ -238,7 +231,6 @@ namespace Warehouse.Infrastructure.Migrations
                             Id = new Guid("88888888-8888-8888-8888-888888888888"),
                             BrandId = new Guid("11111111-1111-1111-1111-111111111111"),
                             Description = "Description for Product 3",
-                            IsDeleted = false,
                             Price = 19.99m,
                             SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Title = "Product 3"
@@ -248,7 +240,6 @@ namespace Warehouse.Infrastructure.Migrations
                             Id = new Guid("99999999-9999-9999-9999-999999999999"),
                             BrandId = new Guid("22222222-2222-2222-2222-222222222222"),
                             Description = "Description for Product 4",
-                            IsDeleted = false,
                             Price = 49.99m,
                             SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Title = "Product 4"
@@ -258,7 +249,6 @@ namespace Warehouse.Infrastructure.Migrations
                             Id = new Guid("12345678-1234-5678-9012-345678901234"),
                             BrandId = new Guid("11111111-1111-1111-1111-111111111111"),
                             Description = "Description for Product 5",
-                            IsDeleted = false,
                             Price = 59.99m,
                             SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Title = "Product 5"
@@ -268,7 +258,6 @@ namespace Warehouse.Infrastructure.Migrations
                             Id = new Guid("23456789-2345-6789-0123-456789012345"),
                             BrandId = new Guid("22222222-2222-2222-2222-222222222222"),
                             Description = "Timeless classic jeans in blue for a casual and versatile look.",
-                            IsDeleted = false,
                             Price = 34.99m,
                             SizeId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Title = "Classic Jeans"

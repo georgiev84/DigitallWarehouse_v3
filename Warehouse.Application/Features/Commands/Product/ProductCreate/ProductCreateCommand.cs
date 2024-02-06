@@ -8,5 +8,5 @@ public record ProductCreateCommand(
     string Description,
     decimal Price,
     List<Guid> GroupIds,
-    List<SizeInformationDto> SizeInformation) : IRequest<CreateProductDetailsDto>;
+    List<SizeInformationDto> SizeInformation) : IRequest<OrderUpdateDto>;
 

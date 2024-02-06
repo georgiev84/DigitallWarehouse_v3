@@ -17,6 +17,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             .Include(p => p.Brand)
             .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)
             .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
+            .Where(p => p.IsDeleted == false)
             .ToListAsync();
 
         return result;

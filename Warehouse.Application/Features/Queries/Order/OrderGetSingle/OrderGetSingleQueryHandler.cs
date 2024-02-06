@@ -5,7 +5,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Features.Queries.Order.OrderGetSingle;
-public class OrderGetSingleQueryHandler : IRequestHandler<OrderGetSingleQuery, OrderDto>
+public class OrderGetSingleQueryHandler : IRequestHandler<OrderGetSingleQuery, OrderWithDetailsDto>
 {
     private readonly ILogger<OrderGetSingleQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -18,10 +18,10 @@ public class OrderGetSingleQueryHandler : IRequestHandler<OrderGetSingleQuery, O
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task<OrderDto> Handle(OrderGetSingleQuery query, CancellationToken cancellationToken)
+    public async Task<OrderWithDetailsDto> Handle(OrderGetSingleQuery query, CancellationToken cancellationToken)
     {
         var order = await _unitOfWork.Orders.GetSingleOrderAsync(query.OrderId);
-        var mappedOrder = _mapper.Map<OrderDto>(order);
+        var mappedOrder = _mapper.Map<OrderWithDetailsDto>(order);
         return mappedOrder;
     }
 }

@@ -1,28 +1,34 @@
 ﻿using AutoMapper;
 using MediatR;
+using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Domain.Entities;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
-public class OrderCreateCommandHandler : IRequestHandler<CreateOrderCommand, CreateOrderDto>
+public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, OrderCreateDto>
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IOrderFactory _orderFactory;
 
-    public OrderCreateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
+    public OrderCreateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IOrderFactory orderFactory)
     {
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork;
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork)); ;
+        _orderFactory = orderFactory ?? throw new ArgumentNullException(nameof(orderFactory)); ;
     }
 
-    public async Task<CreateOrderDto> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+    public async Task<OrderCreateDto> Handle(OrderCreateCommand command, CancellationToken cancellationToken)
     {
-        //var order = _mapper.Map<CreateOrderCommand>(command);
-        //// use factory here
-        //var result = await _unitOfWork.Orders.Add(order);
-        //var mappedResult = _mapper.Map<CreateOrderDto>(result);
-        //return mappedResult;
-        throw new NotImplementedException();
+        var order = _orderFactory.CreateOrder(command);
+
+        await _unitOfWork.Orders.Add(order);
+        _unitOfWork.Save();
+
+        var checkedOrder = await _unitOfWork.Orders.GetById(order.Id);
+
+        var orderDto = _mapper.Map<OrderCreateDto>(checkedOrder);
+
+        return orderDto;
     }
 }

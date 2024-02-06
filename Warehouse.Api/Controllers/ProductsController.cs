@@ -50,7 +50,7 @@ public class ProductsController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateProduct(
-        [FromQuery] Guid productId,
+        Guid productId,
         [FromBody] ProductUpdateRequest productUpdateRequest,
         [FromServices] ISender _mediator,
          [FromServices] IMapper _mapper)
@@ -73,7 +73,7 @@ public class ProductsController : BaseController
     [FromRoute] Guid productId,
     [FromServices] ISender _mediator)
     {
-        var command = new DeleteProductCommand(productId);
+        var command = new ProductDeleteCommand(productId);
 
         await _mediator.Send(command);
 

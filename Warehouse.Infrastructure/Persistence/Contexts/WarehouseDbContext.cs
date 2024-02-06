@@ -53,6 +53,20 @@ public class WarehouseDbContext : DbContext
 
         );
 
+        builder.Entity<User>().HasData(
+            new User
+            {
+                Id = Guid.Parse("11111111-2222-2321-2321-111111111456"),
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                Password = "password123", 
+                Phone = "123-456-7890",
+                Address = "123 Main Street, City, Country",
+                Orders = new List<Order>() 
+            }
+        );
+
         // Seed Products
         builder.Entity<Product>().HasData(
             new Product

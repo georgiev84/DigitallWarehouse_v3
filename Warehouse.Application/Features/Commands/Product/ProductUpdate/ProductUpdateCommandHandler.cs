@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Warehouse.Application.Common.Interfaces;
-using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
@@ -10,17 +8,13 @@ using Warehouse.Domain.Exceptions;
 namespace Warehouse.Application.Features.Commands.Product.Update;
 public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand, UpdateProductDetailsDto>
 {
-    private readonly IProductService _productService;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IProductFactory _productFactory;
 
-    public ProductUpdateCommandHandler(IProductService productService, IMapper mapper, IUnitOfWork unitOfWork, IProductFactory productFactory)
+    public ProductUpdateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
     {
-        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         _unitOfWork = unitOfWork;
-        _productFactory = productFactory;
     }
 
     public async Task<UpdateProductDetailsDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)

@@ -17,6 +17,8 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
         return await _dbContext.Set<TEntity>().FindAsync(id);
     }
 
+
+
     public async Task<IEnumerable<TEntity>> GetAll()
     {
         return await _dbContext.Set<TEntity>().ToListAsync();

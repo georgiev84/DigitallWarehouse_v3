@@ -23,8 +23,9 @@ public static class DependencyRegistrationExtension
             throw new ArgumentNullException(nameof(configuration));
         }
 
-        services.AddDbContext<WarehouseDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("WarehouseDbConnection")));
-        //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddDbContext<WarehouseDbContext>(
+            options => options.UseSqlServer(configuration.GetConnectionString("WarehouseDbConnection"), 
+            options => options.UseCompatibilityLevel(150)));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ISizeRepository, SizeRepository>();
@@ -34,6 +35,7 @@ public static class DependencyRegistrationExtension
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IProductFactory, ProductFactory>();
+        services.AddScoped<IOrderFactory, OrderFactory>();
         return services;
     }
 }

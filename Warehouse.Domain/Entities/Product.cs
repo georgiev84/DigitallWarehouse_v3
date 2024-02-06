@@ -14,6 +14,8 @@ public class Product
 
     public decimal Price { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public ICollection<ProductGroup> ProductGroups { get; set; }
     public ICollection<OrderDetails> OrderDetails { get; set; }
     public ICollection<ProductSize> ProductSizes { get; set; }

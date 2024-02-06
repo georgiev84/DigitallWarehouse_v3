@@ -6,7 +6,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
-public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand, CreateProductDetailsDto>
+public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand, OrderUpdateDto>
 {
     private readonly IProductService _productService;
     private readonly IMapper _mapper;
@@ -21,10 +21,8 @@ public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand,
         _productFactory = productFactory ?? throw new ArgumentNullException(nameof(productFactory));
     }
 
-    public async Task<CreateProductDetailsDto> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
+    public async Task<OrderUpdateDto> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
     {
-        // var result = await _productService.CreateProductAsync(command);
-
         var product = _productFactory.CreateProduct(command);
 
         await _unitOfWork.Products.Add(product);
@@ -32,7 +30,7 @@ public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand,
 
         var checkedProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(product.Id);
 
-        var productDto = _mapper.Map<CreateProductDetailsDto>(checkedProduct);
+        var productDto = _mapper.Map<OrderUpdateDto>(checkedProduct);
 
         return productDto;
     }

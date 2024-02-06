@@ -17,7 +17,6 @@ Content-Type: application/json
   "title": "Test Sweatshirt",
   "description": "Test Product",
   "price": 41,
-  "quantityInStock": 31,
   "groupIds": [
     "88888888-8888-8888-8888-888888888888",
     "99999999-9999-9999-9999-999999999999"
@@ -69,4 +68,70 @@ Content-Type: application/json
 
 ### Delete Product
 DELETE {{Warehouse.Api_HostAddress}}/api/products/aa36e6e6-39b1-4e43-611e-08dc1e59bebd
+
+
+### Create Order
+POST {{Warehouse.Api_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+    "statusId": "11111111-2222-2321-2321-111111111111",
+    "paymentId": "11111111-2222-2321-2321-111111111321",
+    "orderDate": "2024-02-05T11:35:45.648Z",
+    "userId": "11111111-2222-2321-2321-111111111456",
+    "totalAmount": 100,
+    "orderDetails": [
+        {
+            "productId": "1868E00B-02D8-433F-8F9A-08DC1E533E6C",
+            "sizeId": "33333333-3333-3333-3333-333333333333",
+            "quantity": 2,
+            "price": 10
+        },
+        {
+            "productId": "EA99FB0E-3C5C-4283-7E56-08DC1E5373D0",
+            "sizeId": "33333333-3333-3333-3333-333333333333",
+            "quantity": 1,
+            "price": 20
+        }
+    ]
+}
+
+### Get Single Order with all Details
+GET {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
+
+
+### Update Order
+PUT {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
+
+{
+  "id": "6428982e-3517-4952-60e7-08dc2649016c",
+  "status": "Pending",
+  "orderDate": "2024-02-05T11:35:45.648",
+  "fullName": "John Doe",
+  "totalAmount": 101,
+  "orderLines": [
+    {
+      "orderId": "6428982e-3517-4952-60e7-08dc2649016c",
+      "productId": "1868e00b-02d8-433f-8f9a-08dc1e533e6c",
+      "sizeId": "33333333-3333-3333-3333-333333333333",
+      "quantity": 2,
+      "price": 13,
+      "order": null,
+      "product": "Test Sweatshirt",
+      "size": null
+    },
+    {
+      "orderId": "6428982e-3517-4952-60e7-08dc2649016c",
+      "productId": "ea99fb0e-3c5c-4283-7e56-08dc1e5373d0",
+      "sizeId": "33333333-3333-3333-3333-333333333333",
+      "quantity": 1,
+      "price": 214,
+      "order": null,
+      "product": "Test Product",
+      "size": null
+    }
+  ]
+}
+
+
 

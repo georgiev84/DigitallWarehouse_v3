@@ -10,6 +10,8 @@ using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Application.Features.Queries.Order.OrderGetAll;
 using Warehouse.Application.Features.Queries.Order.OrderGetSingle;
 using Warehouse.Application.Features.Queries.Product.ProductList;
+using Warehouse.Application.Features.Commands.Order.OrderUpdate;
+using Warehouse.Domain.Entities;
 
 namespace Warehouse.Api.Mappings;
 
@@ -28,7 +30,9 @@ public class MappingProfile : Profile
         CreateMap<ProductUpdateRequest, ProductUpdateCommand>();
         CreateMap<OrderRequest, OrderGetAllQuery>();
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
-        CreateMap<OrderCreateRequest, CreateOrderCommand>();
+        CreateMap<OrderCreateRequest, OrderCreateCommand>();
+        CreateMap<OrderUpdateRequest, OrderUpdateCommand>();
+        CreateMap<OrderLinesUpdateRequest, OrderDetails>();
     }
 
     private void MapFromDtoToResponse()
@@ -36,9 +40,16 @@ public class MappingProfile : Profile
         CreateMap<ProductDto, ProductResponse>();
         CreateMap<SizeInformationRequest, SizeInformationDto>();
         CreateMap<SizeDto, SizeResponse>();
-        CreateMap<CreateProductDetailsDto, CreateProductResponse>();
+        CreateMap<OrderUpdateDto, CreateProductResponse>();
         CreateMap<UpdateProductDetailsDto, UpdateProductResponse>();
         CreateMap<OrderDto, OrderResponse>();
-        CreateMap<CreateOrderDto, CreateOrderResponse>();
+        CreateMap<OrderCreateDto, CreateOrderResponse>();
+        CreateMap<OrderUpdateDto, OrderUpdateResponse>();
+        CreateMap<OrderLinesDto, OrderLineResponse>();
+        CreateMap<OrderWithDetailsDto, OrderWithDetailsResponse>();
+        CreateMap<OrderUpdateDto, OrderUpdateResponse>();
+        CreateMap<OrderUpdateDto, OrderWithDetailsResponse>()
+            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderDetails));
+        
     }
 }

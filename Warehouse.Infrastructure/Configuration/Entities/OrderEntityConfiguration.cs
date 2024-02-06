@@ -24,5 +24,9 @@ public class OrderEntityConfiguration : IEntityTypeConfiguration<Order>
 
         builder.Property(p => p.TotalAmount)
             .HasColumnType("decimal(18, 2)");
+
+        builder.Property(o => o.IsDeleted)
+            .HasColumnType("bit")
+            .HasDefaultValue(false);
     }
 }

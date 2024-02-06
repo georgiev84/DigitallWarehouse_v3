@@ -17,6 +17,11 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         var result = await _dbContext.Orders
             .Include(o => o.User)
             .Include(o=> o.Status)
+            .Include(o => o.OrderDetails)
+                .ThenInclude(od=>od.Product)
+                .ThenInclude(p => p.ProductSizes)
+                .ThenInclude(ps => ps.Size)
+            .Where(p => p.IsDeleted == false)
             .FirstOrDefaultAsync(o => o.Id == orderId);
 
         if (result == null)
@@ -32,6 +37,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         var result = await _dbContext.Orders
             .Include(o => o.User)
             .Include(o => o.Status)
+            .Where(p => p.IsDeleted == false)
             .ToListAsync();
 
         return result;

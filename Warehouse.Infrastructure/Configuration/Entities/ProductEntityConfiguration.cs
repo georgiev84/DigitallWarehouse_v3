@@ -20,5 +20,9 @@ public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Price)
             .HasColumnType("decimal(18, 2)");
+       
+         builder.Property(p => p.IsDeleted)
+         .HasColumnType("bit")
+         .HasDefaultValue(false);
     }
 }
