@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.ComponentModel.DataAnnotations;
-
-namespace Warehouse.Domain.Entities;
+﻿namespace Warehouse.Domain.Entities;
 public class User
 {
     public Guid Id { get; set; }
@@ -18,5 +15,11 @@ public class User
 
     public string Address { get; set; }
 
+    public Guid BasketId { get; set; }
+
+    public Basket? Basket { get; set; }
+
     public ICollection<Order> Orders { get; set; }
+
+    public ICollection<UserRole> UserRoles { get; set; }
 }

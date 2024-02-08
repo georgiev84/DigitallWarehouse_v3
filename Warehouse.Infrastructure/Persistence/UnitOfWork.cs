@@ -7,14 +7,23 @@ public class UnitOfWork : IUnitOfWork
     private readonly WarehouseDbContext _dbContext;
     public IProductRepository Products { get; }
     public ISizeRepository Sizes { get; }
-
     public IOrderRepository Orders { get; }
-    public UnitOfWork(WarehouseDbContext dbContext, IProductRepository productRepository, ISizeRepository sizes, IOrderRepository orders)
+    public IBasketRepository Baskets { get; }
+    public IBasketLineRepository BasketLines { get; }
+    public UnitOfWork(
+        WarehouseDbContext dbContext,
+        IProductRepository productRepository,
+        ISizeRepository sizes,
+        IOrderRepository orders,
+        IBasketRepository baskets,
+        IBasketLineRepository basketLines)
     {
         _dbContext = dbContext;
         Products = productRepository;
         Sizes = sizes;
         Orders = orders;
+        Baskets = baskets;
+        BasketLines = basketLines;
     }
 
     public int Save()
@@ -35,5 +44,4 @@ public class UnitOfWork : IUnitOfWork
             _dbContext.Dispose();
         }
     }
-
 }

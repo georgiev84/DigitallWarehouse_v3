@@ -29,6 +29,7 @@ public static class DependencyRegistrationExtension
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ISizeRepository, SizeRepository>();
+        services.AddScoped<IBasketRepository, BasketRepository>();
         services.Configure<MockyClientConfiguration>(configuration.GetSection("MockyClient"));
         services.AddHttpClient<MockApiCLient>();
         services.AddScoped<IMockApiClient, MockApiCLient>();
@@ -36,6 +37,8 @@ public static class DependencyRegistrationExtension
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IProductFactory, ProductFactory>();
         services.AddScoped<IOrderFactory, OrderFactory>();
+        services.AddScoped<IBasketLineFactory, BasketLineFactory>();
+        services.AddScoped<IBasketLineRepository, BasketLineRepository>();
         return services;
     }
 }

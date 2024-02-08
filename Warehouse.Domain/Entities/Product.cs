@@ -19,5 +19,6 @@ public class Product
     public ICollection<ProductGroup> ProductGroups { get; set; }
     public ICollection<OrderLine> OrderLines { get; set; }
     public ICollection<ProductSize> ProductSizes { get; set; }
+    public ICollection<BasketLine> BasketLines { get; set; }
     public Brand Brand { get; set; }
 }

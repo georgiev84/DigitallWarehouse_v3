@@ -14,8 +14,8 @@ public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, Ord
     public OrderCreateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IOrderFactory orderFactory)
     {
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork)); ;
-        _orderFactory = orderFactory ?? throw new ArgumentNullException(nameof(orderFactory)); ;
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        _orderFactory = orderFactory ?? throw new ArgumentNullException(nameof(orderFactory));
     }
 
     public async Task<OrderCreateDto> Handle(OrderCreateCommand command, CancellationToken cancellationToken)

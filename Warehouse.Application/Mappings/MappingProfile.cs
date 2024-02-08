@@ -64,5 +64,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
             .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines.ToList()));
 
+        CreateMap<BasketLine, BasketLineDto>();
+
+        CreateMap<BasketLine, BasketLineCreateDto>();
+
     }
 }

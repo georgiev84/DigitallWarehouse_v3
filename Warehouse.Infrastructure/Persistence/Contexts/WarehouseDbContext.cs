@@ -19,6 +19,10 @@ public class WarehouseDbContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
     public DbSet<Brand> Brands { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<Basket> Baskets { get; set; }
+    public DbSet<BasketLine> BasketLines { get; set; }
+    public DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -28,6 +32,8 @@ public class WarehouseDbContext : DbContext
         builder.ApplyConfiguration(new ProductGroupEntityConfiguration());
         builder.ApplyConfiguration(new OrderEntityConfiguration());
         builder.ApplyConfiguration(new OrderLinesEntityConfiguration());
+        builder.ApplyConfiguration(new UserRoleEntityConfiguration());
+        builder.ApplyConfiguration(new BasketLineEntityConfiguration());
 
         // Seed Brands
         builder.Entity<Brand>().HasData(
@@ -62,9 +68,35 @@ public class WarehouseDbContext : DbContext
                 Password = "password123", 
                 Phone = "123-456-7890",
                 Address = "123 Main Street, City, Country",
-                Orders = new List<Order>() 
+                Orders = new List<Order>()
             }
         );
+
+        builder.Entity<Basket>().HasData(
+             new Basket
+             {
+                 Id = Guid.Parse("11111111-2222-2321-2321-111111111429"),
+                 UserId = Guid.Parse("11111111-2222-2321-2321-111111111456"),
+             }
+        );
+
+        // Seed Roles
+        var roles = new[]
+        {
+            new Role { Id = Guid.Parse("11111111-2222-2321-3429-111111111456"), Name = "admin" },
+            new Role { Id = Guid.Parse("11111111-2222-2321-3529-111111111456"), Name = "customer" }
+        };
+
+        builder.Entity<Role>().HasData(roles);
+
+        // Seed UserRoles
+        var userRole = new UserRole
+        {
+            UserId = Guid.Parse("11111111-2222-2321-2321-111111111456"),
+            RoleId = Guid.Parse("11111111-2222-2321-3429-111111111456")
+        };
+
+        builder.Entity<UserRole>().HasData(userRole);
 
         // Seed Products
         builder.Entity<Product>().HasData(

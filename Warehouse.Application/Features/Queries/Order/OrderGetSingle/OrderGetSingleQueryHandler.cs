@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Domain.Entities;
-using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Queries.Order.OrderGetSingle;
 public class OrderGetSingleQueryHandler : IRequestHandler<OrderGetSingleQuery, OrderWithDetailsDto>
