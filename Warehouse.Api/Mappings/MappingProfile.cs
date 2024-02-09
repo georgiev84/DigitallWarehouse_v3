@@ -41,6 +41,7 @@ public class MappingProfile : Profile
         CreateMap<ProductCreateRequest, ProductCreateCommand>();
         CreateMap<ProductUpdateRequest, ProductUpdateCommand>();
         CreateMap<OrderCreateRequest, OrderCreateCommand>();
+        CreateMap<OrderLineRequest, OrderLine>();
         CreateMap<OrderUpdateRequest, OrderUpdateCommand>();
         CreateMap<OrderLineUpdateRequest, OrderLine>();
         CreateMap<BasketLineCreateRequest, BasketLineCreateCommand>();

@@ -23,7 +23,7 @@ public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, Ord
         var order = _orderFactory.CreateOrder(command);
 
         await _unitOfWork.Orders.Add(order);
-        _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync();
 
         var checkedOrder = await _unitOfWork.Orders.GetById(order.Id);
 
