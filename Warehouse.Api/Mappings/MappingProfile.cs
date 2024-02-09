@@ -27,15 +27,19 @@ public class MappingProfile : Profile
     {
         MapFromRequestToQueriesOrCommands();
         MapFromDtoToResponse();
+        MapFromRequestToQueries();
     }
 
-    private void MapFromRequestToQueriesOrCommands()
+    private void MapFromRequestToQueries()
     {
         CreateMap<ProductFilterRequest, ProductListQuery>();
-        CreateMap<ProductCreateRequest, ProductCreateCommand>();
-        CreateMap<ProductUpdateRequest, ProductUpdateCommand>();
         CreateMap<OrderRequest, OrderGetAllQuery>();
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
+    }
+    private void MapFromRequestToQueriesOrCommands()
+    {
+        CreateMap<ProductCreateRequest, ProductCreateCommand>();
+        CreateMap<ProductUpdateRequest, ProductUpdateCommand>();
         CreateMap<OrderCreateRequest, OrderCreateCommand>();
         CreateMap<OrderUpdateRequest, OrderUpdateCommand>();
         CreateMap<OrderLineUpdateRequest, OrderLine>();
@@ -55,9 +59,9 @@ public class MappingProfile : Profile
         CreateMap<OrderLineDto, OrderLineResponse>();
         CreateMap<OrderWithDetailsDto, OrderDetailedResponse>();
         CreateMap<OrderUpdateDto, OrderUpdateResponse>();
-        CreateMap<OrderUpdateDto, OrderDetailedResponse>()
-            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines));
+        CreateMap<OrderUpdateDto, OrderDetailedResponse>();
         CreateMap<BasketCreateDto, BasketCreateResponse>();
         CreateMap<BasketLineCreateDto, BasketLineResponse>();
+        CreateMap<BasketDetailDto, BasketResponse>();
     }
 }

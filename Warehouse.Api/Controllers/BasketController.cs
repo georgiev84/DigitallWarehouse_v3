@@ -5,20 +5,22 @@ using Warehouse.Api.Models.Requests.Basket;
 using Warehouse.Api.Models.Requests.BasketLine;
 using Warehouse.Api.Models.Responses.BasketResponses;
 using Warehouse.Application.Features.Commands.Basket.BasketUpdate;
+using Warehouse.Application.Features.Commands.BasketLine.BasketLineBulkDelete;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
+using Warehouse.Application.Features.Commands.BasketLine.BasketLineDelete;
 using Warehouse.Application.Features.Queries.Basket.BasketSingleQuery;
 
 namespace Warehouse.Api.Controllers;
 
 public class BasketController : BaseController
 {
-    [HttpGet("{basketId}")]
+    [HttpGet("{userId}")]
     public async Task<IActionResult> GetSingleBasket(
-        [FromRoute] Guid basketId,
+        [FromRoute] Guid userId,
         [FromServices] ISender _mediator,
         [FromServices] IMapper _mapper)
     {
-        var query = new BasketSingleQuery { BasketId = basketId };
+        var query = new BasketSingleQuery { UserId = userId };
 
         var basket = await _mediator.Send(query);
 
@@ -45,6 +47,35 @@ public class BasketController : BaseController
         return CreatedAtAction(nameof(AddBasketLine), new { id = result.BasketId }, mappedResult);
     }
 
+    [HttpDelete("basketLines/{basketLineId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteSingleBasketLine(
+    [FromRoute] Guid basketLineId,
+    [FromServices] ISender _mediator)
+    {
+        var command = new BasketLineDeleteCommand(basketLineId);
+
+        await _mediator.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpDelete("{userId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeleteBulkBasket(
+        [FromRoute] Guid userId,
+        [FromServices] ISender _mediator)
+    {
+        var command = new BasketLineBulkDeleteCommand(userId);
+
+        await _mediator.Send(command);
+
+        return NoContent();
+    }
 
     //[HttpPut("{basketId}/{basketLineId}")]
     //[ProducesResponseType(StatusCodes.Status200OK)]

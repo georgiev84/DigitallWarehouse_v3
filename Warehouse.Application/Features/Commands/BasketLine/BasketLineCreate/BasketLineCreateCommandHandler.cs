@@ -37,7 +37,7 @@ public class BasketLineCreateCommandHandler : IRequestHandler<BasketLineCreateCo
         basketLine.BasketId = existingBasket.Id;
 
         await _unitOfWork.BasketLines.Add(basketLine);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
 
         var baskeLineDto = _mapper.Map<BasketLineCreateDto>(basketLine);
         return baskeLineDto;

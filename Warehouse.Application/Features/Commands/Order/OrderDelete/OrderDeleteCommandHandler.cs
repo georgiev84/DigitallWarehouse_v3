@@ -9,7 +9,7 @@ public class OrderDeleteCommandHandler : IRequestHandler<OrderDeleteCommand>
 
     public OrderDeleteCommandHandler(IUnitOfWork unitOfWork)
     {
-        _unitOfWork = unitOfWork;
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     public async Task Handle(OrderDeleteCommand command, CancellationToken cancellationToken)
@@ -22,6 +22,6 @@ public class OrderDeleteCommandHandler : IRequestHandler<OrderDeleteCommand>
 
         existingProduct.IsDeleted = true;
         _unitOfWork.Orders.Update(existingProduct);
-        _unitOfWork.Save();
+        await _unitOfWork.SaveAsync();
     }
 }

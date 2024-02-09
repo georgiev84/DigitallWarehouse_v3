@@ -26,9 +26,9 @@ public class UnitOfWork : IUnitOfWork
         BasketLines = basketLines;
     }
 
-    public int Save()
+    public async Task<int> SaveAsync()
     {
-        return _dbContext.SaveChanges();
+        return await _dbContext.SaveChangesAsync();
     }
 
     public void Dispose()

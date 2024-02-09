@@ -64,9 +64,29 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
             .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines.ToList()));
 
-        CreateMap<BasketLine, BasketLineDto>();
+        CreateMap<BasketLine, BasketLineDto>()
+            .ForMember(
+                 dest => dest.ProductName,
+                 opt => opt.MapFrom(src => src.Product.Title))
+             .ForMember(
+                 dest => dest.SizeName,
+                 opt => opt.MapFrom(src => src.Size.Name));
 
         CreateMap<BasketLine, BasketLineCreateDto>();
+
+        CreateMap<Basket, BasketDetailDto>()
+             .ForMember(
+                 dest => dest.Id,
+                 opt => opt.MapFrom(src => src.Id))
+             .ForMember(
+                 dest => dest.UserId,
+                 opt => opt.MapFrom(src => src.UserId))
+             .ForMember(
+                 dest => dest.FullName,
+                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
+             .ForMember(
+                 dest => dest.TotalAmount,
+                 opt => opt.MapFrom(src => src.BasketLines.Sum(bl => bl.Quantity * bl.Price)));
 
     }
 }

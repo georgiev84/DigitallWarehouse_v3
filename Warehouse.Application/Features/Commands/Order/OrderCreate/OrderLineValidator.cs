@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;

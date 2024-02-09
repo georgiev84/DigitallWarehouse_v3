@@ -131,6 +131,7 @@ PUT {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016
 }
 
 ### Delete Order
+### Parameter: OrderId
 DELETE {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
 
 
@@ -148,3 +149,10 @@ Content-Type: application/json
   }
 }
 
+### Delete BasketLine
+### Parameter: basketLineId
+DELETE {{Warehouse.Api_HostAddress}}/api/basket/basketLines/0EE9D7BF-327B-45BD-1C0E-08DC2955095A
+
+### Bulk Delete BasketLines
+### Parameter: UserId 
+DELETE {{Warehouse.Api_HostAddress}}/api/Basket/11111111-2222-2321-2321-111111111456

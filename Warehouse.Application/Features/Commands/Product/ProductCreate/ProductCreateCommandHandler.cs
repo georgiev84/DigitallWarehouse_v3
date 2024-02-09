@@ -26,7 +26,7 @@ public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand,
         var product = _productFactory.CreateProduct(command);
 
         await _unitOfWork.Products.Add(product);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
 
         var checkedProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(product.Id);
 

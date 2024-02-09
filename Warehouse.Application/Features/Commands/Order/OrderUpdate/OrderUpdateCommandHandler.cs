@@ -64,7 +64,7 @@ public class OrderUpdateCommandHandler : IRequestHandler<OrderUpdateCommand, Ord
 
 
         _unitOfWork.Orders.Update(existingOrder);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
 
         var updatedOrderDto = _mapper.Map<OrderUpdateDto>(existingOrder);
         return updatedOrderDto;

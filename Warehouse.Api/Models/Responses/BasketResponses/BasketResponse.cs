@@ -1,11 +1,12 @@
-﻿namespace Warehouse.Api.Models.Responses.BasketResponses;
+﻿using Warehouse.Application.Models.Dto;
+
+namespace Warehouse.Api.Models.Responses.BasketResponses;
 
 public class BasketResponse
 {
     public Guid Id { get; set; }
-    public string? Status { get; set; }
-    public DateTime OrderDate { get; set; }
-    public string? FullName { get; set; }
+    public Guid UserId { get; set; }
+    public string FullName { get; set; }
     public decimal TotalAmount { get; set; }
-    public List<BasketLineResponse>? BasketLines { get; set; }
+    public List<BasketLineDto> BasketLines { get; set; }
 }

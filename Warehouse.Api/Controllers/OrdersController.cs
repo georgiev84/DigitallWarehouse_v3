@@ -87,7 +87,7 @@ public class OrdersController : BaseController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteProduct(
+    public async Task<IActionResult> DeleteOrder(
     [FromRoute] Guid orderId,
     [FromServices] ISender _mediator)
     {

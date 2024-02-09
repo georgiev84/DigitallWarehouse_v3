@@ -62,7 +62,7 @@ public class ProductService : IProductService
             });
         }
 
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
 
         var updatedProductDto = _mapper.Map<UpdateProductDetailsDto>(existingProduct);
 
@@ -78,6 +78,6 @@ public class ProductService : IProductService
         }
 
         _unitOfWork.Products.Delete(product);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
     }
 }

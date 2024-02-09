@@ -17,7 +17,7 @@ public class BasketSingleQueryHandler : IRequestHandler<BasketSingleQuery, Baske
 
     public async Task<BasketDetailDto> Handle(BasketSingleQuery query, CancellationToken cancellationToken)
     {
-        var basket = await _unitOfWork.Baskets.GetSingleBasketByUserIdAsync(query.BasketId);
+        var basket = await _unitOfWork.Baskets.GetSingleBasketWithDetailsByUserIdAsync(query.UserId);
 
         var mappedBasket = _mapper.Map<BasketDetailDto>(basket);
 

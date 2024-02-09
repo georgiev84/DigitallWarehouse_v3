@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Warehouse.Application.Common.Interfaces.Persistence;
+﻿namespace Warehouse.Application.Common.Interfaces.Persistence;
 public interface IGenericRepository<TEntity> where TEntity : class
 {
     Task<TEntity> GetById(Guid id);

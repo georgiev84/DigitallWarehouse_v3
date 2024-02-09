@@ -56,7 +56,7 @@ public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand,
             });
         }
 
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
 
         var updatedProductDto = _mapper.Map<UpdateProductDetailsDto>(existingProduct);
 
