@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 

@@ -1,5 +1,5 @@
-﻿namespace Warehouse.Application.Models.Dto;
-public class CreateProductDetailsDto
+﻿namespace Warehouse.Application.Models.Dto.ProductDtos;
+public class UpdateProductDetailsDto
 {
     public Guid Id { get; set; }
     public string Title { get; set; }

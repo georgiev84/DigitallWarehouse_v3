@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Application.Features.Queries.Product.ProductList;
 using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.BasketDtos;
+using Warehouse.Application.Models.Dto.OrderDtos;
+using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Application.Mappings;
@@ -88,5 +92,12 @@ public class MappingProfile : Profile
                  dest => dest.TotalAmount,
                  opt => opt.MapFrom(src => src.BasketLines.Sum(bl => bl.Quantity * bl.Price)));
 
+        CreateMap<BasketLineUpdateCommand, BasketLine>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BasketLineId));
+
+        CreateMap<BasketLine, BasketLineUpdateDto>()
+            .ForMember(dest => dest.BasketLineId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.SizeId, opt => opt.MapFrom(src => src.SizeId))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
     }
 }

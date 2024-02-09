@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Infrastructure.Extensions;

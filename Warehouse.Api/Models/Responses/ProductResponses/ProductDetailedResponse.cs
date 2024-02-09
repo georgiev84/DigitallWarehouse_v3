@@ -1,4 +1,4 @@
-﻿using Warehouse.Application.Models.Dto;
+﻿using Warehouse.Application.Models.Dto.ProductDtos;
 
 namespace Warehouse.Api.Models.Responses.ProductResponses;
 

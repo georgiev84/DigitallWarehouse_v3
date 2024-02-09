@@ -8,6 +8,7 @@ using Warehouse.Api.Models.Responses.BasketResponses;
 using Warehouse.Api.Models.Responses.OrderResponses;
 using Warehouse.Api.Models.Responses.ProductResponses;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
+using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Application.Features.Commands.Order.OrderUpdate;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
@@ -16,6 +17,9 @@ using Warehouse.Application.Features.Queries.Order.OrderGetAll;
 using Warehouse.Application.Features.Queries.Order.OrderGetSingle;
 using Warehouse.Application.Features.Queries.Product.ProductList;
 using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.BasketDtos;
+using Warehouse.Application.Models.Dto.OrderDtos;
+using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Entities;
 
 
@@ -25,7 +29,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        MapFromRequestToQueriesOrCommands();
+        MapFromRequestToCommands();
         MapFromDtoToResponse();
         MapFromRequestToQueries();
     }
@@ -36,7 +40,7 @@ public class MappingProfile : Profile
         CreateMap<OrderRequest, OrderGetAllQuery>();
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
     }
-    private void MapFromRequestToQueriesOrCommands()
+    private void MapFromRequestToCommands()
     {
         CreateMap<ProductCreateRequest, ProductCreateCommand>();
         CreateMap<ProductUpdateRequest, ProductUpdateCommand>();
@@ -45,6 +49,7 @@ public class MappingProfile : Profile
         CreateMap<OrderUpdateRequest, OrderUpdateCommand>();
         CreateMap<OrderLineUpdateRequest, OrderLine>();
         CreateMap<BasketLineCreateRequest, BasketLineCreateCommand>();
+        CreateMap<BasketLineUpdateRequest, BasketLineUpdateCommand>();
     }
 
     private void MapFromDtoToResponse()
@@ -64,5 +69,6 @@ public class MappingProfile : Profile
         CreateMap<BasketCreateDto, BasketCreateResponse>();
         CreateMap<BasketLineCreateDto, BasketLineResponse>();
         CreateMap<BasketDetailDto, BasketResponse>();
+        CreateMap<BasketLineUpdateDto, BasketLineUpdateResponse>();
     }
 }

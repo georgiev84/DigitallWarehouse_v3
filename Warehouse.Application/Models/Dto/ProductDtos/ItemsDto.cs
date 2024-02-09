@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Application.Models.Dto;
+﻿namespace Warehouse.Application.Models.Dto.ProductDtos;
 
 public class ItemsDto
 {

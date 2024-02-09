@@ -156,3 +156,12 @@ DELETE {{Warehouse.Api_HostAddress}}/api/basket/basketLines/0EE9D7BF-327B-45BD-1
 ### Bulk Delete BasketLines
 ### Parameter: UserId 
 DELETE {{Warehouse.Api_HostAddress}}/api/Basket/11111111-2222-2321-2321-111111111456
+
+### Update BasketLine
+### Parameter: BasketLineId
+PUT {{Warehouse.Api_HostAddress}}/api/basket/basketLines/FE00EFB4-DD60-4224-B1AB-08DC29563947
+
+{
+  "sizeId": "44444444-4444-4444-4444-444444444444",
+  "quantity": 10
+}

@@ -1,4 +1,4 @@
-﻿using Warehouse.Application.Models.Dto;
+﻿using Warehouse.Application.Models.Dto.BasketDtos;
 
 namespace Warehouse.Api.Models.Responses.BasketResponses;
 

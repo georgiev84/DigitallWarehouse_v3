@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.BasketDtos;
 
 namespace Warehouse.Application.Features.Queries.Basket.BasketSingleQuery;
 public class BasketSingleQueryHandler : IRequestHandler<BasketSingleQuery, BasketDetailDto>

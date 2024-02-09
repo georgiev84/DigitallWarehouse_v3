@@ -2,7 +2,7 @@
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.BasketDtos;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;

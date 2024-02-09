@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.ProductDtos;
 
 namespace Warehouse.Application.Features.Commands.Product.Update;
 public record ProductUpdateCommand(

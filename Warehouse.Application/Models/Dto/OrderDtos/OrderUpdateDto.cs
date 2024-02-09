@@ -1,6 +1,4 @@
-﻿using Warehouse.Domain.Entities;
-
-namespace Warehouse.Application.Models.Dto;
+﻿namespace Warehouse.Application.Models.Dto.OrderDtos;
 public class OrderUpdateDto
 {
     public Guid Id { get; set; }

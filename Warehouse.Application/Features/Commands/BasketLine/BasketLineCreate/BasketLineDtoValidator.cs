@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.BasketDtos;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 public class BasketLineDtoValidator : AbstractValidator<BasketLineDto>

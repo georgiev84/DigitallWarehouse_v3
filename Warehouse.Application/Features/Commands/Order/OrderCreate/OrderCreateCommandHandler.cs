@@ -2,7 +2,7 @@
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.OrderDtos;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
 public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, OrderCreateDto>

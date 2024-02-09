@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Application.Models.Dto;
+﻿namespace Warehouse.Application.Models.Dto.OrderDtos;
 public class OrderCreateDto
 {
     public Guid Id { get; set; }
