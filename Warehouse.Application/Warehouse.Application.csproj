@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Warehouse.Domain\Warehouse.Domain.csproj" />
+    <ProjectReference Include="..\Warehouse.Persistence.Abstractions\Warehouse.Persistence.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

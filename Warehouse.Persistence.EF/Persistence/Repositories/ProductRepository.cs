@@ -2,6 +2,7 @@
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
+using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
 
 namespace Warehouse.Persistence.EF.Persistence.Repositories;
@@ -13,7 +14,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
     public async Task<IEnumerable<Product>> GetProductsDetailsAsync()
     {
-        var result = await _dbContext.Products
+        var result = await _dbContext.Set<Product>()
             .Include(p => p.Brand)
             .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)
             .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
@@ -25,7 +26,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
     public async Task<Product> GetProductDetailsByIdAsync(Guid productId)
     {
-        var result = await _dbContext.Products
+        var result = await _dbContext.Set<Product>()
         .Where(p => p.Id == productId)
         .Include(p => p.Brand)
         .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)

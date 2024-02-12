@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
+using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
 
 namespace Warehouse.Persistence.EF.Persistence.Repositories;
@@ -14,7 +15,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
     public async Task<Order> GetSingleOrderAsync(Guid orderId)
     {
-        var result = await _dbContext.Orders
+        var result = await _dbContext.Set<Order>()
             .Include(o => o.User)
             .Include(o=> o.Status)
             .Include(o => o.OrderLines)
@@ -34,7 +35,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
     public async Task<IEnumerable<Order>> GetOrdersListAsync()
     {
-        var result = await _dbContext.Orders
+        var result = await _dbContext.Set<Order>()
             .Include(o => o.User)
             .Include(o => o.Status)
             .Where(p => p.IsDeleted == false)

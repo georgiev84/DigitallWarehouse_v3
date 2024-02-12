@@ -1,4 +1,5 @@
-﻿namespace Warehouse.Application.Common.Interfaces.Persistence;
+﻿
+namespace Warehouse.Persistence.Abstractions.Interfaces;
 public interface IGenericRepository<TEntity> where TEntity : class
 {
     Task<TEntity> GetById(Guid id);

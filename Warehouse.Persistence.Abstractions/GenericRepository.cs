@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Persistence.EF.Persistence.Contexts;
+using Warehouse.Persistence.Abstractions.Interfaces;
 
-namespace Warehouse.Persistence.EF.Persistence.Repositories;
+namespace Warehouse.Persistence.Abstractions;
 public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-    protected readonly WarehouseDbContext _dbContext;
+    protected readonly DbContext _dbContext;
 
-    protected GenericRepository(WarehouseDbContext context)
+    protected GenericRepository(DbContext context)
     {
         _dbContext = context;
     }
