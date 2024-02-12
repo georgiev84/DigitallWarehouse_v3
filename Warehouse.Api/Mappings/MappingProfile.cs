@@ -58,7 +58,7 @@ public class MappingProfile : Profile
         CreateMap<SizeInformationRequest, SizeInformationDto>();
         CreateMap<SizeDto, SizeResponse>();
         CreateMap<OrderUpdateDto, ProductCreateResponse>();
-        CreateMap<UpdateProductDetailsDto, ProductUpdateResponse>();
+        CreateMap<ProductUpdateDetailsDto, ProductUpdateResponse>();
         CreateMap<OrderDto, OrderResponse>();
         CreateMap<OrderCreateDto, OrderCreateResponse>();
         CreateMap<OrderUpdateDto, OrderUpdateResponse>();
@@ -71,5 +71,6 @@ public class MappingProfile : Profile
         CreateMap<BasketDetailDto, BasketResponse>();
         CreateMap<BasketLineUpdateDto, BasketLineUpdateResponse>();
         CreateMap<OrderUpdateDto, OrderResponse>();
+        CreateMap<ProductUpdateDetailsDto, ProductCreateResponse>();
     }
 }

@@ -10,5 +10,5 @@ public record ProductUpdateCommand(
     string Description,
     decimal Price,
     List<Guid> GroupIds,
-    List<SizeInformationDto> SizeInformation) : IRequest<UpdateProductDetailsDto>;
+    List<SizeInformationDto> SizeInformation) : IRequest<ProductUpdateDetailsDto>;
 

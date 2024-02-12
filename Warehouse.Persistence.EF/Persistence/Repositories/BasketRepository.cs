@@ -8,7 +8,7 @@ using Warehouse.Persistence.EF.Persistence.Contexts;
 namespace Warehouse.Persistence.EF.Persistence.Repositories;
 public class BasketRepository : GenericRepository<Basket>, IBasketRepository
 {
-    public BasketRepository(WarehouseDbContext context) : base(context)
+    public BasketRepository(WarehouseDbContext dbContext) : base(dbContext)
     {
     }
     public async Task<Basket> GetSingleBasketByUserIdAsync(Guid userId)

@@ -9,7 +9,7 @@ using Warehouse.Persistence.EF.Persistence.Contexts;
 namespace Warehouse.Persistence.EF.Persistence.Repositories;
 public class OrderRepository : GenericRepository<Order>, IOrderRepository
 {
-    public OrderRepository(WarehouseDbContext context) : base(context)
+    public OrderRepository(WarehouseDbContext dbContext) : base(dbContext)
     {
     }
 

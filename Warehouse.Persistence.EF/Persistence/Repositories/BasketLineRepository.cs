@@ -8,18 +8,16 @@ namespace Warehouse.Persistence.EF.Persistence.Repositories;
 public class BasketLineRepository : GenericRepository<BasketLine>, IBasketLineRepository
 {
 
-    protected readonly WarehouseDbContext _dbContext;
-    public BasketLineRepository(WarehouseDbContext context, WarehouseDbContext dbContext) : base(context)
+    public BasketLineRepository(WarehouseDbContext dbContext) : base(dbContext)
     {
-        _dbContext = dbContext;
     }
 
     public async Task BulkDelete(Guid basketId)
     {
-        var basketLinesToRemove = await _dbContext.BasketLines
+        var basketLinesToRemove = await _dbContext.Set<BasketLine>()
             .Where(bl => bl.BasketId == basketId)
             .ToListAsync();
 
-        _dbContext.BasketLines.RemoveRange(basketLinesToRemove);
+        _dbContext.Set<BasketLine>().RemoveRange(basketLinesToRemove);
     }
 }

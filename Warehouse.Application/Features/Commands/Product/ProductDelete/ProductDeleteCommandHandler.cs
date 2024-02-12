@@ -22,6 +22,6 @@ public class ProductDeleteCommandHandler : IRequestHandler<ProductDeleteCommand>
 
         existingProduct.IsDeleted = true;
         _unitOfWork.Products.Update(existingProduct);
-        _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync();
     }
 }

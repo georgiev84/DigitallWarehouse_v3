@@ -23,7 +23,7 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
-    public async Task<UpdateProductDetailsDto> UpdateProductAsync(ProductUpdateCommand command)
+    public async Task<ProductUpdateDetailsDto> UpdateProductAsync(ProductUpdateCommand command)
     {
         var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
         if (existingProduct == null)
@@ -64,7 +64,7 @@ public class ProductService : IProductService
 
         _unitOfWork.SaveAsync();
 
-        var updatedProductDto = _mapper.Map<UpdateProductDetailsDto>(existingProduct);
+        var updatedProductDto = _mapper.Map<ProductUpdateDetailsDto>(existingProduct);
 
         return updatedProductDto;
     }
