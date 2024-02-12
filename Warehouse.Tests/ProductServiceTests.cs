@@ -7,7 +7,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
-using Warehouse.Infrastructure.Services;
+using Warehouse.Persistence.EF.Services;
 
 namespace Warehouse.Tests;
 

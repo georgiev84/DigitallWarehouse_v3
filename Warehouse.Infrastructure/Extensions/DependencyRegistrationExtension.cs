@@ -1,18 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Common.Interfaces;
-using Warehouse.Application.Common.Interfaces.Factories;
-using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Infrastructure.Client;
-using Warehouse.Infrastructure.Configuration;
-using Warehouse.Infrastructure.Factories;
-using Warehouse.Infrastructure.Persistence;
-using Warehouse.Infrastructure.Persistence.Contexts;
-using Warehouse.Infrastructure.Persistence.Repositories;
-using Warehouse.Infrastructure.Services;
+using Warehouse.Persistence.EF.Client;
+using Warehouse.Persistence.EF.Configuration;
 
-namespace Warehouse.Infrastructure.Extensions;
+namespace Warehouse.Persistence.EF.Extensions;
 
 public static class DependencyRegistrationExtension
 {
@@ -23,22 +15,9 @@ public static class DependencyRegistrationExtension
             throw new ArgumentNullException(nameof(configuration));
         }
 
-        services.AddDbContext<WarehouseDbContext>(
-            options => options.UseSqlServer(configuration.GetConnectionString("WarehouseDbConnection"), 
-            options => options.UseCompatibilityLevel(150)));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped<ISizeRepository, SizeRepository>();
-        services.AddScoped<IBasketRepository, BasketRepository>();
         services.Configure<MockyClientConfiguration>(configuration.GetSection("MockyClient"));
         services.AddHttpClient<MockApiCLient>();
         services.AddScoped<IMockApiClient, MockApiCLient>();
-        services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<IProductFactory, ProductFactory>();
-        services.AddScoped<IOrderFactory, OrderFactory>();
-        services.AddScoped<IBasketLineFactory, BasketLineFactory>();
-        services.AddScoped<IBasketLineRepository, BasketLineRepository>();
         return services;
     }
 }

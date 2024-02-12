@@ -8,7 +8,7 @@ using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 
 
-namespace Warehouse.Infrastructure.Services;
+namespace Warehouse.Persistence.EF.Services;
 
 public class ProductService : IProductService
 {

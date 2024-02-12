@@ -5,7 +5,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Exceptions;
-using Warehouse.Infrastructure.Extensions;
+using Warehouse.Persistence.EF.Extensions;
 
 namespace Warehouse.Application.Features.Queries.Product.ProductList;
 

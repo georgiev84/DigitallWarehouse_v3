@@ -3,7 +3,7 @@ using Serilog;
 using Warehouse.Api.Filters;
 using Warehouse.Application.Extensions;
 using Warehouse.Application.Behavior;
-using Warehouse.Infrastructure.Extensions;
+using Warehouse.Persistence.EF.Extensions;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services
     .AddApplication()
-    .AddInfrastructure(builder.Configuration);
+    .AddInfrastructure(builder.Configuration)
+    .AddPersistenceEF(builder.Configuration);
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

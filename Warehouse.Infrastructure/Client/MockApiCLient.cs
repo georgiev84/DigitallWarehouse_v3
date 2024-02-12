@@ -2,9 +2,9 @@
 using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Domain.Entities;
-using Warehouse.Infrastructure.Extensions;
+using Warehouse.Persistence.EF.Extensions;
 
-namespace Warehouse.Infrastructure.Client;
+namespace Warehouse.Persistence.EF.Client;
 
 public class MockApiCLient : IMockApiClient
 {

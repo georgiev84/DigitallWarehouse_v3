@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Infrastructure.Configuration;
+﻿namespace Warehouse.Persistence.EF.Configuration;
 
 public class MockyClientConfiguration
 {
