@@ -71,6 +71,6 @@ public class MappingProfile : Profile
         CreateMap<BasketDetailDto, BasketResponse>();
         CreateMap<BasketLineUpdateDto, BasketLineUpdateResponse>();
         CreateMap<OrderUpdateDto, OrderResponse>();
-        CreateMap<ProductUpdateDetailsDto, ProductCreateResponse>();
+        CreateMap<ProductCreateDetailsDto, ProductCreateResponse>();
     }
 }
