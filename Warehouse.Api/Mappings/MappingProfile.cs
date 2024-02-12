@@ -70,5 +70,6 @@ public class MappingProfile : Profile
         CreateMap<BasketLineCreateDto, BasketLineResponse>();
         CreateMap<BasketDetailDto, BasketResponse>();
         CreateMap<BasketLineUpdateDto, BasketLineUpdateResponse>();
+        CreateMap<OrderUpdateDto, OrderResponse>();
     }
 }

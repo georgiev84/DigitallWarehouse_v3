@@ -78,7 +78,7 @@ public class OrdersController : BaseController
 
         var result = await _mediator.Send(command);
 
-        var mappedResult = _mapper.Map<OrderDetailedResponse>(result);
+        var mappedResult = _mapper.Map<OrderResponse>(result);
 
         return Ok(mappedResult);
     }

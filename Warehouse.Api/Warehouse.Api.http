@@ -104,30 +104,12 @@ GET {{Warehouse.Api_HostAddress}}/api/orders
 
 
 ### Update Order
-PUT {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
+PUT {{Warehouse.Api_HostAddress}}/api/Orders/6428982e-3517-4952-60e7-08dc2649016c
+Content-Type: application/json
 
 {
-  "id": "6428982e-3517-4952-60e7-08dc2649016c",
   "statusId": "22222222-1111-1234-4321-222222222222",
-  "orderDate": "2024-02-05T11:35:45.648",
-  "userId": "11111111-2222-2321-2321-111111111456",
-  "totalAmount": 101,
-  "orderLines": [
-    {
-      "orderId": "6428982e-3517-4952-60e7-08dc2649016c",
-      "productId": "1868e00b-02d8-433f-8f9a-08dc1e533e6c",
-      "sizeId": "33333333-3333-3333-3333-333333333333",
-      "quantity": 2,
-      "price": 13
-    },
-    {
-      "orderId": "6428982e-3517-4952-60e7-08dc2649016c",
-      "productId": "ea99fb0e-3c5c-4283-7e56-08dc1e5373d0",
-      "sizeId": "33333333-3333-3333-3333-333333333333",
-      "quantity": 1,
-      "price": 214
-    }
-  ]
+  "paymentId": "22222222-1111-1234-4321-482222222222"
 }
 
 ### Delete Order
@@ -160,6 +142,7 @@ DELETE {{Warehouse.Api_HostAddress}}/api/Basket/11111111-2222-2321-2321-11111111
 ### Update BasketLine
 ### Parameter: BasketLineId
 PUT {{Warehouse.Api_HostAddress}}/api/basket/basketLines/FE00EFB4-DD60-4224-B1AB-08DC29563947
+Content-Type: application/json
 
 {
   "sizeId": "44444444-4444-4444-4444-444444444444",

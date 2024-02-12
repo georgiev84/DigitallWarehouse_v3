@@ -25,46 +25,13 @@ public class OrderUpdateCommandHandler : IRequestHandler<OrderUpdateCommand, Ord
             throw new ProductNotFoundException($"Order with ID {command.Id} not found.");
         }
 
-        existingOrder.StatusId = command.StatusId;
-        existingOrder.PaymentId = command.PaymentId;
-        existingOrder.OrderDate = command.OrderDate;
-        existingOrder.UserId = command.UserId;
-        existingOrder.TotalAmount = command.TotalAmount;
+        //existingOrder.StatusId = command.StatusId;
+        //existingOrder.PaymentId = command.PaymentId;
 
-        // Remove order lines that are not present in the updated order
-        var orderLinesToRemove = existingOrder.OrderLines.Where(ol => !command.OrderLines.Any(ud => ud.ProductId == ol.ProductId));
-        foreach (var orderLineToRemove in orderLinesToRemove.ToList())
-        {
-            existingOrder.OrderLines.Remove(orderLineToRemove);
-        }
-
-        // Update or add order lines from the command
-        foreach (var updatedOrderLine in command.OrderLines)
-        {
-            var existingOrderLine = existingOrder.OrderLines.FirstOrDefault(ol => ol.ProductId == updatedOrderLine.ProductId);
-            if (existingOrderLine != null)
-            {
-                // Update existing order line
-                existingOrderLine.SizeId = updatedOrderLine.SizeId;
-                existingOrderLine.Quantity = updatedOrderLine.Quantity;
-                existingOrderLine.Price = updatedOrderLine.Price;
-            }
-            else
-            {
-                // Add new order line
-                existingOrder.OrderLines.Add(new OrderLine
-                {
-                    ProductId = updatedOrderLine.ProductId,
-                    SizeId = updatedOrderLine.SizeId,
-                    Quantity = updatedOrderLine.Quantity,
-                    Price = updatedOrderLine.Price
-                });
-            }
-        }
-
+        _mapper.Map(command, existingOrder);
 
         _unitOfWork.Orders.Update(existingOrder);
-        _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync();
 
         var updatedOrderDto = _mapper.Map<OrderUpdateDto>(existingOrder);
         return updatedOrderDto;

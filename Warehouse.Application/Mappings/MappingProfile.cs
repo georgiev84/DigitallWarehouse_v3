@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
+using Warehouse.Application.Features.Commands.Order.OrderUpdate;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Application.Features.Queries.Product.ProductList;
 using Warehouse.Application.Models.Dto;
@@ -42,6 +43,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
 
+        CreateMap<OrderUpdateCommand, Order>();
+
 
         CreateMap<Order, OrderWithDetailsDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
@@ -64,9 +67,8 @@ public class MappingProfile : Profile
         CreateMap<Order, OrderUpdateDto>()
             .ForMember(dest => dest.PaymentId, opt => opt.MapFrom(src => src.PaymentId ?? Guid.Empty))
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId ?? Guid.Empty))
-            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name ))
-            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
-            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines.ToList()));
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
+            .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
 
         CreateMap<BasketLine, BasketLineDto>()
             .ForMember(
