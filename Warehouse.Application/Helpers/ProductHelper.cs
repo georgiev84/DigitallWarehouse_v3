@@ -1,12 +1,11 @@
-﻿using Warehouse.Application.Common.Interfaces.Factories;
-using Warehouse.Application.Features.Commands.Product.ProductCreate;
+﻿using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Domain.Entities;
 
-namespace Warehouse.Persistence.EF.Factories;
+namespace Warehouse.Application.Helpers;
 
-public class ProductFactory : IProductFactory
+public static class ProductHelper
 {
-    public Product CreateProduct(ProductCreateCommand command)
+    public static Product CreateProduct(ProductCreateCommand command)
     {
         var product = new Product
         {

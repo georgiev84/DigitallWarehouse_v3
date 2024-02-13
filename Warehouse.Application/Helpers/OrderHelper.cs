@@ -1,12 +1,11 @@
-﻿using Warehouse.Application.Common.Interfaces.Factories;
-using Warehouse.Application.Features.Commands.Order.OrderCreate;
+﻿using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Factories;
 
-public class OrderFactory : IOrderFactory
+public static class OrderHelper
 {
-    public Order CreateOrder(OrderCreateCommand command)
+    public static Order CreateOrder(OrderCreateCommand command)
     {
         Order order = new Order
         {

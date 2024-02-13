@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Common.Interfaces;
-using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Persistence.EF.Factories;
 using Warehouse.Persistence.EF.Persistence;
@@ -30,9 +29,6 @@ public static class DependencyRegistrationExtension
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<IProductFactory, ProductFactory>();
-        services.AddScoped<IOrderFactory, OrderFactory>();
-        services.AddScoped<IBasketLineFactory, BasketLineFactory>();
         services.AddScoped<IBasketLineRepository, BasketLineRepository>();
         return services;
     }

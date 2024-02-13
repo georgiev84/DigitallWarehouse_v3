@@ -38,6 +38,18 @@ public class ErrorHandlingFilter : IExceptionFilter
             error.StatusCode = HttpStatusCode.Conflict;
         }
 
+        if (exceptionType == typeof(BasketLineExistException))
+        {
+            error.Message = exception.Message;
+            error.StatusCode = HttpStatusCode.Conflict;
+        }
+
+        if (exceptionType == typeof(BasketNotFoundException))
+        {
+            error.Message = exception.Message;
+            error.StatusCode = HttpStatusCode.NotFound;
+        }
+
         context.Result = new JsonResult(error);
         context.ExceptionHandled = true;
     }

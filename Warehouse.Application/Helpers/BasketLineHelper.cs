@@ -1,12 +1,11 @@
-﻿using Warehouse.Application.Common.Interfaces.Factories;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
+﻿using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Factories;
 
-public class BasketLineFactory : IBasketLineFactory
+public static class BasketLineHelper
 {
-    public BasketLine CreateBasketLine(BasketLineCreateCommand command)
+    public static BasketLine CreateBasketLine(BasketLineCreateCommand command)
     {
         BasketLine basketLine = new BasketLine
         {
