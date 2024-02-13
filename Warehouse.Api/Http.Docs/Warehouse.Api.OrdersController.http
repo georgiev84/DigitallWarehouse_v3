@@ -1,0 +1,48 @@
+﻿@Warehouse.Api_HostAddress = http://localhost:5140
+
+### OrdersController
+
+# Create Order
+POST {{Warehouse.Api_HostAddress}}/api/orders
+Content-Type: application/json
+
+{
+    "statusId": "11111111-2222-2321-2321-111111111111",
+    "paymentId": "11111111-2222-2321-2321-111111111321",
+    "orderDate": "2024-02-05T11:35:45.648Z",
+    "userId": "11111111-2222-2321-2321-111111111456",
+    "totalAmount": 104,
+    "orderLines": [
+        {
+            "productId": "1868E00B-02D8-433F-8F9A-08DC1E533E6C",
+            "sizeId": "33333333-3333-3333-3333-333333333333",
+            "quantity": 2,
+            "price": 10
+        },
+        {
+            "productId": "EA99FB0E-3C5C-4283-7E56-08DC1E5373D0",
+            "sizeId": "33333333-3333-3333-3333-333333333333",
+            "quantity": 1,
+            "price": 20
+        }
+    ]
+}
+
+# Get Single Order with all Details
+GET {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
+
+# Get Order List
+GET {{Warehouse.Api_HostAddress}}/api/orders
+
+# Update Order
+PUT {{Warehouse.Api_HostAddress}}/api/Orders/6428982e-3517-4952-60e7-08dc2649016c
+Content-Type: application/json
+
+{
+  "statusId": "22222222-1111-1234-4321-222222222222",
+  "paymentId": "22222222-1111-1234-4321-482222222222"
+}
+
+# Delete Order
+# Parameter: OrderId
+DELETE {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c

@@ -1,0 +1,36 @@
+﻿@Warehouse.Api_HostAddress = http://localhost:5140
+
+
+### BasketController
+
+# Create BasketLine
+POST {{Warehouse.Api_HostAddress}}/api/basket
+Content-Type: application/json
+
+{
+  "userId": "11111111-2222-2321-2321-111111111456",
+  "basketLine": {
+        "productId": "1868E00B-02D8-433F-8F9A-08DC1E533E6C",
+        "sizeId": "33333333-3333-3333-3333-333333333333",
+        "quantity": 2,
+        "price": 10
+  }
+}
+
+# Delete BasketLine
+# Parameter: basketLineId
+DELETE {{Warehouse.Api_HostAddress}}/api/basket/basketLines/0EE9D7BF-327B-45BD-1C0E-08DC2955095A
+
+# Bulk Delete BasketLines
+# Parameter: UserId 
+DELETE {{Warehouse.Api_HostAddress}}/api/Basket/11111111-2222-2321-2321-111111111456
+
+# Update BasketLine
+# Parameter: BasketLineId
+PUT {{Warehouse.Api_HostAddress}}/api/basket/basketLines/FE00EFB4-DD60-4224-B1AB-08DC29563947
+Content-Type: application/json
+
+{
+  "sizeId": "44444444-4444-4444-4444-444444444444",
+  "quantity": 10
+}
