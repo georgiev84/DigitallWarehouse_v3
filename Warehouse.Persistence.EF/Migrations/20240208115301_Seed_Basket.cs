@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Warehouse.Persistence.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Test_Basket : Migration
+    public partial class Seed_Basket : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

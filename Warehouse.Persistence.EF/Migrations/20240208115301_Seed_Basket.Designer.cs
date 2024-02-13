@@ -10,7 +10,7 @@ namespace Warehouse.Persistence.EF.Migrations
 {
     [DbContext(typeof(WarehouseDbContext))]
     [Migration("20240208115301_Test_Basket")]
-    partial class Test_Basket
+    partial class Seed_Basket
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

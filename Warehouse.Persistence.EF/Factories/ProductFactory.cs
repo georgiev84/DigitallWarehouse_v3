@@ -1,8 +1,6 @@
 ﻿using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
-using Warehouse.Application.Features.Commands.Product.Update;
 using Warehouse.Domain.Entities;
-using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Persistence.EF.Factories;
 public class ProductFactory : IProductFactory
