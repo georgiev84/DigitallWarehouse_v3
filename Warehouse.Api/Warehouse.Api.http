@@ -1,14 +1,16 @@
 @Warehouse.Api_HostAddress = http://localhost:5140
 
-### Get Filtered Products
+### ProductsController
+
+# Get Filtered Products
 GET {{Warehouse.Api_HostAddress}}/api/products?MinPrice=10&MaxPrice=20&Highlight=yellow&Size=small
 accept:  application/json
 
-### Get All Products
+# Get All Products
 GET {{Warehouse.Api_HostAddress}}/api/products
 accept:  application/json
 
-### Create Product
+# Create Product
 POST {{Warehouse.Api_HostAddress}}/api/products
 Content-Type: application/json
 
@@ -37,7 +39,7 @@ Content-Type: application/json
   ]
 }
 
-### Update Product
+# Update Product
 PUT {{Warehouse.Api_HostAddress}}/api/products/aa36e6e6-39b1-4e43-611e-08dc1e59bebd
 Content-Type: application/json
 
@@ -66,11 +68,13 @@ Content-Type: application/json
   ]
 }
 
-### Delete Product
+# Delete Product
 DELETE {{Warehouse.Api_HostAddress}}/api/products/aa36e6e6-39b1-4e43-611e-08dc1e59bebd
 
 
-### Create Order
+### OrdersController
+
+# Create Order
 POST {{Warehouse.Api_HostAddress}}/api/orders
 Content-Type: application/json
 
@@ -96,14 +100,13 @@ Content-Type: application/json
     ]
 }
 
-### Get Single Order with all Details
+# Get Single Order with all Details
 GET {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
 
-### Get Order List
+# Get Order List
 GET {{Warehouse.Api_HostAddress}}/api/orders
 
-
-### Update Order
+# Update Order
 PUT {{Warehouse.Api_HostAddress}}/api/Orders/6428982e-3517-4952-60e7-08dc2649016c
 Content-Type: application/json
 
@@ -112,12 +115,13 @@ Content-Type: application/json
   "paymentId": "22222222-1111-1234-4321-482222222222"
 }
 
-### Delete Order
-### Parameter: OrderId
+# Delete Order
+# Parameter: OrderId
 DELETE {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
 
+### BasketController
 
-### Create BasketLine
+# Create BasketLine
 POST {{Warehouse.Api_HostAddress}}/api/basket
 Content-Type: application/json
 
@@ -131,16 +135,16 @@ Content-Type: application/json
   }
 }
 
-### Delete BasketLine
-### Parameter: basketLineId
+# Delete BasketLine
+# Parameter: basketLineId
 DELETE {{Warehouse.Api_HostAddress}}/api/basket/basketLines/0EE9D7BF-327B-45BD-1C0E-08DC2955095A
 
-### Bulk Delete BasketLines
-### Parameter: UserId 
+# Bulk Delete BasketLines
+# Parameter: UserId 
 DELETE {{Warehouse.Api_HostAddress}}/api/Basket/11111111-2222-2321-2321-111111111456
 
-### Update BasketLine
-### Parameter: BasketLineId
+# Update BasketLine
+# Parameter: BasketLineId
 PUT {{Warehouse.Api_HostAddress}}/api/basket/basketLines/FE00EFB4-DD60-4224-B1AB-08DC29563947
 Content-Type: application/json
 
