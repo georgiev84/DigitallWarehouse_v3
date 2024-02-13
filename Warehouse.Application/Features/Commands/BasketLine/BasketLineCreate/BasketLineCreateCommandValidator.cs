@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
+
 public class BasketLineCreateCommandValidator : AbstractValidator<BasketLineCreateCommand>
 {
     public BasketLineCreateCommandValidator()

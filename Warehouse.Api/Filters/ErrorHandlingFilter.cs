@@ -26,7 +26,7 @@ public class ErrorHandlingFilter : IExceptionFilter
             error.StatusCode = HttpStatusCode.Conflict;
         }
 
-        if(exceptionType == typeof(ProductNotFoundException))
+        if (exceptionType == typeof(ProductNotFoundException))
         {
             error.Message = exception.Message;
             error.StatusCode = HttpStatusCode.NotFound;

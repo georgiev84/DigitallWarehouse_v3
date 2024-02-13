@@ -22,7 +22,7 @@ public static class DependencyRegistrationExtension
         }
 
         services.AddDbContext<WarehouseDbContext>(
-            options => options.UseSqlServer(configuration.GetConnectionString("WarehouseDbConnection"), 
+            options => options.UseSqlServer(configuration.GetConnectionString("WarehouseDbConnection"),
             options => options.UseCompatibilityLevel(150)));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IProductRepository, ProductRepository>();

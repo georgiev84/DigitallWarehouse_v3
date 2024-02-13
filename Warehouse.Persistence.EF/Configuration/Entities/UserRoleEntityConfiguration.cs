@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Configuration.Entities;
+
 public class UserRoleEntityConfiguration : IEntityTypeConfiguration<UserRole>
 {
     public void Configure(EntityTypeBuilder<UserRole> builder)

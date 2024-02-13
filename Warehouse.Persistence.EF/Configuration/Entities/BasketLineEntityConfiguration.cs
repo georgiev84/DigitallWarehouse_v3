@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Configuration.Entities;
+
 public class BasketLineEntityConfiguration : IEntityTypeConfiguration<BasketLine>
 {
     public void Configure(EntityTypeBuilder<BasketLine> builder)
     {
         builder.HasKey(bl => bl.Id);
-
 
         builder.HasOne(bl => bl.Size)
             .WithMany(s => s.BasketLines)

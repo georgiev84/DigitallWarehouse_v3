@@ -3,6 +3,7 @@ using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Factories;
+
 public class OrderFactory : IOrderFactory
 {
     public Order CreateOrder(OrderCreateCommand command)

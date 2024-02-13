@@ -2,11 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Warehouse.Api.Models.Requests.Product;
-using Warehouse.Application.Features.Commands.Product.ProductCreate;
+using Warehouse.Api.Models.Responses.ProductResponses;
 using Warehouse.Application.Features.Commands.Product.Delete;
+using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Application.Features.Commands.Product.Update;
 using Warehouse.Application.Features.Queries.Product.ProductList;
-using Warehouse.Api.Models.Responses.ProductResponses;
 
 namespace Warehouse.Api.Controllers;
 

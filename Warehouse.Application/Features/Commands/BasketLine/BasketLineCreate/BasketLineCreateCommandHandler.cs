@@ -6,11 +6,13 @@ using Warehouse.Application.Models.Dto.BasketDtos;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
+
 public class BasketLineCreateCommandHandler : IRequestHandler<BasketLineCreateCommand, BasketLineCreateDto>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IBasketLineFactory _basketLineFactory;
+
     public BasketLineCreateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IBasketLineFactory basketLineFactory)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));

@@ -3,6 +3,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Product.Delete;
+
 public class ProductDeleteCommandHandler : IRequestHandler<ProductDeleteCommand>
 {
     private readonly IUnitOfWork _unitOfWork;

@@ -20,7 +20,7 @@ public class MockApiCLient : IMockApiClient
     public async Task<IEnumerable<Product>> GetProductsAsync(string url)
     {
         MockApiClientLoggerExtensions.LogApiFetch(_logger);
-        
+
         try
         {
             var response = await _httpClient.GetAsync(url);
@@ -46,4 +46,3 @@ public class MockApiCLient : IMockApiClient
         }
     }
 }
-

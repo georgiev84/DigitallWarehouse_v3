@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineDelete;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineBulkDelete;
 

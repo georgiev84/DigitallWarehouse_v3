@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Application.Models.Dto;
+
 public class SizeInformationDto
 {
     public Guid SizeId { get; set; }

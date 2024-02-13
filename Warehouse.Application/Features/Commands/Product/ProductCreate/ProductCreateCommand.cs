@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Warehouse.Application.Models.Dto;
-using Warehouse.Application.Models.Dto.OrderDtos;
 using Warehouse.Application.Models.Dto.ProductDtos;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
@@ -11,4 +10,3 @@ public record ProductCreateCommand(
     decimal Price,
     List<Guid> GroupIds,
     List<SizeInformationDto> SizeInformation) : IRequest<ProductCreateDetailsDto>;
-

@@ -2,6 +2,7 @@
 using Warehouse.Persistence.EF.Persistence.Contexts;
 
 namespace Warehouse.Persistence.EF.Persistence;
+
 public class UnitOfWork : IUnitOfWork
 {
     private readonly WarehouseDbContext _dbContext;
@@ -10,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     public IOrderRepository Orders { get; }
     public IBasketRepository Baskets { get; }
     public IBasketLineRepository BasketLines { get; }
+
     public UnitOfWork(
         WarehouseDbContext dbContext,
         IProductRepository productRepository,

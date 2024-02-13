@@ -1,14 +1,3 @@
-using AutoMapper;
-using FluentAssertions;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Models.Dto;
-using Warehouse.Domain.Entities;
-using Warehouse.Domain.Exceptions;
-using Warehouse.Persistence.EF.Services;
-
 namespace Warehouse.Tests;
 
 public class ProductServiceTests
@@ -175,18 +164,15 @@ public class ProductServiceTests
     //}
     //    };
 
-
     //    // Now you have a test product with all related entities included
 
     //    mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts1);
-
 
     //    //mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
     //    mockIUnitOfWork.Setup(u => u.Products).Returns(mockProductRepository.Object);
 
     //    //mockProductRepository.Setup(repo => repo.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
     //    //mockIUnitOfWork.Setup(u => u.Products.GetProductsDetailsAsync()).ReturnsAsync(testProducts);
-
 
     //    var warehouseService = new ProductService(mockLogger.Object, mockIUnitOfWork.Object, mockMapper.Object);
     //    var mockRequestItem = new ItemsDto

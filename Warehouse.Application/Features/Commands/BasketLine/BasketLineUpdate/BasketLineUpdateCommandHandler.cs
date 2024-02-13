@@ -5,6 +5,7 @@ using Warehouse.Application.Models.Dto.BasketDtos;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
+
 public class BasketLineUpdateCommandHandler : IRequestHandler<BasketLineUpdateCommand, BasketLineUpdateDto>
 {
     private readonly IMapper _mapper;

@@ -3,7 +3,6 @@ using Warehouse.Application.Features.Commands.Product.Delete;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductDelete;
 
-
 public class ProductDeleteCommandValidator : AbstractValidator<ProductDeleteCommand>
 {
     public ProductDeleteCommandValidator()
@@ -11,4 +10,3 @@ public class ProductDeleteCommandValidator : AbstractValidator<ProductDeleteComm
         RuleFor(command => command.productId).NotEmpty().WithMessage("Product ID is required.");
     }
 }
-

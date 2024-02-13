@@ -3,6 +3,7 @@ using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Factories;
+
 public class BasketLineFactory : IBasketLineFactory
 {
     public BasketLine CreateBasketLine(BasketLineCreateCommand command)

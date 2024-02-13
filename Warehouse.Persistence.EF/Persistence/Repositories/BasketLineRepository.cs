@@ -5,9 +5,9 @@ using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
 
 namespace Warehouse.Persistence.EF.Persistence.Repositories;
+
 public class BasketLineRepository : GenericRepository<BasketLine>, IBasketLineRepository
 {
-
     public BasketLineRepository(WarehouseDbContext dbContext) : base(dbContext)
     {
     }

@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Domain.Entities;
+
 public class OrderLine
 {
     public Guid OrderId { get; set; }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Warehouse.Application.Models.Dto;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
+
 public class OrderCreateValidator : AbstractValidator<OrderCreateCommand>
 {
     public OrderCreateValidator()

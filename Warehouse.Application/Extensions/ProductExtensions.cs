@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Application.Models.Dto.ProductDtos;
-using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Extensions;
 
@@ -46,7 +45,6 @@ public static class ProductExtensions
         return products;
     }
 
-
     public static IEnumerable<ProductDetailsDto> FilterBySize(this IEnumerable<ProductDetailsDto> products, string? size)
     {
         if (string.IsNullOrEmpty(size))
@@ -55,7 +53,7 @@ public static class ProductExtensions
         }
 
         var filteredProducts = products.Where(p =>
-            p.Sizes != null && 
+            p.Sizes != null &&
             p.Sizes.Any(sizeName => string.Equals(sizeName.Name, size, StringComparison.OrdinalIgnoreCase)));
 
         return filteredProducts;

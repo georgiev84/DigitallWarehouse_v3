@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Warehouse.Application.Common.Interfaces;
 using Warehouse.Application.Common.Interfaces.Factories;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto.ProductDtos;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
+
 public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand, ProductCreateDetailsDto>
 {
     private readonly IMapper _mapper;
@@ -15,11 +15,10 @@ public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand,
     private readonly IProductFactory _productFactory;
     private readonly ILogger<ProductCreateCommandHandler> _logger;
 
-
     public ProductCreateCommandHandler(
-        IMapper mapper, 
-        IUnitOfWork unitOfWork, 
-        IProductFactory productFactory, 
+        IMapper mapper,
+        IUnitOfWork unitOfWork,
+        IProductFactory productFactory,
         ILogger<ProductCreateCommandHandler> logger)
     {
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

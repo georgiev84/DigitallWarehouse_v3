@@ -3,6 +3,7 @@ using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Factories;
+
 public class ProductFactory : IProductFactory
 {
     public Product CreateProduct(ProductCreateCommand command)

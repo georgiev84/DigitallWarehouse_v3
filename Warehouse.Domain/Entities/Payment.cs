@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Warehouse.Domain.Entities;
 
-namespace Warehouse.Domain.Entities;
 public class Payment
 {
     public Guid PaymentId { get; set; }

@@ -3,6 +3,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderDelete;
+
 public class OrderDeleteCommandHandler : IRequestHandler<OrderDeleteCommand>
 {
     private readonly IUnitOfWork _unitOfWork;

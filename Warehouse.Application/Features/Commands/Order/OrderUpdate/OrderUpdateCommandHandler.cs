@@ -2,10 +2,10 @@
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.OrderDtos;
-using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderUpdate;
+
 public class OrderUpdateCommandHandler : IRequestHandler<OrderUpdateCommand, OrderUpdateDto>
 {
     private readonly IUnitOfWork _unitOfWork;

@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Domain.Entities;
+
 public class Brand
 {
     public Guid Id { get; set; }

@@ -1,6 +1,4 @@
-﻿using Warehouse.Domain.Entities;
-
-namespace Warehouse.Application.Models.Dto.ProductDtos;
+﻿namespace Warehouse.Application.Models.Dto.ProductDtos;
 
 public class ProductFilter
 {

@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Application.Models.Dto.BasketDtos;
+
 public class BasketLineUpdateDto
 {
     public Guid BasketLineId { get; set; }

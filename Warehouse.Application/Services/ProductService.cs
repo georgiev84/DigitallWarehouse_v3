@@ -7,7 +7,6 @@ using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 
-
 namespace Warehouse.Persistence.EF.Services;
 
 public class ProductService : IProductService
@@ -53,7 +52,7 @@ public class ProductService : IProductService
             }
         }
 
-        existingProduct.ProductGroups.Clear(); 
+        existingProduct.ProductGroups.Clear();
         foreach (var groupId in command.GroupIds)
         {
             existingProduct.ProductGroups.Add(new ProductGroup

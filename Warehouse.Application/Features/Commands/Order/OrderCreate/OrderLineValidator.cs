@@ -2,6 +2,7 @@
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
+
 public class OrderLineValidator : AbstractValidator<OrderLine>
 {
     public OrderLineValidator()

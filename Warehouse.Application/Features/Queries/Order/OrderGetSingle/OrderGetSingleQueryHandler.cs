@@ -4,6 +4,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.OrderDtos;
 
 namespace Warehouse.Application.Features.Queries.Order.OrderGetSingle;
+
 public class OrderGetSingleQueryHandler : IRequestHandler<OrderGetSingleQuery, OrderWithDetailsDto>
 {
     private readonly IMapper _mapper;

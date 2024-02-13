@@ -39,13 +39,11 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Any() ? src.ProductGroups.Select(pg => pg.Group.Name).ToList() : null))
             .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Any() ? src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList() : null));
 
-
         CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
 
         CreateMap<OrderUpdateCommand, Order>();
-
 
         CreateMap<Order, OrderWithDetailsDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
@@ -55,7 +53,7 @@ public class MappingProfile : Profile
         CreateMap<OrderLine, OrderLineDto>()
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product.Title)) 
+            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product.Title))
             .ForMember(dest => dest.Size, opt => opt.MapFrom(src => src.Size.Name));
 
         CreateMap<Order, OrderCreateDto>()

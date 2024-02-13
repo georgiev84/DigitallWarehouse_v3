@@ -5,6 +5,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.OrderDtos;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
+
 public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, OrderCreateDto>
 {
     private readonly IMapper _mapper;

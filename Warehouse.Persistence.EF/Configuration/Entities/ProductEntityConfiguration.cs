@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
 
 namespace Warehouse.Persistence.EF.Configuration.Entities;
+
 public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
@@ -20,9 +21,9 @@ public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Price)
             .HasColumnType("decimal(18, 2)");
-       
-         builder.Property(p => p.IsDeleted)
-         .HasColumnType("bit")
-         .HasDefaultValue(false);
+
+        builder.Property(p => p.IsDeleted)
+        .HasColumnType("bit")
+        .HasDefaultValue(false);
     }
 }

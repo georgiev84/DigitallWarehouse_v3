@@ -11,6 +11,7 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 {
     private readonly IValidator<TRequest> _validator;
     private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
+
     public ValidationBehavior(IValidator<TRequest> validator, ILogger<ValidationBehavior<TRequest, TResponse>> logger)
     {
         _validator = validator;

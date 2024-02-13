@@ -35,7 +35,6 @@ public class OrdersController : BaseController
      [FromServices] ISender _mediator,
      [FromServices] IMapper _mapper)
     {
-
         var query = new OrderGetSingleQuery { OrderId = orderId };
 
         var order = await _mediator.Send(query);

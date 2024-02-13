@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Application.Models.Dto.ProductDtos;
+
 public class ProductCreateDetailsDto
 {
     public Guid Id { get; set; }

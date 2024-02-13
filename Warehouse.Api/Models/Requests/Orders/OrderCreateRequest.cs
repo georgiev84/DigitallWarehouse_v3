@@ -1,6 +1,4 @@
-﻿using Warehouse.Domain.Entities;
-
-namespace Warehouse.Api.Models.Requests.Orders;
+﻿namespace Warehouse.Api.Models.Requests.Orders;
 
 public class OrderCreateRequest
 {

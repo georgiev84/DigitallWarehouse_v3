@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Domain.Entities;
+
 public class Basket
 {
     public Guid Id { get; set; }

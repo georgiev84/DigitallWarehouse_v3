@@ -7,4 +7,3 @@ public class ProductFilterRequest
     public string? Highlight { get; set; }
     public string? Size { get; set; }
 }
-

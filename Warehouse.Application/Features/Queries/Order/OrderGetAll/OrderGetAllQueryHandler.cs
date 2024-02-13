@@ -4,6 +4,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.OrderDtos;
 
 namespace Warehouse.Application.Features.Queries.Order.OrderGetAll;
+
 public class OrderGetAllQueryHandler : IRequestHandler<OrderGetAllQuery, IEnumerable<OrderDto>>
 {
     private readonly IMapper _mapper;

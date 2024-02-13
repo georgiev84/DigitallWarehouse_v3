@@ -3,11 +3,13 @@ using Warehouse.Domain.Entities;
 using Warehouse.Persistence.EF.Configuration.Entities;
 
 namespace Warehouse.Persistence.EF.Persistence.Contexts;
+
 public class WarehouseDbContext : DbContext
 {
     public WarehouseDbContext(DbContextOptions options) : base(options)
     {
     }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderLine> OrderLines { get; set; }
@@ -65,7 +67,7 @@ public class WarehouseDbContext : DbContext
                 FirstName = "John",
                 LastName = "Doe",
                 Email = "john.doe@example.com",
-                Password = "password123", 
+                Password = "password123",
                 Phone = "123-456-7890",
                 Address = "123 Main Street, City, Country",
                 Orders = new List<Order>()
@@ -107,7 +109,6 @@ public class WarehouseDbContext : DbContext
                 Description = "Description for Product 3",
                 Price = 19.99m,
                 BrandId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-
             },
             new Product
             {
@@ -124,16 +125,14 @@ public class WarehouseDbContext : DbContext
                 Description = "Description for Product 5",
                 Price = 59.99m,
                 BrandId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-
             },
             new Product
-            {                   
+            {
                 Id = Guid.Parse("23456789-2345-6789-0123-456789012345"),
                 Title = "Classic Jeans",
                 Description = "Timeless classic jeans in blue for a casual and versatile look.",
                 Price = 34.99m,
                 BrandId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-
             }
         );
 
@@ -161,8 +160,6 @@ public class WarehouseDbContext : DbContext
 
             new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
             new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 },
-
-
 
             new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
             new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 }

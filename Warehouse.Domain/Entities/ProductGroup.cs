@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Warehouse.Domain.Entities;
 
-namespace Warehouse.Domain.Entities;
 public class ProductGroup
 {
     public Guid ProductId { get; set; }

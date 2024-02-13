@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Domain.Entities;
+
 public class ProductSize
 {
     public Guid ProductId { get; set; }

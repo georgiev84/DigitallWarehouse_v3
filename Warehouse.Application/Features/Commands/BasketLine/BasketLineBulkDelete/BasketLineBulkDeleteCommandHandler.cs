@@ -3,6 +3,7 @@ using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineBulkDelete;
+
 public class BasketLineBulkDeleteCommandHandler : IRequestHandler<BasketLineBulkDeleteCommand>
 {
     private readonly IUnitOfWork _unitOfWork;

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Warehouse.Application.Models.Constants;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
 public class ProductCreateValidator : AbstractValidator<ProductCreateCommand>
@@ -25,6 +24,5 @@ public class ProductCreateValidator : AbstractValidator<ProductCreateCommand>
 
         RuleFor(command => command.SizeInformation)
             .NotEmpty().WithMessage("At least one Size must be provided.");
-
     }
 }

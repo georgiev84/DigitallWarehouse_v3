@@ -1,10 +1,10 @@
 using MediatR;
 using Serilog;
-using Warehouse.Api.Filters;
-using Warehouse.Application.Extensions;
-using Warehouse.Application.Behavior;
-using Warehouse.Persistence.EF.Extensions;
 using System.Text.Json.Serialization;
+using Warehouse.Api.Filters;
+using Warehouse.Application.Behavior;
+using Warehouse.Application.Extensions;
+using Warehouse.Persistence.EF.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +23,6 @@ builder.Services.AddControllers(options => options.Filters.Add(typeof(ErrorHandl
         {
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             options.JsonSerializerOptions.WriteIndented = true;
-           
         });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

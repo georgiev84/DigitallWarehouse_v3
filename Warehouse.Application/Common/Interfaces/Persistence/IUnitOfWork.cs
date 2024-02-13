@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Application.Common.Interfaces.Persistence;
+
 public interface IUnitOfWork : IDisposable
 {
     IProductRepository Products { get; }
@@ -6,5 +7,6 @@ public interface IUnitOfWork : IDisposable
     IOrderRepository Orders { get; }
     IBasketRepository Baskets { get; }
     IBasketLineRepository BasketLines { get; }
+
     Task<int> SaveAsync();
 }

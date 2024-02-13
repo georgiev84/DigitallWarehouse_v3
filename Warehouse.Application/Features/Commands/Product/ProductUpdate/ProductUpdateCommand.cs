@@ -11,4 +11,3 @@ public record ProductUpdateCommand(
     decimal Price,
     List<Guid> GroupIds,
     List<SizeInformationDto> SizeInformation) : IRequest<ProductUpdateDetailsDto>;
-

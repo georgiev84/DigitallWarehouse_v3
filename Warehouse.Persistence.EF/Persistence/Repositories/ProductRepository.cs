@@ -6,6 +6,7 @@ using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
 
 namespace Warehouse.Persistence.EF.Persistence.Repositories;
+
 public class ProductRepository : GenericRepository<Product>, IProductRepository
 {
     public ProductRepository(WarehouseDbContext dbContext) : base(dbContext)

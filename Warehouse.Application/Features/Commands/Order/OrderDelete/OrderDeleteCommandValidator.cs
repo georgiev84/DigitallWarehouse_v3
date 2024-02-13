@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderDelete;
+
 public class OrderDeleteCommandValidator : AbstractValidator<OrderDeleteCommand>
 {
     public OrderDeleteCommandValidator()

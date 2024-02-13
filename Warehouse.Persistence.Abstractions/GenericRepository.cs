@@ -2,6 +2,7 @@
 using Warehouse.Persistence.Abstractions.Interfaces;
 
 namespace Warehouse.Persistence.Abstractions;
+
 public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
     protected readonly DbContext _dbContext;
@@ -15,8 +16,6 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
     {
         return await _dbContext.Set<TEntity>().FindAsync(id);
     }
-
-
 
     public async Task<IEnumerable<TEntity>> GetAll()
     {

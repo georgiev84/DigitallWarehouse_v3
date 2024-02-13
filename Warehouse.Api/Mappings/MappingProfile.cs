@@ -22,7 +22,6 @@ using Warehouse.Application.Models.Dto.OrderDtos;
 using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Entities;
 
-
 namespace Warehouse.Api.Mappings;
 
 public class MappingProfile : Profile
@@ -40,6 +39,7 @@ public class MappingProfile : Profile
         CreateMap<OrderRequest, OrderGetAllQuery>();
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
     }
+
     private void MapFromRequestToCommands()
     {
         CreateMap<ProductCreateRequest, ProductCreateCommand>();

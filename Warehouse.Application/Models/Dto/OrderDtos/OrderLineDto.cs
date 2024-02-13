@@ -1,4 +1,5 @@
 ﻿namespace Warehouse.Application.Models.Dto.OrderDtos;
+
 public class OrderLineDto
 {
     public Guid OrderId { get; set; }

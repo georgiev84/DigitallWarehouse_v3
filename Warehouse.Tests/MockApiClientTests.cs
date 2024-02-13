@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using System.Net;
-using Warehouse.Persistence.EF.Client;
 
 namespace Warehouse.Tests;
 
@@ -54,7 +53,6 @@ public class MockApiClientTests
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent("[{\"Title\":\"Product1\",\"Price\":19.99,\"Sizes\":[\"S\",\"M\",\"L\"],\"Description\":\"Description for Product1\"}]"),
             });
-
 
         var httpClient = new HttpClient(httpMessageHandlerMock.Object);
 

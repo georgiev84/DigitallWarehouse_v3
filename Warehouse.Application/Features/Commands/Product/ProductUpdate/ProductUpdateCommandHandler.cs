@@ -6,6 +6,7 @@ using Warehouse.Domain.Entities;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Product.Update;
+
 public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand, ProductUpdateDetailsDto>
 {
     private readonly IMapper _mapper;
