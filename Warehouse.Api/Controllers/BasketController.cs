@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Warehouse.Api.Models.Requests.Basket;
 using Warehouse.Api.Models.Requests.BasketLine;
 using Warehouse.Api.Models.Responses.BasketResponses;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineBulkDelete;
@@ -19,7 +20,9 @@ public class BasketController : BaseController
         [FromServices] ISender _mediator,
         [FromServices] IMapper _mapper)
     {
-        var query = new BasketSingleQuery { UserId = userId };
+        var basketSingleRequest = new BasketSingleRequest() { UserId = userId };
+
+        var query = _mapper.Map<BasketSingleQuery>(basketSingleRequest);
 
         var basket = await _mediator.Send(query);
 
@@ -51,10 +54,13 @@ public class BasketController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteSingleBasketLine(
-    [FromRoute] Guid basketLineId,
-    [FromServices] ISender _mediator)
+        [FromRoute] Guid basketLineId,
+        [FromServices] ISender _mediator,
+        [FromServices] IMapper _mapper)
     {
-        var command = new BasketLineDeleteCommand(basketLineId);
+        var deleteRequest = new BasketLineDeleteRequest() { BasketLineId = basketLineId };
+
+        var command = _mapper.Map<BasketLineDeleteCommand>(deleteRequest);
 
         await _mediator.Send(command);
 
@@ -67,9 +73,12 @@ public class BasketController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteBulkBasket(
         [FromRoute] Guid userId,
-        [FromServices] ISender _mediator)
+        [FromServices] ISender _mediator,
+        [FromServices] IMapper _mapper)
     {
-        var command = new BasketLineBulkDeleteCommand(userId);
+        var request = new BasketLineBulkDeleteRequest() {  UserId = userId };
+
+        var command = _mapper.Map<BasketLineBulkDeleteCommand>(request);
 
         await _mediator.Send(command);
 
@@ -81,12 +90,13 @@ public class BasketController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateBasketLine(
-    Guid basketLineId,
-    [FromBody] BasketLineUpdateRequest basketLineUpdateRequest,
-    [FromServices] ISender _mediator,
-    [FromServices] IMapper _mapper)
+        Guid basketLineId,
+        [FromBody] BasketLineUpdateRequest basketLineUpdateRequest,
+        [FromServices] ISender _mediator,
+        [FromServices] IMapper _mapper)
     {
         basketLineUpdateRequest.BasketLineId = basketLineId;
+
         var command = _mapper.Map<BasketLineUpdateCommand>(basketLineUpdateRequest);
 
         var result = await _mediator.Send(command);

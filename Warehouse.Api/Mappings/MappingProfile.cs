@@ -1,18 +1,22 @@
 ﻿using AutoMapper;
 using Warehouse.Api.Models.OrderResponses.Orders;
 using Warehouse.Api.Models.Requests;
+using Warehouse.Api.Models.Requests.Basket;
 using Warehouse.Api.Models.Requests.BasketLine;
 using Warehouse.Api.Models.Requests.Orders;
 using Warehouse.Api.Models.Requests.Product;
 using Warehouse.Api.Models.Responses.BasketResponses;
 using Warehouse.Api.Models.Responses.OrderResponses;
 using Warehouse.Api.Models.Responses.ProductResponses;
+using Warehouse.Application.Features.Commands.BasketLine.BasketLineBulkDelete;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
+using Warehouse.Application.Features.Commands.BasketLine.BasketLineDelete;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Application.Features.Commands.Order.OrderUpdate;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Application.Features.Commands.Product.Update;
+using Warehouse.Application.Features.Queries.Basket.BasketSingleQuery;
 using Warehouse.Application.Features.Queries.Order.OrderGetAll;
 using Warehouse.Application.Features.Queries.Order.OrderGetSingle;
 using Warehouse.Application.Features.Queries.Product.ProductList;
@@ -38,6 +42,9 @@ public class MappingProfile : Profile
         CreateMap<ProductFilterRequest, ProductListQuery>();
         CreateMap<OrderRequest, OrderGetAllQuery>();
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
+        CreateMap<BasketSingleRequest, BasketSingleQuery>();
+        CreateMap<BasketLineDeleteRequest, BasketLineDeleteCommand>();
+        CreateMap<BasketLineBulkDeleteRequest, BasketLineBulkDeleteCommand>();
     }
 
     private void MapFromRequestToCommands()
