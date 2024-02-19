@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
 using Warehouse.Application.Features.Commands.Order.OrderUpdate;
@@ -23,6 +24,15 @@ public class MappingProfile : Profile
     {
         CreateMap<ProductListGetQuery, ItemsDto>();
         CreateMap<ProductCreateCommand, OrderUpdateDto>();
+        CreateMap<SizeInformationDto, ProductSize>()
+            .ForMember(dest => dest.SizeId, opt => opt.MapFrom(src => src.SizeId))
+            .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.Quantity));
+
+        CreateMap<ProductCreateCommand, Product>()
+            .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(_ => false))
+            .ForMember(dest => dest.ProductSizes, opt => opt.MapFrom(src => src.SizeInformation))
+            .ForMember(dest => dest.ProductGroups, opt => opt.MapFrom(src => src.GroupIds));
+
         CreateMap<OrderCreateCommand, OrderCreateDto>();
         CreateMap<Product, ProductDetailsDto>()
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
@@ -68,6 +78,22 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId ?? Guid.Empty))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
+
+        CreateMap<OrderCreateCommand, Order>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore()) 
+            .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(_ => false))
+            .ForMember(dest => dest.OrderLines, opt => opt.MapFrom(src => src.OrderLines));
+
+        CreateMap<BasketLineCreateCommand, BasketLine>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore()) 
+            .ForMember(dest => dest.BasketId, opt => opt.MapFrom(src => src.UserId))
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.BasketLine.ProductId))
+            .ForMember(dest => dest.SizeId, opt => opt.MapFrom(src => src.BasketLine.SizeId))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.BasketLine.Quantity))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.BasketLine.Price))
+            .ForMember(dest => dest.Basket, opt => opt.Ignore()) 
+            .ForMember(dest => dest.Product, opt => opt.Ignore()) 
+            .ForMember(dest => dest.Size, opt => opt.Ignore());
 
         CreateMap<BasketLine, BasketLineDto>()
             .ForMember(

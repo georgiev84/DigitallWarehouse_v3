@@ -2,7 +2,6 @@
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.OrderDtos;
-using Warehouse.Persistence.EF.Factories;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
 
@@ -19,7 +18,8 @@ public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, Ord
 
     public async Task<OrderCreateDto> Handle(OrderCreateCommand command, CancellationToken cancellationToken)
     {
-        var order = OrderHelper.CreateOrder(command);
+        var order = _mapper.Map<Domain.Entities.Order>(command);
+
         await _unitOfWork.Orders.Add(order);
         await _unitOfWork.SaveAsync();
 

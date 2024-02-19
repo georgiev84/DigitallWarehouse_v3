@@ -3,7 +3,6 @@ using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.BasketDtos;
 using Warehouse.Domain.Exceptions;
-using Warehouse.Persistence.EF.Factories;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 
@@ -29,7 +28,7 @@ public class BasketLineCreateCommandHandler : IRequestHandler<BasketLineCreateCo
             throw new BasketLineExistException("BasketLine already exists.");
         }
 
-        var basketLine = BasketLineHelper.CreateBasketLine(command);
+        var basketLine = _mapper.Map<Domain.Entities.BasketLine>(command);
         basketLine.BasketId = existingBasket.Id;
 
         await _unitOfWork.BasketLines.Add(basketLine);

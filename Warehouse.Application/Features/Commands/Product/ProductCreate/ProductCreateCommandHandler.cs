@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Extensions;
-using Warehouse.Application.Helpers;
 using Warehouse.Application.Models.Dto.ProductDtos;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
@@ -27,7 +26,8 @@ public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand,
     public async Task<ProductCreateDetailsDto> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
     {
         _logger.LogCreateMessage(command);
-        var product = ProductHelper.CreateProduct(command);
+
+        var product = _mapper.Map<Domain.Entities.Product>(command);
 
         await _unitOfWork.Products.Add(product);
         await _unitOfWork.SaveAsync();

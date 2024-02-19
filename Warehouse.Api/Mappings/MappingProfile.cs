@@ -60,6 +60,7 @@ public class MappingProfile : Profile
         CreateMap<BasketLineUpdateRequest, BasketLineUpdateCommand>();
         CreateMap<BasketLineDeleteRequest, BasketLineDeleteCommand>();
         CreateMap<BasketLineBulkDeleteRequest, BasketLineBulkDeleteCommand>();
+        CreateMap<BasketLineCreateRequest, BasketLineCreateCommand>();
     }
 
     private void MapFromDtoToResponse()
@@ -78,6 +79,7 @@ public class MappingProfile : Profile
         CreateMap<OrderUpdateDto, OrderDetailedResponse>();
         CreateMap<BasketCreateDto, BasketCreateResponse>();
         CreateMap<BasketLineCreateDto, BasketLineResponse>();
+        CreateMap<BasketLineCreateDto, BasketLineDto>();
         CreateMap<BasketDetailDto, BasketResponse>();
         CreateMap<BasketLineUpdateDto, BasketLineUpdateResponse>();
         CreateMap<OrderUpdateDto, OrderResponse>();

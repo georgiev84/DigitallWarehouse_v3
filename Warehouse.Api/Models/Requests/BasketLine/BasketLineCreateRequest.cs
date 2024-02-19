@@ -5,5 +5,5 @@ namespace Warehouse.Api.Models.Requests.BasketLine;
 public class BasketLineCreateRequest
 {
     public Guid UserId { get; set; }
-    public BasketLineDto? BasketLine { get; set; }
+    public BasketLineCreateDto? BasketLine { get; set; }
 }

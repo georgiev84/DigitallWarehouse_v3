@@ -10,6 +10,5 @@ public class BasketLine
     public decimal Price { get; set; }
     public Basket? Basket { get; set; }
     public Product? Product { get; set; }
-
     public Size? Size { get; set; }
 }
