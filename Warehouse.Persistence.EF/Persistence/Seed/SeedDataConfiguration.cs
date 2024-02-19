@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using Warehouse.Domain.Enums;
-using Warehouse.Domain.Entities.Orders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities.Baskets;
+using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Entities.Users;
+using Warehouse.Domain.Enums;
 
 namespace Warehouse.Persistence.EF.Persistence.Seed;
+
 public class SeedDataConfiguration :
     IEntityTypeConfiguration<Brand>,
     IEntityTypeConfiguration<Size>,

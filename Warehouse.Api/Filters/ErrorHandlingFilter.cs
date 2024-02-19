@@ -27,6 +27,7 @@ public class ErrorHandlingFilter : IExceptionFilter
             case nameof(BasketLineExistException):
                 error.StatusCode = HttpStatusCode.Conflict;
                 break;
+
             case nameof(ProductNotFoundException):
             case nameof(BasketNotFoundException):
                 error.StatusCode = HttpStatusCode.NotFound;

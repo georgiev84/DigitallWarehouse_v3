@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Warehouse.Application.Common.Validation;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
 

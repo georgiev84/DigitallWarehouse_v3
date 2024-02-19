@@ -76,7 +76,7 @@ public class BasketController : BaseController
         [FromServices] ISender _mediator,
         [FromServices] IMapper _mapper)
     {
-        var request = new BasketLineBulkDeleteRequest() {  UserId = userId };
+        var request = new BasketLineBulkDeleteRequest() { UserId = userId };
 
         var command = _mapper.Map<BasketLineBulkDeleteCommand>(request);
 

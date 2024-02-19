@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Warehouse.Application.Common.Validation;
-using Warehouse.Application.Models.Dto.BasketDtos;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderDelete;
 

@@ -100,7 +100,7 @@ public class OrdersController : BaseController
         [FromServices] ISender _mediator,
         [FromServices] IMapper _mapper)
     {
-        var deleteRequest = new OrderDeleteRequest() {  OrderId = orderId };
+        var deleteRequest = new OrderDeleteRequest() { OrderId = orderId };
 
         var command = _mapper.Map<OrderDeleteCommand>(deleteRequest);
 

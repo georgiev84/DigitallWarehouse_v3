@@ -40,7 +40,6 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
                 .SingleAsync(o => o.UserId == userId);
 
             return result;
-
         }
         catch (InvalidOperationException ex)
         {

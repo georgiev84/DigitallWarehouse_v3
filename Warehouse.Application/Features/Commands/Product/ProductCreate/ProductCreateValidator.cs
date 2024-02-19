@@ -2,6 +2,7 @@
 using Warehouse.Application.Common.Validation;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
+
 public class ProductCreateValidator : AbstractValidator<ProductCreateCommand>
 {
     public ProductCreateValidator()
