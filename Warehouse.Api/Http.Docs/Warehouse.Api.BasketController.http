@@ -1,19 +1,20 @@
-﻿@Warehouse.Api_HostAddress = http://localhost:5140
+﻿@Warehouse.Api_HostAddress = https://localhost:7054
 
 
 ### BasketController
 
 # Create BasketLine
-POST {{Warehouse.Api_HostAddress}}/api/basket
+POST {{Warehouse.Api_HostAddress}}/api/basket/
+accept: */*
 Content-Type: application/json
 
 {
   "userId": "11111111-2222-2321-2321-111111111456",
   "basketLine": {
-        "productId": "1868E00B-02D8-433F-8F9A-08DC1E533E6C",
-        "sizeId": "33333333-3333-3333-3333-333333333333",
-        "quantity": 2,
-        "price": 10
+    "productId": "12345678-1234-5678-9012-345678901234",
+    "sizeId": "33333333-3333-3333-3333-333333333333",
+    "quantity": 2,
+    "price": 10
   }
 }
 

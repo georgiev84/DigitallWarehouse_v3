@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace Warehouse.Persistence.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Inital_Migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,7 +42,7 @@ namespace Warehouse.Persistence.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,12 +50,23 @@ namespace Warehouse.Persistence.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sizes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuantityInStock = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,7 +83,8 @@ namespace Warehouse.Persistence.EF.Migrations
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    BasketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,7 +100,8 @@ namespace Warehouse.Persistence.EF.Migrations
                     BrandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -101,6 +115,24 @@ namespace Warehouse.Persistence.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Baskets",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Baskets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Baskets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -109,7 +141,8 @@ namespace Warehouse.Persistence.EF.Migrations
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -122,6 +155,30 @@ namespace Warehouse.Persistence.EF.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -178,7 +235,41 @@ namespace Warehouse.Persistence.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetails",
+                name: "BasketLines",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BasketId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SizeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BasketLines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BasketLines_Baskets_BasketId",
+                        column: x => x.BasketId,
+                        principalTable: "Baskets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BasketLines_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BasketLines_Sizes_SizeId",
+                        column: x => x.SizeId,
+                        principalTable: "Sizes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderLines",
                 columns: table => new
                 {
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -189,21 +280,21 @@ namespace Warehouse.Persistence.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetails", x => new { x.OrderId, x.ProductId });
+                    table.PrimaryKey("PK_OrderLines", x => new { x.OrderId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_OrderId",
+                        name: "FK_OrderLines_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Products_ProductId",
+                        name: "FK_OrderLines_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Sizes_SizeId",
+                        name: "FK_OrderLines_Sizes_SizeId",
                         column: x => x.SizeId,
                         principalTable: "Sizes",
                         principalColumn: "Id",
@@ -215,7 +306,7 @@ namespace Warehouse.Persistence.EF.Migrations
                 columns: table => new
                 {
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -252,22 +343,41 @@ namespace Warehouse.Persistence.EF.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-2222-2321-2321-111111111111"), "Pending" },
-                    { new Guid("22222222-1111-1234-4321-222222222222"), "Processing" },
-                    { new Guid("33333333-3322-1122-4444-333333333333"), "Shipped" },
-                    { new Guid("44444444-5555-5555-6666-666666666666"), "Completed" },
-                    { new Guid("77777777-7777-7777-8888-888888888888"), "Cancelled" }
+                    { new Guid("11111111-2222-2321-2321-111111111111"), 0 },
+                    { new Guid("22222222-1111-1234-4321-222222222222"), 1 },
+                    { new Guid("33333333-3322-1122-4444-333333333333"), 2 },
+                    { new Guid("44444444-5555-5555-6666-666666666666"), 3 },
+                    { new Guid("77777777-7777-7777-8888-888888888888"), 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("11111111-2222-2321-3429-111111111456"), "admin" },
+                    { new Guid("11111111-2222-2321-3529-111111111456"), "customer" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Sizes",
-                columns: new[] { "Id", "Name", "QuantityInStock" },
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("33333333-3333-3333-3333-333333333333"), "Small", 0 },
-                    { new Guid("44444444-4444-4444-4444-444444444444"), "Medium", 0 },
-                    { new Guid("55555555-5555-5555-5555-555555555555"), "Large", 0 }
+                    { new Guid("33333333-3333-3333-3333-333333333333"), "Small" },
+                    { new Guid("44444444-4444-4444-4444-444444444444"), "Medium" },
+                    { new Guid("55555555-5555-5555-5555-555555555555"), "Large" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Address", "BasketId", "Email", "FirstName", "LastName", "Password", "Phone" },
+                values: new object[] { new Guid("11111111-2222-2321-2321-111111111456"), "123 Main Street, City, Country", new Guid("00000000-0000-0000-0000-000000000000"), "john.doe@example.com", "John", "Doe", "password123", "123-456-7890" });
+
+            migrationBuilder.InsertData(
+                table: "Baskets",
+                columns: new[] { "Id", "UserId" },
+                values: new object[] { new Guid("11111111-2222-2321-2321-111111111429"), new Guid("11111111-2222-2321-2321-111111111456") });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -279,6 +389,11 @@ namespace Warehouse.Persistence.EF.Migrations
                     { new Guid("88888888-8888-8888-8888-888888888888"), new Guid("11111111-1111-1111-1111-111111111111"), "Description for Product 3", 19.99m, new Guid("00000000-0000-0000-0000-000000000000"), "Product 3" },
                     { new Guid("99999999-9999-9999-9999-999999999999"), new Guid("22222222-2222-2222-2222-222222222222"), "Description for Product 4", 49.99m, new Guid("00000000-0000-0000-0000-000000000000"), "Product 4" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { new Guid("11111111-2222-2321-3429-111111111456"), new Guid("11111111-2222-2321-2321-111111111456") });
 
             migrationBuilder.InsertData(
                 table: "ProductGroups",
@@ -306,13 +421,34 @@ namespace Warehouse.Persistence.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_ProductId",
-                table: "OrderDetails",
+                name: "IX_BasketLines_BasketId",
+                table: "BasketLines",
+                column: "BasketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BasketLines_ProductId",
+                table: "BasketLines",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_SizeId",
-                table: "OrderDetails",
+                name: "IX_BasketLines_SizeId",
+                table: "BasketLines",
+                column: "SizeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Baskets_UserId",
+                table: "Baskets",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderLines_ProductId",
+                table: "OrderLines",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderLines_SizeId",
+                table: "OrderLines",
                 column: "SizeId");
 
             migrationBuilder.CreateIndex(
@@ -339,13 +475,21 @@ namespace Warehouse.Persistence.EF.Migrations
                 name: "IX_ProductSizes_SizeId",
                 table: "ProductSizes",
                 column: "SizeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_RoleId",
+                table: "UserRoles",
+                column: "RoleId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderDetails");
+                name: "BasketLines");
+
+            migrationBuilder.DropTable(
+                name: "OrderLines");
 
             migrationBuilder.DropTable(
                 name: "Payments");
@@ -355,6 +499,12 @@ namespace Warehouse.Persistence.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductSizes");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "Baskets");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -367,6 +517,9 @@ namespace Warehouse.Persistence.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sizes");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "OrderStatus");

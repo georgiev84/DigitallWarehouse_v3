@@ -46,7 +46,7 @@ public class BasketController : BaseController
 
         var mappedResult = _mapper.Map<BasketLineResponse>(result);
 
-        return CreatedAtAction(nameof(AddBasketLine), new { id = result.BasketId }, mappedResult);
+        return CreatedAtAction(nameof(AddBasketLine), new { id = mappedResult.BasketId }, mappedResult);
     }
 
     [HttpDelete("basketLines/{basketLineId:guid}")]

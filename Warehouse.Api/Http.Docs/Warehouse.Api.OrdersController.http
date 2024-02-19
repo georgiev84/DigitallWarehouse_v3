@@ -14,13 +14,13 @@ Content-Type: application/json
     "totalAmount": 104,
     "orderLines": [
         {
-            "productId": "1868E00B-02D8-433F-8F9A-08DC1E533E6C",
+            "productId": "12345678-1234-5678-9012-345678901234",
             "sizeId": "33333333-3333-3333-3333-333333333333",
             "quantity": 2,
             "price": 10
         },
         {
-            "productId": "EA99FB0E-3C5C-4283-7E56-08DC1E5373D0",
+            "productId": "23456789-2345-6789-0123-456789012345",
             "sizeId": "33333333-3333-3333-3333-333333333333",
             "quantity": 1,
             "price": 20
