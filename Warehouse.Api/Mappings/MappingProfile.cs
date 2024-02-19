@@ -13,6 +13,7 @@ using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineDelete;
 using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
 using Warehouse.Application.Features.Commands.Order.OrderCreate;
+using Warehouse.Application.Features.Commands.Order.OrderDelete;
 using Warehouse.Application.Features.Commands.Order.OrderUpdate;
 using Warehouse.Application.Features.Commands.Product.ProductCreate;
 using Warehouse.Application.Features.Commands.Product.Update;
@@ -43,8 +44,6 @@ public class MappingProfile : Profile
         CreateMap<OrderRequest, OrderGetAllQuery>();
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
         CreateMap<BasketSingleRequest, BasketSingleQuery>();
-        CreateMap<BasketLineDeleteRequest, BasketLineDeleteCommand>();
-        CreateMap<BasketLineBulkDeleteRequest, BasketLineBulkDeleteCommand>();
     }
 
     private void MapFromRequestToCommands()
@@ -55,8 +54,12 @@ public class MappingProfile : Profile
         CreateMap<OrderLineRequest, OrderLine>();
         CreateMap<OrderUpdateRequest, OrderUpdateCommand>();
         CreateMap<OrderLineUpdateRequest, OrderLine>();
+        CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
+        CreateMap<OrderDeleteRequest, OrderDeleteCommand>();
         CreateMap<BasketLineCreateRequest, BasketLineCreateCommand>();
         CreateMap<BasketLineUpdateRequest, BasketLineUpdateCommand>();
+        CreateMap<BasketLineDeleteRequest, BasketLineDeleteCommand>();
+        CreateMap<BasketLineBulkDeleteRequest, BasketLineBulkDeleteCommand>();
     }
 
     private void MapFromDtoToResponse()

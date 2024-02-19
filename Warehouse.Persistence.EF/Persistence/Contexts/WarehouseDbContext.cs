@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using Warehouse.Domain.Entities;
 using Warehouse.Persistence.EF.Configuration.Entities;
 
@@ -28,14 +29,7 @@ public class WarehouseDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new UserEntityConfiguration());
-        builder.ApplyConfiguration(new ProductEntityConfiguration());
-        builder.ApplyConfiguration(new ProductSizeEntityConfiguration());
-        builder.ApplyConfiguration(new ProductGroupEntityConfiguration());
-        builder.ApplyConfiguration(new OrderEntityConfiguration());
-        builder.ApplyConfiguration(new OrderLinesEntityConfiguration());
-        builder.ApplyConfiguration(new UserRoleEntityConfiguration());
-        builder.ApplyConfiguration(new BasketLineEntityConfiguration());
+        builder.ApplyConfigurationsFromAssembly(typeof(WarehouseDbContext).Assembly);
 
         // Seed Brands
         builder.Entity<Brand>().HasData(

@@ -15,6 +15,9 @@ namespace Warehouse.Api.Controllers;
 public class OrdersController : BaseController
 {
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetOrders(
          [FromQuery] OrderRequest orderRequest,
          [FromServices] ISender _mediator,
@@ -30,12 +33,17 @@ public class OrdersController : BaseController
     }
 
     [HttpGet("{orderId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetSingleOrder(
-     [FromRoute] Guid orderId,
-     [FromServices] ISender _mediator,
-     [FromServices] IMapper _mapper)
+        [FromRoute] Guid orderId,
+        [FromServices] ISender _mediator,
+        [FromServices] IMapper _mapper)
     {
-        var query = new OrderGetSingleQuery { OrderId = orderId };
+        var singleOrderRequest = new OrderSingleRequest() { OrderId = orderId };
+
+        var query = _mapper.Map<OrderGetSingleQuery>(singleOrderRequest);
 
         var order = await _mediator.Send(query);
 
@@ -49,9 +57,9 @@ public class OrdersController : BaseController
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateOrder(
-    [FromBody] OrderCreateRequest orderCreateRequest,
-    [FromServices] ISender _mediator,
-     [FromServices] IMapper _mapper)
+        [FromBody] OrderCreateRequest orderCreateRequest,
+        [FromServices] ISender _mediator,
+        [FromServices] IMapper _mapper)
     {
         var command = _mapper.Map<OrderCreateCommand>(orderCreateRequest);
 
@@ -67,12 +75,13 @@ public class OrdersController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateOrder(
-    Guid orderId,
-    [FromBody] OrderUpdateRequest orderUpdateRequest,
-    [FromServices] ISender _mediator,
-     [FromServices] IMapper _mapper)
+        Guid orderId,
+        [FromBody] OrderUpdateRequest orderUpdateRequest,
+        [FromServices] ISender _mediator,
+        [FromServices] IMapper _mapper)
     {
         orderUpdateRequest.Id = orderId;
+
         var command = _mapper.Map<OrderUpdateCommand>(orderUpdateRequest);
 
         var result = await _mediator.Send(command);
@@ -87,10 +96,13 @@ public class OrdersController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteOrder(
-    [FromRoute] Guid orderId,
-    [FromServices] ISender _mediator)
+        [FromRoute] Guid orderId,
+        [FromServices] ISender _mediator,
+        [FromServices] IMapper _mapper)
     {
-        var command = new OrderDeleteCommand(orderId);
+        var deleteRequest = new OrderDeleteRequest() {  OrderId = orderId };
+
+        var command = _mapper.Map<OrderDeleteCommand>(deleteRequest);
 
         await _mediator.Send(command);
 
