@@ -15,7 +15,7 @@ public static class DependencyRegistrationExtension
 {
     public static IServiceCollection AddPersistenceEF(this IServiceCollection services, IConfiguration configuration)
     {
-        if (configuration == null)
+        if (configuration is null)
         {
             throw new ArgumentNullException(nameof(configuration));
         }

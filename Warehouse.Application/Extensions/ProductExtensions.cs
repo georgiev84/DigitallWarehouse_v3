@@ -53,7 +53,7 @@ public static class ProductExtensions
         }
 
         var filteredProducts = products.Where(p =>
-            p.Sizes != null &&
+            p.Sizes is not null &&
             p.Sizes.Any(sizeName => string.Equals(sizeName.Name, size, StringComparison.OrdinalIgnoreCase)));
 
         return filteredProducts;

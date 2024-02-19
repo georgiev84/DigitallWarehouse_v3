@@ -34,7 +34,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
         .SingleAsync();
 
-        if (result == null)
+        if (result is null)
         {
             throw new ProductNotFoundException($"Product with ID {productId} not found.");
         }

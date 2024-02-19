@@ -16,7 +16,7 @@ public class BasketLineBulkDeleteCommandHandler : IRequestHandler<BasketLineBulk
     public async Task Handle(BasketLineBulkDeleteCommand command, CancellationToken cancellationToken)
     {
         var basket = await _unitOfWork.Baskets.GetSingleBasketByUserIdAsync(command.UserId);
-        if (basket == null)
+        if (basket is null)
         {
             throw new BasketNotFoundException($"Basket for User with ID {command.UserId} not found.");
         }

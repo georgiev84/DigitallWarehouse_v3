@@ -36,7 +36,7 @@ public record ProductListQueryHandler : IRequestHandler<ProductListQuery, Produc
 
         var allProducts = _mapper.Map<IEnumerable<ProductDetailsDto>>(rawProducts);
 
-        if (allProducts == null)
+        if (allProducts is null)
         {
             _logger.LogErrorFetchingProducts();
             throw new ProductNotFoundException("No products found in the database");

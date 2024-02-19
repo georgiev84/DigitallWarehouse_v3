@@ -31,6 +31,6 @@ public sealed class ProductListQueryValidator : AbstractValidator<ProductListQue
 
     private bool BeValidDecimal(decimal? value)
     {
-        return value == null || decimal.TryParse(value.ToString(), out _);
+        return value is null || decimal.TryParse(value.ToString(), out _);
     }
 }

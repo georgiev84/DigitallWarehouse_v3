@@ -16,7 +16,7 @@ public class OrderDeleteCommandHandler : IRequestHandler<OrderDeleteCommand>
     public async Task Handle(OrderDeleteCommand command, CancellationToken cancellationToken)
     {
         var existingProduct = await _unitOfWork.Orders.GetById(command.orderId);
-        if (existingProduct == null)
+        if (existingProduct is null)
         {
             throw new ProductNotFoundException($"Order with ID {command.orderId} not found.");
         }

@@ -21,7 +21,7 @@ public class BasketLineUpdateCommandHandler : IRequestHandler<BasketLineUpdateCo
     {
         var existingBasketLine = await _unitOfWork.BasketLines.GetById(command.BasketLineId);
 
-        if (existingBasketLine == null)
+        if (existingBasketLine is null)
         {
             throw new BasketLineNotFoundException($"Basket line with ID {command.BasketLineId} not found.");
         }

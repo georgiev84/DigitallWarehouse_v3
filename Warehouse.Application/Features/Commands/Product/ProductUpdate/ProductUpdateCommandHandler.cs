@@ -21,7 +21,7 @@ public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand,
     public async Task<ProductUpdateDetailsDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)
     {
         var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
-        if (existingProduct == null)
+        if (existingProduct is null)
         {
             throw new ProductNotFoundException($"Product with ID {command.Id} not found.");
         }
@@ -34,7 +34,7 @@ public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand,
         foreach (var newSize in command.SizeInformation)
         {
             var existingSize = existingProduct.ProductSizes.FirstOrDefault(ps => ps.SizeId == newSize.SizeId);
-            if (existingSize != null)
+            if (existingSize is not null)
             {
                 existingSize.QuantityInStock = newSize.Quantity;
             }

@@ -20,7 +20,7 @@ public class OrderUpdateCommandHandler : IRequestHandler<OrderUpdateCommand, Ord
     public async Task<OrderUpdateDto> Handle(OrderUpdateCommand command, CancellationToken cancellationToken)
     {
         var existingOrder = await _unitOfWork.Orders.GetSingleOrderAsync(command.Id);
-        if (existingOrder == null)
+        if (existingOrder is null)
         {
             throw new ProductNotFoundException($"Order with ID {command.Id} not found.");
         }

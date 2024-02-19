@@ -25,7 +25,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             .Where(p => p.IsDeleted == false)
             .FirstOrDefaultAsync(o => o.Id == orderId);
 
-        if (result == null)
+        if (result is null)
         {
             throw new OrderNotFoundException($"Order with ID {orderId} not found.");
         }

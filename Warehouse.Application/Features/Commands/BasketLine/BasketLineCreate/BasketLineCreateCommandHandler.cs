@@ -21,14 +21,14 @@ public class BasketLineCreateCommandHandler : IRequestHandler<BasketLineCreateCo
     public async Task<BasketLineCreateDto> Handle(BasketLineCreateCommand command, CancellationToken cancellationToken)
     {
         var existingBasket = await _unitOfWork.Baskets.GetSingleBasketByUserIdAsync(command.UserId);
-        if (existingBasket == null)
+        if (existingBasket is null)
         {
             throw new BasketNotFoundException($"Basket for User with Id {command.UserId} not found.");
         }
 
         var existingBasketLine = await _unitOfWork.BasketLines.GetById(existingBasket.Id);
 
-        if (existingBasketLine != null)
+        if (existingBasketLine is not null)
         {
             throw new BasketLineExistException("BasketLine already exists.");
         }
