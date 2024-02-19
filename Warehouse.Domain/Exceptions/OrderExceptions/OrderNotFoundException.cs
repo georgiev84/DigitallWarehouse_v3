@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Domain.Exceptions;
+﻿namespace Warehouse.Domain.Exceptions.OrderExceptions;
 
 public class OrderNotFoundException : Exception
 {

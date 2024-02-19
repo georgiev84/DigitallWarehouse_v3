@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Orders;
-using Warehouse.Domain.Exceptions;
+using Warehouse.Domain.Exceptions.OrderExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
 

@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Domain.Exceptions;
+﻿namespace Warehouse.Domain.Exceptions.BasketExceptions;
 
 public class BasketLineNotFoundException : Exception
 {

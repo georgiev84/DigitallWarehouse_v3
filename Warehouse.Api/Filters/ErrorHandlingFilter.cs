@@ -4,6 +4,8 @@ using System.Data;
 using System.Net;
 using Warehouse.Api.Models.Errors;
 using Warehouse.Domain.Exceptions;
+using Warehouse.Domain.Exceptions.BasketExceptions;
+using Warehouse.Domain.Exceptions.ProductExceptions;
 
 namespace Warehouse.Api.Filters;
 

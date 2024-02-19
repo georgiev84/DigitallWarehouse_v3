@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Baskets;
-using Warehouse.Domain.Exceptions;
+using Warehouse.Domain.Exceptions.BasketExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
 
