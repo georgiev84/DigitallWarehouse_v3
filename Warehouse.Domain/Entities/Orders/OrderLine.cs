@@ -11,6 +11,5 @@ public class OrderLine
     public decimal Price { get; set; }
     public Order? Order { get; set; }
     public Product? Product { get; set; }
-
     public Size? Size { get; set; }
 }
