@@ -17,7 +17,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
     {
         var result = await _dbContext.Set<Basket>()
             .Include(b => b.BasketLines)
-            .FirstOrDefaultAsync(o => o.UserId == userId);
+            .SingleAsync(o => o.UserId == userId);
 
         if (result == null)
         {
@@ -35,7 +35,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
                 .ThenInclude(bl => bl.Product)
             .Include(p => p.BasketLines)
                 .ThenInclude(x => x.Size)
-            .FirstOrDefaultAsync(o => o.UserId == userId);
+            .SingleAsync(o => o.UserId == userId);
 
         if (result == null)
         {
