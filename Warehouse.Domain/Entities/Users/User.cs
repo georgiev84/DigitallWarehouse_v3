@@ -1,4 +1,7 @@
-﻿namespace Warehouse.Domain.Entities;
+﻿using Warehouse.Domain.Entities.Baskets;
+using Warehouse.Domain.Entities.Orders;
+
+namespace Warehouse.Domain.Entities.Users;
 
 public class User
 {

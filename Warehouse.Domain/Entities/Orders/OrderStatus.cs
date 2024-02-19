@@ -1,6 +1,6 @@
 ﻿using Warehouse.Domain.Enums;
 
-namespace Warehouse.Domain.Entities;
+namespace Warehouse.Domain.Entities.Orders;
 
 public class OrderStatus
 {

@@ -27,7 +27,7 @@ public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand,
     {
         _logger.LogCreateMessage(command);
 
-        var product = _mapper.Map<Domain.Entities.Product>(command);
+        var product = _mapper.Map<Domain.Entities.Products.Product>(command);
 
         await _unitOfWork.Products.Add(product);
         await _unitOfWork.SaveAsync();

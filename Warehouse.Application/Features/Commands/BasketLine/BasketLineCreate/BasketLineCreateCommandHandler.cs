@@ -28,7 +28,7 @@ public class BasketLineCreateCommandHandler : IRequestHandler<BasketLineCreateCo
             throw new BasketLineExistException("BasketLine already exists.");
         }
 
-        var basketLine = _mapper.Map<Domain.Entities.BasketLine>(command);
+        var basketLine = _mapper.Map<Domain.Entities.Baskets.BasketLine>(command);
         basketLine.BasketId = existingBasket.Id;
 
         await _unitOfWork.BasketLines.Add(basketLine);

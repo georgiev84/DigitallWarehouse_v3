@@ -1,4 +1,4 @@
-﻿using Warehouse.Domain.Entities;
+﻿using Warehouse.Domain.Entities.Orders;
 using Warehouse.Persistence.Abstractions.Interfaces;
 
 namespace Warehouse.Application.Common.Interfaces.Persistence;

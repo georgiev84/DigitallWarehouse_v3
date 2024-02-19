@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Entities.Baskets;
+using Warehouse.Domain.Entities.Orders;
+using Warehouse.Domain.Entities.Products;
+using Warehouse.Domain.Entities.Users;
 
 namespace Warehouse.Persistence.EF.Persistence.Contexts;
 

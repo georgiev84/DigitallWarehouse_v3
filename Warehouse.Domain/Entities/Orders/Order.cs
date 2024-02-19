@@ -1,4 +1,6 @@
-﻿namespace Warehouse.Domain.Entities;
+﻿using Warehouse.Domain.Entities.Users;
+
+namespace Warehouse.Domain.Entities.Orders;
 
 public class Order
 {

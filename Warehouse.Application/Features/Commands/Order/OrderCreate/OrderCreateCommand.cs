@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Warehouse.Application.Models.Dto.OrderDtos;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Entities.Orders;
 
 namespace Warehouse.Application.Features.Commands.Order.OrderCreate;
 public record OrderCreateCommand(

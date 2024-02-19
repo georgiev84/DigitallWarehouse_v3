@@ -25,7 +25,7 @@ using Warehouse.Application.Models.Dto;
 using Warehouse.Application.Models.Dto.BasketDtos;
 using Warehouse.Application.Models.Dto.OrderDtos;
 using Warehouse.Application.Models.Dto.ProductDtos;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Entities.Orders;
 
 namespace Warehouse.Api.Mappings;
 

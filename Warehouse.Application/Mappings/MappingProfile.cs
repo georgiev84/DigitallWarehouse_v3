@@ -9,7 +9,9 @@ using Warehouse.Application.Models.Dto;
 using Warehouse.Application.Models.Dto.BasketDtos;
 using Warehouse.Application.Models.Dto.OrderDtos;
 using Warehouse.Application.Models.Dto.ProductDtos;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Entities.Baskets;
+using Warehouse.Domain.Entities.Orders;
+using Warehouse.Domain.Entities.Products;
 
 namespace Warehouse.Application.Mappings;
 

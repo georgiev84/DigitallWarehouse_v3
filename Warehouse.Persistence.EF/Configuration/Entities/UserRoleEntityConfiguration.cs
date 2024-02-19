@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Entities.Users;
 
 namespace Warehouse.Persistence.EF.Configuration.Entities;
 

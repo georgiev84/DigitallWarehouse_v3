@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Entities.Products;
 using Warehouse.Persistence.EF.Extensions;
 
 namespace Warehouse.Persistence.EF.Client;

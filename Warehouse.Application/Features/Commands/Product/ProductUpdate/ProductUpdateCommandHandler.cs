@@ -2,7 +2,7 @@
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.ProductDtos;
-using Warehouse.Domain.Entities;
+using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Product.Update;

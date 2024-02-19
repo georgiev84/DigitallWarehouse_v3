@@ -18,7 +18,7 @@ public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, Ord
 
     public async Task<OrderCreateDto> Handle(OrderCreateCommand command, CancellationToken cancellationToken)
     {
-        var order = _mapper.Map<Domain.Entities.Order>(command);
+        var order = _mapper.Map<Domain.Entities.Orders.Order>(command);
 
         await _unitOfWork.Orders.Add(order);
         await _unitOfWork.SaveAsync();

@@ -1,4 +1,4 @@
-﻿using Warehouse.Domain.Entities;
+﻿using Warehouse.Domain.Entities.Products;
 
 namespace Warehouse.Application.Common.Interfaces;
 
