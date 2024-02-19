@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
+using Warehouse.Persistence.EF.Configuration.Contstants;
 
 namespace Warehouse.Persistence.EF.Configuration.Entities;
 
@@ -20,7 +21,7 @@ public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
             .HasMaxLength(1000);
 
         builder.Property(p => p.Price)
-            .HasColumnType("decimal(18, 2)");
+            .HasColumnType(ColumnTypeConstants.DecimalColumnType);
 
         builder.Property(p => p.IsDeleted)
         .HasColumnType("bit")

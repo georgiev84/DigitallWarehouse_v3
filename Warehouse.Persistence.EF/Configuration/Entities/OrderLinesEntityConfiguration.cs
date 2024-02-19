@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
+using Warehouse.Persistence.EF.Configuration.Contstants;
 
 namespace Warehouse.Persistence.EF.Configuration.Entities;
 
@@ -20,7 +21,7 @@ public class OrderLinesEntityConfiguration : IEntityTypeConfiguration<OrderLine>
             .HasForeignKey(od => od.ProductId);
 
         builder.Property(p => p.Price)
-            .HasColumnType("decimal(18, 2)");
+            .HasColumnType(ColumnTypeConstants.DecimalColumnType);
 
         builder.HasOne(od => od.Size)
         .WithMany(s => s.OrderLines)

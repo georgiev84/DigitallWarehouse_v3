@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities;
+using Warehouse.Persistence.EF.Configuration.Contstants;
 
 namespace Warehouse.Persistence.EF.Configuration.Entities;
 
@@ -24,7 +25,7 @@ public class OrderEntityConfiguration : IEntityTypeConfiguration<Order>
             .HasForeignKey<Payment>(o => o.PaymentId);
 
         builder.Property(p => p.TotalAmount)
-            .HasColumnType("decimal(18, 2)");
+            .HasColumnType(ColumnTypeConstants.DecimalColumnType);
 
         builder.Property(o => o.IsDeleted)
             .HasColumnType("bit")
