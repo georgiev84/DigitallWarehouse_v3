@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Warehouse.Application.Common.Validation;
 
 namespace Warehouse.Application.Features.Commands.Product.ProductCreate;
 public class ProductCreateValidator : AbstractValidator<ProductCreateCommand>
@@ -6,23 +7,23 @@ public class ProductCreateValidator : AbstractValidator<ProductCreateCommand>
     public ProductCreateValidator()
     {
         RuleFor(command => command.BrandId)
-             .NotEmpty().WithMessage("BrandId is required.");
+             .NotEmpty().WithMessage(ValidationMessages.RequiredId(nameof(ProductCreateCommand.BrandId)));
 
         RuleFor(command => command.Title)
-            .NotEmpty().WithMessage("Title is required.")
-            .MaximumLength(100).WithMessage("Title must not exceed 100 characters.");
+            .NotEmpty().WithMessage(ValidationMessages.RequiredItem(nameof(ProductCreateCommand.Title)))
+            .MaximumLength(100).WithMessage(ValidationMessages.ItemExceedCharacters(nameof(ProductCreateCommand.Title), 100));
 
         RuleFor(command => command.Description)
-            .NotEmpty().WithMessage("Description is required.")
-            .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
+            .NotEmpty().WithMessage(ValidationMessages.RequiredItem(nameof(ProductCreateCommand.Description)))
+            .MaximumLength(500).WithMessage(ValidationMessages.ItemExceedCharacters(nameof(ProductCreateCommand.Description), 500));
 
         RuleFor(command => command.Price)
-            .GreaterThan(0).WithMessage("Price must be greater than 0.");
+            .GreaterThan(0).WithMessage(ValidationMessages.ItemBiggerThanZero(nameof(ProductCreateCommand.Price)));
 
         RuleFor(command => command.GroupIds)
-            .NotEmpty().WithMessage("At least one GroupId must be provided.");
+            .NotEmpty().WithMessage(ValidationMessages.IdMustBeProvided(nameof(ProductCreateCommand.GroupIds)));
 
         RuleFor(command => command.SizeInformation)
-            .NotEmpty().WithMessage("At least one Size must be provided.");
+            .NotEmpty().WithMessage(ValidationMessages.IdMustBeProvided(nameof(ProductCreateCommand.SizeInformation)));
     }
 }

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Warehouse.Application.Models.Constants;
+using Warehouse.Application.Common.Validation;
 
 namespace Warehouse.Application.Features.Queries.Product.ProductList;
 

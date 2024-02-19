@@ -27,10 +27,7 @@ public record ProductListQueryHandler : IRequestHandler<ProductListQuery, Produc
 
     public async Task<ProductDto> Handle(ProductListQuery request, CancellationToken cancellationToken)
     {
-        _logger.LogRequestHandlerMessage(request);
         var requestItems = _mapper.Map<ItemsDto>(request);
-
-        _logger.LogGettingProducts();
 
         var rawProducts = await _unitOfWork.Products.GetProductsDetailsAsync();
 

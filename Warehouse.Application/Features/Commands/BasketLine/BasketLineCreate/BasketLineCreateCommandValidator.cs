@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Warehouse.Application.Common.Validation;
 
 namespace Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
 
@@ -7,10 +8,10 @@ public class BasketLineCreateCommandValidator : AbstractValidator<BasketLineCrea
     public BasketLineCreateCommandValidator()
     {
         RuleFor(command => command.UserId)
-            .NotEmpty().WithMessage("UserId is required.");
+            .NotEmpty().WithMessage(ValidationMessages.RequiredId(nameof(BasketLineCreateCommand.UserId)));
 
         RuleFor(command => command.BasketLine)
-            .NotNull().WithMessage("BasketLine is required.")
+            .NotNull().WithMessage(ValidationMessages.RequiredItem("BasketLine"))
             .SetValidator(new BasketLineDtoValidator()!);
     }
 }
