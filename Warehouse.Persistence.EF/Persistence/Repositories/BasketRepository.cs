@@ -15,33 +15,36 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
 
     public async Task<Basket> GetSingleBasketByUserIdAsync(Guid userId)
     {
-        var result = await _dbContext.Set<Basket>()
-            .Include(b => b.BasketLines)
-            .SingleAsync(o => o.UserId == userId);
-
-        if (result == null)
+        try
         {
-            throw new BasketNotFoundException($"Basket for User with ID {userId} not found.");
+            return await _dbContext.Set<Basket>()
+                .Include(b => b.BasketLines)
+                .SingleAsync(o => o.UserId == userId);
         }
-
-        return result;
+        catch (InvalidOperationException ex)
+        {
+            throw new BasketNotFoundException($"Basket for User with ID {userId} not found.", ex);
+        }
     }
 
     public async Task<Basket> GetSingleBasketWithDetailsByUserIdAsync(Guid userId)
     {
-        var result = await _dbContext.Set<Basket>()
-            .Include(b => b.User)
-            .Include(b => b.BasketLines)
-                .ThenInclude(bl => bl.Product)
-            .Include(p => p.BasketLines)
-                .ThenInclude(x => x.Size)
-            .SingleAsync(o => o.UserId == userId);
-
-        if (result == null)
+        try
         {
-            throw new BasketNotFoundException($"Basket for User with ID {userId} not found.");
-        }
+            var result = await _dbContext.Set<Basket>()
+                .Include(b => b.User)
+                .Include(b => b.BasketLines)
+                    .ThenInclude(bl => bl.Product)
+                .Include(p => p.BasketLines)
+                    .ThenInclude(x => x.Size)
+                .SingleAsync(o => o.UserId == userId);
 
-        return result;
+            return result;
+
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new BasketNotFoundException($"Basket for User with ID {userId} not found.", ex);
+        }
     }
 }
