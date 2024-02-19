@@ -20,34 +20,17 @@ public class ErrorHandlingFilter : IExceptionFilter
             Message = exception.Message
         };
 
-        if (exceptionType == typeof(DBConcurrencyException))
+        switch (exceptionType.Name)
         {
-            error.Message = exception.Message;
-            error.StatusCode = HttpStatusCode.Conflict;
-        }
-
-        if (exceptionType == typeof(ProductNotFoundException))
-        {
-            error.Message = exception.Message;
-            error.StatusCode = HttpStatusCode.NotFound;
-        }
-
-        if (exceptionType == typeof(ProductCreationException))
-        {
-            error.Message = exception.Message;
-            error.StatusCode = HttpStatusCode.Conflict;
-        }
-
-        if (exceptionType == typeof(BasketLineExistException))
-        {
-            error.Message = exception.Message;
-            error.StatusCode = HttpStatusCode.Conflict;
-        }
-
-        if (exceptionType == typeof(BasketNotFoundException))
-        {
-            error.Message = exception.Message;
-            error.StatusCode = HttpStatusCode.NotFound;
+            case nameof(DBConcurrencyException):
+            case nameof(ProductCreationException):
+            case nameof(BasketLineExistException):
+                error.StatusCode = HttpStatusCode.Conflict;
+                break;
+            case nameof(ProductNotFoundException):
+            case nameof(BasketNotFoundException):
+                error.StatusCode = HttpStatusCode.NotFound;
+                break;
         }
 
         context.Result = new JsonResult(error);
