@@ -18,7 +18,7 @@ public class ProductsController : BaseController
          [FromServices] ISender _mediator,
          [FromServices] IMapper _mapper)
     {
-        var query = _mapper.Map<ProductListQuery>(productFilter);
+        var query = _mapper.Map<ProductListGetQuery>(productFilter);
 
         var products = await _mediator.Send(query);
 

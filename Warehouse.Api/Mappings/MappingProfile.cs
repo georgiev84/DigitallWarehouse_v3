@@ -40,7 +40,7 @@ public class MappingProfile : Profile
 
     private void MapFromRequestToQueries()
     {
-        CreateMap<ProductFilterRequest, ProductListQuery>();
+        CreateMap<ProductFilterRequest, ProductListGetQuery>();
         CreateMap<OrderRequest, OrderGetAllQuery>();
         CreateMap<OrderSingleRequest, OrderGetSingleQuery>();
         CreateMap<BasketSingleRequest, BasketSingleQuery>();

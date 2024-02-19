@@ -21,7 +21,7 @@ public class MappingProfile : Profile
 
     private void MapFromQueryCommandEntityToDto()
     {
-        CreateMap<ProductListQuery, ItemsDto>();
+        CreateMap<ProductListGetQuery, ItemsDto>();
         CreateMap<ProductCreateCommand, OrderUpdateDto>();
         CreateMap<OrderCreateCommand, OrderCreateDto>();
         CreateMap<Product, ProductDetailsDto>()

@@ -3,7 +3,7 @@ using Warehouse.Application.Common.Validation;
 
 namespace Warehouse.Application.Features.Queries.Product.ProductList;
 
-public sealed class ProductListQueryValidator : AbstractValidator<ProductListQuery>
+public sealed class ProductListQueryValidator : AbstractValidator<ProductListGetQuery>
 {
     public ProductListQueryValidator()
     {

@@ -34,7 +34,7 @@ public static partial class LoggingExtensions
     public static partial void LogRequestValidationFailed(this ILogger logger);
 
     [LoggerMessage(EventId = 13, Level = LogLevel.Debug, Message = "Executing Handler with request: {ProductQuery}")]
-    public static partial void LogRequestHandlerMessage(this ILogger logger, ProductListQuery ProductQuery);
+    public static partial void LogRequestHandlerMessage(this ILogger logger, ProductListGetQuery ProductQuery);
 
     [LoggerMessage(EventId = 14, Level = LogLevel.Error, Message = "{Message}")]
     public static partial void LogProductCreationFailed(this ILogger logger, string Message, Exception ex);

@@ -9,7 +9,7 @@ using Warehouse.Persistence.EF.Extensions;
 
 namespace Warehouse.Application.Features.Queries.Product.ProductList;
 
-public record ProductListQueryHandler : IRequestHandler<ProductListQuery, ProductDto>
+public record ProductListQueryHandler : IRequestHandler<ProductListGetQuery, ProductDto>
 {
     private readonly ILogger<ProductListQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ public record ProductListQueryHandler : IRequestHandler<ProductListQuery, Produc
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ProductDto> Handle(ProductListQuery request, CancellationToken cancellationToken)
+    public async Task<ProductDto> Handle(ProductListGetQuery request, CancellationToken cancellationToken)
     {
         var requestItems = _mapper.Map<ItemsDto>(request);
 
@@ -39,11 +39,33 @@ public record ProductListQueryHandler : IRequestHandler<ProductListQuery, Produc
             throw new ProductNotFoundException("No products found in the database");
         }
 
+        var filteredProducts = FilterProducts(allProducts, requestItems);
+
+        var productFilter = GetProductFilter(allProducts, filteredProducts);
+
+        return new ProductDto
+        {
+            Filter = productFilter,
+            Products = filteredProducts,
+        };
+    }
+
+    private IEnumerable<ProductDetailsDto> FilterProducts(IEnumerable<ProductDetailsDto> allProducts, ItemsDto requestItems)
+    {
+        return allProducts
+            .FilterByMinPrice(requestItems.MinPrice)
+            .FilterByMaxPrice(requestItems.MaxPrice)
+            .FilterBySize(requestItems.Size)
+            .HighlightWords(requestItems.Highlight);
+    }
+
+    private ProductFilter GetProductFilter(IEnumerable<ProductDetailsDto> allProducts, IEnumerable<ProductDetailsDto> filteredProducts)
+    {
         // Extract min and max prices
         decimal? overallMinPrice = allProducts.Min(p => p.Price);
         decimal? overallMaxPrice = allProducts.Max(p => p.Price);
 
-        var sizeNames = await _unitOfWork.Sizes.GetSizeNamesAsync();
+        var sizeNames = _unitOfWork.Sizes.GetSizeNamesAsync().Result;
 
         // Extract and split descriptions
         var wordOccurrences = allProducts.GetWordOccurrences();
@@ -52,26 +74,12 @@ public record ProductListQueryHandler : IRequestHandler<ProductListQuery, Produc
         var excludedWords = wordOccurrences.Take(5).ToList();
         var commonWords = wordOccurrences.Skip(5).Take(10).Except(excludedWords).ToArray();
 
-        // Filter products
-        _logger.LogFilteringProducts();
-        var filteredProducts = allProducts;
-
-        filteredProducts = filteredProducts
-            .FilterByMinPrice(requestItems.MinPrice)
-            .FilterByMaxPrice(requestItems.MaxPrice)
-            .FilterBySize(requestItems.Size)
-            .HighlightWords(requestItems.Highlight);
-
-        return new ProductDto
+        return new ProductFilter
         {
-            Filter = new ProductFilter
-            {
-                MinPrice = overallMinPrice,
-                MaxPrice = overallMaxPrice,
-                AllSizes = sizeNames,
-                CommonWords = commonWords
-            },
-            Products = filteredProducts,
+            MinPrice = overallMinPrice,
+            MaxPrice = overallMaxPrice,
+            AllSizes = sizeNames,
+            CommonWords = commonWords
         };
     }
 }
