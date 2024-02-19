@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Domain.Entities;
+using Warehouse.Domain.Enums;
 
 namespace Warehouse.Persistence.EF.Persistence.Seed;
 public class SeedDataConfiguration :
@@ -36,11 +37,11 @@ public class SeedDataConfiguration :
     public void Configure(EntityTypeBuilder<OrderStatus> builder)
     {
         builder.HasData(
-            new OrderStatus { Id = Guid.Parse("11111111-2222-2321-2321-111111111111"), Name = "Pending" },
-            new OrderStatus { Id = Guid.Parse("22222222-1111-1234-4321-222222222222"), Name = "Processing" },
-            new OrderStatus { Id = Guid.Parse("33333333-3322-1122-4444-333333333333"), Name = "Shipped" },
-            new OrderStatus { Id = Guid.Parse("44444444-5555-5555-6666-666666666666"), Name = "Completed" },
-            new OrderStatus { Id = Guid.Parse("77777777-7777-7777-8888-888888888888"), Name = "Cancelled" }
+            new OrderStatus { Id = Guid.Parse("11111111-2222-2321-2321-111111111111"), Name = OrderStatusName.Pending },
+            new OrderStatus { Id = Guid.Parse("22222222-1111-1234-4321-222222222222"), Name = OrderStatusName.Processing },
+            new OrderStatus { Id = Guid.Parse("33333333-3322-1122-4444-333333333333"), Name = OrderStatusName.Shipped },
+            new OrderStatus { Id = Guid.Parse("44444444-5555-5555-6666-666666666666"), Name = OrderStatusName.Completed },
+            new OrderStatus { Id = Guid.Parse("77777777-7777-7777-8888-888888888888"), Name = OrderStatusName.Canceled }
         );
     }
 
