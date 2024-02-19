@@ -9,7 +9,6 @@ public class OrderLinesEntityConfiguration : IEntityTypeConfiguration<OrderLine>
 {
     public void Configure(EntityTypeBuilder<OrderLine> builder)
     {
-        builder.ToTable("OrderLines");
         builder.HasKey(od => new { od.OrderId, od.ProductId });
 
         builder.HasOne(od => od.Order)
