@@ -1,10 +1,12 @@
-﻿namespace Warehouse.Domain.Entities;
+﻿using Warehouse.Domain.Enums;
+
+namespace Warehouse.Domain.Entities;
 
 public class Payment
 {
     public Guid PaymentId { get; set; }
 
-    public string PaymentMethod { get; set; }
+    public PaymentMethod PaymentMethod { get; set; }
 
     public DateTime PaymentDate { get; set; }
 
