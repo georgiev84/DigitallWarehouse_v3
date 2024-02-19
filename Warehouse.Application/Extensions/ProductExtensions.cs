@@ -1,11 +1,18 @@
-﻿using System.Text.RegularExpressions;
-using Warehouse.Application.Models.Dto;
+﻿using AutoMapper;
+using System.Text.RegularExpressions;
 using Warehouse.Application.Models.Dto.ProductDtos;
 
 namespace Warehouse.Persistence.EF.Extensions;
 
 public static class ProductExtensions
 {
+    private static readonly IMapper _mapper;
+
+    static ProductExtensions()
+    {
+        _mapper = new MapperConfiguration(cfg => { }).CreateMapper();
+    }
+
     public static IEnumerable<ProductDetailsDto> HighlightWords(this IEnumerable<ProductDetailsDto> products, string? highlight)
     {
         if (!string.IsNullOrEmpty(highlight))
@@ -15,16 +22,7 @@ public static class ProductExtensions
 
             foreach (var product in products)
             {
-                var updatedProduct = new ProductDetailsDto
-                {
-                    Id = product.Id,
-                    Title = product.Title,
-                    Description = product.Description,
-                    Price = product.Price,
-                    Brand = product.Brand,
-                    Groups = new List<string>(product.Groups),
-                    Sizes = new List<SizeDto>(product.Sizes)
-                };
+                var updatedProduct = _mapper.Map(product, new ProductDetailsDto());
 
                 foreach (var word in highlightWords)
                 {
