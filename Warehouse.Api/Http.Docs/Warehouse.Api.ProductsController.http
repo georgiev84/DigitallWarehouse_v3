@@ -2,15 +2,15 @@
 
 ### ProductsController
 
-# Get Filtered Products
+### Get Filtered Products
 GET {{Warehouse.Api_HostAddress}}/api/products?MinPrice=10&MaxPrice=20&Highlight=yellow&Size=small
 accept:  application/json
 
-# Get All Products
+### Get All Products
 GET {{Warehouse.Api_HostAddress}}/api/products
 accept:  application/json
 
-# Create Product
+### Create Product
 POST {{Warehouse.Api_HostAddress}}/api/products
 Content-Type: application/json
 
@@ -39,7 +39,7 @@ Content-Type: application/json
   ]
 }
 
-# Update Product
+### Update Product
 PUT {{Warehouse.Api_HostAddress}}/api/products/aa36e6e6-39b1-4e43-611e-08dc1e59bebd
 Content-Type: application/json
 
@@ -68,5 +68,5 @@ Content-Type: application/json
   ]
 }
 
-# Delete Product
+### Delete Product
 DELETE {{Warehouse.Api_HostAddress}}/api/products/aa36e6e6-39b1-4e43-611e-08dc1e59bebd

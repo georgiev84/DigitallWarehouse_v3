@@ -2,7 +2,7 @@
 
 ### OrdersController
 
-# Create Order
+### Create Order
 POST {{Warehouse.Api_HostAddress}}/api/orders
 Content-Type: application/json
 
@@ -28,13 +28,13 @@ Content-Type: application/json
     ]
 }
 
-# Get Single Order with all Details
+### Get Single Order with all Details
 GET {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
 
-# Get Order List
+### Get Order List
 GET {{Warehouse.Api_HostAddress}}/api/orders
 
-# Update Order
+### Update Order
 PUT {{Warehouse.Api_HostAddress}}/api/Orders/6428982e-3517-4952-60e7-08dc2649016c
 Content-Type: application/json
 
@@ -43,6 +43,6 @@ Content-Type: application/json
   "paymentId": "22222222-1111-1234-4321-482222222222"
 }
 
-# Delete Order
-# Parameter: OrderId
+### Delete Order
+### Parameter: OrderId
 DELETE {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c

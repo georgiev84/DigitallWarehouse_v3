@@ -1,9 +1,8 @@
 ﻿@Warehouse.Api_HostAddress = https://localhost:7054
 
-
 ### BasketController
 
-# Create BasketLine
+### Create BasketLine
 POST {{Warehouse.Api_HostAddress}}/api/basket/
 accept: */*
 Content-Type: application/json
@@ -18,16 +17,17 @@ Content-Type: application/json
   }
 }
 
-# Delete BasketLine
-# Parameter: basketLineId
+
+### Delete BasketLine
+### Parameter: basketLineId
 DELETE {{Warehouse.Api_HostAddress}}/api/basket/basketLines/0EE9D7BF-327B-45BD-1C0E-08DC2955095A
 
-# Bulk Delete BasketLines
-# Parameter: UserId 
+### Bulk Delete BasketLines
+### Parameter: UserId 
 DELETE {{Warehouse.Api_HostAddress}}/api/Basket/11111111-2222-2321-2321-111111111456
 
-# Update BasketLine
-# Parameter: BasketLineId
+### Update BasketLine
+### Parameter: BasketLineId
 PUT {{Warehouse.Api_HostAddress}}/api/basket/basketLines/FE00EFB4-DD60-4224-B1AB-08DC29563947
 Content-Type: application/json
 
