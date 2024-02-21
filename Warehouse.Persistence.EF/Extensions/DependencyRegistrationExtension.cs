@@ -26,6 +26,7 @@ public static class DependencyRegistrationExtension
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IBasketLineRepository, BasketLineRepository>();
+        services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
         return services;
     }
 }

@@ -20,6 +20,7 @@ public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, Ord
     {
         var order = _mapper.Map<Domain.Entities.Orders.Order>(command);
 
+        await UpdateProductSizesAsync(order);
         await _unitOfWork.Orders.Add(order);
         await _unitOfWork.SaveAsync();
 
@@ -28,5 +29,28 @@ public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, Ord
         var orderDto = _mapper.Map<OrderCreateDto>(checkedOrder);
 
         return orderDto;
+    }
+
+    private async Task UpdateProductSizesAsync(Domain.Entities.Orders.Order order)
+    {
+        foreach (var orderLine in order.OrderLines)
+        {
+            var productSize = await _unitOfWork.ProductSizes
+                .GetByCompositeKey(orderLine.ProductId, orderLine.SizeId);
+
+            if (productSize != null)
+            {
+                productSize.QuantityInStock -= orderLine.Quantity;
+
+                if (productSize.QuantityInStock <= 0)
+                {
+                    _unitOfWork.ProductSizes.Delete(productSize);
+                }
+                else
+                {
+                    _unitOfWork.ProductSizes.Update(productSize);
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,6 @@ namespace Warehouse.Domain.Entities.Products;
 public class Product
 {
     public Guid Id { get; set; }
-    public Guid SizeId { get; set; }
     public Guid BrandId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
