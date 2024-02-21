@@ -53,7 +53,7 @@ public class ProductsController : BaseController
         Guid productId,
         [FromBody] ProductUpdateRequest productUpdateRequest,
         [FromServices] ISender _mediator,
-         [FromServices] IMapper _mapper)
+        [FromServices] IMapper _mapper)
     {
         productUpdateRequest.Id = productId;
         var command = _mapper.Map<ProductUpdateCommand>(productUpdateRequest);
