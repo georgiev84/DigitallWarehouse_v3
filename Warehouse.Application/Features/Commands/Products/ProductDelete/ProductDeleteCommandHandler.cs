@@ -4,15 +4,8 @@ using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Products.Delete;
 
-public class ProductDeleteCommandHandler : IRequestHandler<ProductDeleteCommand>
+public class ProductDeleteCommandHandler(IUnitOfWork _unitOfWork) : IRequestHandler<ProductDeleteCommand>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ProductDeleteCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task Handle(ProductDeleteCommand command, CancellationToken cancellationToken)
     {
         var existingProduct = await _unitOfWork.Products.GetById(command.productId);

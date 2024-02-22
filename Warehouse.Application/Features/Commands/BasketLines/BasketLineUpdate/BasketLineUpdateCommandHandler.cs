@@ -6,17 +6,8 @@ using Warehouse.Domain.Exceptions.BasketExceptions;
 
 namespace Warehouse.Application.Features.Commands.BasketLines.BasketLineUpdate;
 
-public class BasketLineUpdateCommandHandler : IRequestHandler<BasketLineUpdateCommand, BasketLineUpdateDto>
+public class BasketLineUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork) : IRequestHandler<BasketLineUpdateCommand, BasketLineUpdateDto>
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public BasketLineUpdateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
-    {
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
-
     public async Task<BasketLineUpdateDto> Handle(BasketLineUpdateCommand command, CancellationToken cancellationToken)
     {
         var existingBasketLine = await _unitOfWork.BasketLines.GetById(command.BasketLineId);

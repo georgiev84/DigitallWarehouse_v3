@@ -1,30 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Application.Extensions;
 using Warehouse.Application.Models.Dto.ProductDtos;
-using Warehouse.Domain.Exceptions;
 using Warehouse.Persistence.EF.Extensions;
 
 namespace Warehouse.Application.Features.Queries.Product.ProductList;
 
-public record ProductListQueryHandler : IRequestHandler<ProductListGetQuery, ProductDto>
+public record ProductListQueryHandler(IMapper _mapper, IUnitOfWork _unitOfWork) : IRequestHandler<ProductListGetQuery, ProductDto>
 {
-    private readonly ILogger<ProductListQueryHandler> _logger;
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ProductListQueryHandler(
-        ILogger<ProductListQueryHandler> logger,
-        IMapper mapper,
-        IUnitOfWork unitOfWork)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<ProductDto> Handle(ProductListGetQuery request, CancellationToken cancellationToken)
     {
         var requestItems = _mapper.Map<ItemsDto>(request);

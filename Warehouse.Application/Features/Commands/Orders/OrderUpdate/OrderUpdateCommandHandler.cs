@@ -6,17 +6,8 @@ using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Orders.OrderUpdate;
 
-public class OrderUpdateCommandHandler : IRequestHandler<OrderUpdateCommand, OrderUpdateDto>
+public class OrderUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork) : IRequestHandler<OrderUpdateCommand, OrderUpdateDto>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-
-    public OrderUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-    }
-
     public async Task<OrderUpdateDto> Handle(OrderUpdateCommand command, CancellationToken cancellationToken)
     {
         var existingOrder = await _unitOfWork.Orders.GetSingleOrderAsync(command.Id);

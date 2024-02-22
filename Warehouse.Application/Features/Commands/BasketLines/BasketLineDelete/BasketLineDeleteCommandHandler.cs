@@ -1,18 +1,12 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Exceptions.BasketExceptions;
 
 namespace Warehouse.Application.Features.Commands.BasketLines.BasketLineDelete;
 
-public class BasketLineDeleteCommandHandler : IRequestHandler<BasketLineDeleteCommand>
+public class BasketLineDeleteCommandHandler(IUnitOfWork _unitOfWork) : IRequestHandler<BasketLineDeleteCommand>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public BasketLineDeleteCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
-
     public async Task Handle(BasketLineDeleteCommand command, CancellationToken cancellationToken)
     {
         var basketLine = await _unitOfWork.BasketLines.GetById(command.BasketLineId);

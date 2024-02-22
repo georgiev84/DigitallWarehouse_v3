@@ -7,17 +7,8 @@ using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Products.Update;
 
-public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand, ProductUpdateDetailsDto>
+public class ProductUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork) : IRequestHandler<ProductUpdateCommand, ProductUpdateDetailsDto>
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ProductUpdateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
-    {
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork)); ;
-    }
-
     public async Task<ProductUpdateDetailsDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)
     {
         var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);

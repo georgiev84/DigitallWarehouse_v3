@@ -6,19 +6,8 @@ using Warehouse.Domain.Entities.Products;
 
 namespace Warehouse.Application.Features.Commands.Products.ProductCreate;
 
-public class ProductCreateCommandHandler : IRequestHandler<ProductCreateCommand, ProductCreateDetailsDto>
+public class ProductCreateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork) : IRequestHandler<ProductCreateCommand, ProductCreateDetailsDto>
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ProductCreateCommandHandler(
-        IMapper mapper,
-        IUnitOfWork unitOfWork)
-    {
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
-
     public async Task<ProductCreateDetailsDto> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
     {
         var product = _mapper.Map<Product>(command);

@@ -6,17 +6,8 @@ using Warehouse.Domain.Entities.Orders;
 
 namespace Warehouse.Application.Features.Commands.Orders.OrderCreate;
 
-public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, OrderCreateDto>
+public class OrderCreateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork) : IRequestHandler<OrderCreateCommand, OrderCreateDto>
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public OrderCreateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
-    {
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-    }
-
     public async Task<OrderCreateDto> Handle(OrderCreateCommand command, CancellationToken cancellationToken)
     {
         var order = _mapper.Map<Order>(command);
