@@ -34,7 +34,6 @@ public class WarehouseDbContext : DbContext
         builder.ApplyConfigurationsFromAssembly(typeof(WarehouseDbContext).Assembly);
         base.OnModelCreating(builder);
     }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
