@@ -29,7 +29,6 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         catch (Exception ex)
         {
             throw new ProductNotFoundException("No products found in the database", ex);
-
         }
     }
 

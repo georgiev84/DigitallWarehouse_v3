@@ -2,6 +2,7 @@
 
 public enum OrderStatusName
 {
+    None,
     Pending,
     Processing,
     Shipped,

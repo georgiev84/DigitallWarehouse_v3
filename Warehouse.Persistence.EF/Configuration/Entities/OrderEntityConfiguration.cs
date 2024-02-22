@@ -28,7 +28,7 @@ public class OrderEntityConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnType(ColumnTypeConstants.DecimalColumnType);
 
         builder.Property(o => o.IsDeleted)
-            .HasColumnType("bit")
+            .HasColumnType(ColumnTypeConstants.BitColumnType)
             .HasDefaultValue(false);
     }
 }

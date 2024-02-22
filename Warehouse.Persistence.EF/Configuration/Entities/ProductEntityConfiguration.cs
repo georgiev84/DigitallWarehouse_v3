@@ -15,16 +15,16 @@ public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Title)
             .IsRequired()
-            .HasMaxLength(100);
+            .HasMaxLength(ColumnTypeConstants.TitleMaxLength);
 
         builder.Property(p => p.Description)
-            .HasMaxLength(1000);
+            .HasMaxLength(ColumnTypeConstants.DescriptionMaxLength);
 
         builder.Property(p => p.Price)
             .HasColumnType(ColumnTypeConstants.DecimalColumnType);
 
         builder.Property(p => p.IsDeleted)
-        .HasColumnType("bit")
+        .HasColumnType(ColumnTypeConstants.BitColumnType)
         .HasDefaultValue(false);
     }
 }
