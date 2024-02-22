@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Warehouse.Api.Models.OrderResponses.Orders;
 using Warehouse.Api.Models.Requests.Orders;
 using Warehouse.Api.Models.Responses.OrderResponses;
-using Warehouse.Application.Features.Commands.Order.OrderCreate;
-using Warehouse.Application.Features.Commands.Order.OrderDelete;
-using Warehouse.Application.Features.Commands.Order.OrderUpdate;
-using Warehouse.Application.Features.Queries.Order.OrderGetAll;
-using Warehouse.Application.Features.Queries.Order.OrderGetSingle;
+using Warehouse.Application.Features.Commands.Orders.OrderDelete;
+using Warehouse.Application.Features.Commands.Orders.OrderUpdate;
+using Warehouse.Application.Features.Commands.Orders.OrderCreate;
+using Warehouse.Application.Features.Queries.Orders.OrderGetAll;
+using Warehouse.Application.Features.Queries.Orders.OrderGetSingle;
 
 namespace Warehouse.Api.Controllers;
 
@@ -70,7 +70,7 @@ public class OrdersController : BaseController
         return CreatedAtAction(nameof(CreateOrder), new { id = result.Id }, mappedResult);
     }
 
-    [HttpPut("{orderId}")]
+    [HttpPatch("{orderId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

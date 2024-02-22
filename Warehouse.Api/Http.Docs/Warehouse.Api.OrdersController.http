@@ -11,17 +11,17 @@ Content-Type: application/json
     "paymentId": "11111111-2222-2321-2321-111111111321",
     "orderDate": "2024-02-05T11:35:45.648Z",
     "userId": "11111111-2222-2321-2321-111111111456",
-    "totalAmount": 104,
+    "totalAmount": 109,
     "orderLines": [
         {
-            "productId": "12345678-1234-5678-9012-345678901234",
-            "sizeId": "33333333-3333-3333-3333-333333333333",
+            "productId": "23456789-2345-6789-0123-456789012345",
+            "sizeId": "44444444-4444-4444-4444-444444444444",
             "quantity": 2,
             "price": 10
         },
         {
-            "productId": "23456789-2345-6789-0123-456789012345",
-            "sizeId": "33333333-3333-3333-3333-333333333333",
+            "productId": "88888888-8888-8888-8888-888888888888",
+            "sizeId": "55555555-5555-5555-5555-555555555555",
             "quantity": 1,
             "price": 20
         }
@@ -29,13 +29,13 @@ Content-Type: application/json
 }
 
 ### Get Single Order with all Details
-GET {{Warehouse.Api_HostAddress}}/api/orders/6428982e-3517-4952-60e7-08dc2649016c
+GET {{Warehouse.Api_HostAddress}}/api/orders/ED819674-F52F-488E-D0DD-08DC32C9390B
 
 ### Get Order List
 GET {{Warehouse.Api_HostAddress}}/api/orders
 
 ### Update Order
-PUT {{Warehouse.Api_HostAddress}}/api/Orders/6428982e-3517-4952-60e7-08dc2649016c
+PATCH {{Warehouse.Api_HostAddress}}/api/Orders/ED819674-F52F-488E-D0DD-08DC32C9390B
 Content-Type: application/json
 
 {

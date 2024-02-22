@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ### Delete BasketLine
 ### Parameter: basketLineId
-DELETE {{Warehouse.Api_HostAddress}}/api/basket/basketLines/0EE9D7BF-327B-45BD-1C0E-08DC2955095A
+DELETE {{Warehouse.Api_HostAddress}}/api/basket/basketLines/EFA2E5C8-1958-45F2-B096-08DC33825022
 
 ### Bulk Delete BasketLines
 ### Parameter: UserId 
@@ -28,7 +28,7 @@ DELETE {{Warehouse.Api_HostAddress}}/api/Basket/11111111-2222-2321-2321-11111111
 
 ### Update BasketLine
 ### Parameter: BasketLineId
-PUT {{Warehouse.Api_HostAddress}}/api/basket/basketLines/FE00EFB4-DD60-4224-B1AB-08DC29563947
+PUT {{Warehouse.Api_HostAddress}}/api/basket/basketLines/20226947-6480-41E9-2C3F-08DC33830374
 Content-Type: application/json
 
 {

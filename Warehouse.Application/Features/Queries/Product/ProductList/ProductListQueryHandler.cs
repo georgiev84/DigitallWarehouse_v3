@@ -29,19 +29,13 @@ public record ProductListQueryHandler : IRequestHandler<ProductListGetQuery, Pro
     {
         var requestItems = _mapper.Map<ItemsDto>(request);
 
-        var rawProducts = await _unitOfWork.Products.GetProductsDetailsAsync();
+        var productDetailEntities = await _unitOfWork.Products.GetProductsDetailsAsync();
 
-        var allProducts = _mapper.Map<IEnumerable<ProductDetailsDto>>(rawProducts);
+        var productDetailsDtos = _mapper.Map<IEnumerable<ProductDetailsDto>>(productDetailEntities);
 
-        if (allProducts is null)
-        {
-            _logger.LogErrorFetchingProducts();
-            throw new ProductNotFoundException("No products found in the database");
-        }
+        var filteredProducts = FilterProducts(productDetailsDtos, requestItems);
 
-        var filteredProducts = FilterProducts(allProducts, requestItems);
-
-        var productFilter = GetProductFilter(allProducts, filteredProducts);
+        var productFilter = GetProductFilter(productDetailsDtos, filteredProducts);
 
         return new ProductDto
         {

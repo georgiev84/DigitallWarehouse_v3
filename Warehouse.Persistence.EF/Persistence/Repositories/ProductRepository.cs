@@ -15,30 +15,43 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
     public async Task<IEnumerable<Product>> GetProductsDetailsAsync()
     {
-        var result = await _dbContext.Set<Product>()
-            .Include(p => p.Brand)
-            .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)
-            .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
-            .Where(p => p.IsDeleted == false)
-            .ToListAsync();
+        try
+        {
+            var result = await _dbContext.Set<Product>()
+                .Include(p => p.Brand)
+                .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)
+                .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
+                .Where(p => p.IsDeleted == false)
+                .ToListAsync();
 
-        return result;
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new ProductNotFoundException("No products found in the database", ex);
+
+        }
     }
 
     public async Task<Product> GetProductDetailsByIdAsync(Guid productId)
     {
-        var result = await _dbContext.Set<Product>()
-        .Where(p => p.Id == productId)
-        .Include(p => p.Brand)
-        .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)
-        .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
-        .SingleAsync();
-
-        if (result is null)
+        try
         {
-            throw new ProductNotFoundException($"Product with ID {productId} not found.");
-        }
+            var result = await _dbContext.Set<Product>()
+                .Include(p => p.Brand)
+                .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)
+                .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
+                .SingleAsync(p => p.Id == productId);
 
-        return result;
+            return result;
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new ProductNotFoundException($"Product with ID {productId} not found.", ex);
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 }

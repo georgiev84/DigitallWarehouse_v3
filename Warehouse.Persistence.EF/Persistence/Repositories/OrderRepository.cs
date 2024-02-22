@@ -15,22 +15,28 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
     public async Task<Order> GetSingleOrderAsync(Guid orderId)
     {
-        var result = await _dbContext.Set<Order>()
-            .Include(o => o.User)
-            .Include(o => o.Status)
-            .Include(o => o.OrderLines)
-                .ThenInclude(od => od.Product)
-                .ThenInclude(p => p.ProductSizes)
-                .ThenInclude(ps => ps.Size)
-            .Where(p => p.IsDeleted == false)
-            .FirstOrDefaultAsync(o => o.Id == orderId);
+        try
+        {
+            var result = await _dbContext.Set<Order>()
+                .Include(o => o.User)
+                .Include(o => o.Status)
+                .Include(o => o.OrderLines)
+                    .ThenInclude(od => od.Product)
+                    .ThenInclude(p => p.ProductSizes)
+                    .ThenInclude(ps => ps.Size)
+                .Where(p => p.IsDeleted == false)
+                .SingleAsync(o => o.Id == orderId);
 
-        if (result is null)
+            return result;
+
+        }
+        catch
         {
             throw new OrderNotFoundException($"Order with ID {orderId} not found.");
         }
 
-        return result;
+
+
     }
 
     public async Task<IEnumerable<Order>> GetOrdersListAsync()

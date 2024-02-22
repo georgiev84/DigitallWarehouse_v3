@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Warehouse.Application.Features.Commands.Product.ProductCreate;
+using Warehouse.Application.Features.Commands.Products.ProductCreate;
 using Warehouse.Application.Features.Queries.Product.ProductList;
 
 namespace Warehouse.Application.Extensions;

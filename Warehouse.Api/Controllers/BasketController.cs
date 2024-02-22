@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Warehouse.Api.Models.Requests.Basket;
 using Warehouse.Api.Models.Requests.BasketLine;
 using Warehouse.Api.Models.Responses.BasketResponses;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineBulkDelete;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineDelete;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
+using Warehouse.Application.Features.Commands.BasketLines.BasketLineBulkDelete;
+using Warehouse.Application.Features.Commands.BasketLines.BasketLineCreate;
+using Warehouse.Application.Features.Commands.BasketLines.BasketLineDelete;
+using Warehouse.Application.Features.Commands.BasketLines.BasketLineUpdate;
 using Warehouse.Application.Features.Queries.Basket.BasketSingleQuery;
 
 namespace Warehouse.Api.Controllers;
@@ -15,6 +15,8 @@ namespace Warehouse.Api.Controllers;
 public class BasketController : BaseController
 {
     [HttpGet("{userId:guid}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetSingleBasket(
         [FromRoute] Guid userId,
         [FromServices] ISender _mediator,

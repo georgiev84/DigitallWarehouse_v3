@@ -21,7 +21,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
                 .Include(b => b.BasketLines)
                 .SingleAsync(o => o.UserId == userId);
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
             throw new BasketNotFoundException($"Basket for User with ID {userId} not found.", ex);
         }
@@ -41,7 +41,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
 
             return result;
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
             throw new BasketNotFoundException($"Basket for User with ID {userId} not found.", ex);
         }

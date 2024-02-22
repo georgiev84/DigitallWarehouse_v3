@@ -27,7 +27,6 @@ public class WarehouseDbContext : DbContext
     public DbSet<Basket> Baskets { get; set; }
     public DbSet<BasketLine> BasketLines { get; set; }
     public DbSet<Role> Roles { get; set; }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(typeof(WarehouseDbContext).Assembly);

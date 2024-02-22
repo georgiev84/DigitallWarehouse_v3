@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineCreate;
-using Warehouse.Application.Features.Commands.BasketLine.BasketLineUpdate;
-using Warehouse.Application.Features.Commands.Order.OrderCreate;
-using Warehouse.Application.Features.Commands.Order.OrderUpdate;
-using Warehouse.Application.Features.Commands.Product.ProductCreate;
+using Warehouse.Application.Features.Commands.BasketLines.BasketLineCreate;
+using Warehouse.Application.Features.Commands.BasketLines.BasketLineUpdate;
+using Warehouse.Application.Features.Commands.Orders.OrderUpdate;
+using Warehouse.Application.Features.Commands.Orders.OrderCreate;
+using Warehouse.Application.Features.Commands.Products.ProductCreate;
 using Warehouse.Application.Features.Queries.Product.ProductList;
 using Warehouse.Application.Models.Dto;
 using Warehouse.Application.Models.Dto.BasketDtos;
@@ -12,6 +12,7 @@ using Warehouse.Application.Models.Dto.ProductDtos;
 using Warehouse.Domain.Entities.Baskets;
 using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
+using Warehouse.Application.Features.Commands.Products.Update;
 
 namespace Warehouse.Application.Mappings;
 
@@ -42,6 +43,8 @@ public class MappingProfile : Profile
         CreateMap<SizeInformationDto, ProductSize>()
             .ForMember(dest => dest.SizeId, opt => opt.MapFrom(src => src.SizeId))
             .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.Quantity));
+
+        CreateMap<OrderLineDto, OrderLine>();
     }
 
     private void MapFromCommandToEntity()
@@ -49,7 +52,12 @@ public class MappingProfile : Profile
         CreateMap<ProductCreateCommand, Product>()
             .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(_ => false))
             .ForMember(dest => dest.ProductSizes, opt => opt.MapFrom(src => src.SizeInformation))
-            .ForMember(dest => dest.ProductGroups, opt => opt.MapFrom(src => src.GroupIds));
+            .ForMember(dest => dest.ProductGroups, opt => opt.MapFrom(src => src.GroupIds.Select(groupId => new ProductGroup { GroupId = groupId })));
+
+        CreateMap<ProductUpdateCommand, Product>()
+            .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(_ => false))
+            .ForMember(dest => dest.ProductSizes, opt => opt.MapFrom(src => src.SizeInformation))
+            .ForMember(dest => dest.ProductGroups, opt => opt.MapFrom(src => src.GroupIds.Select(groupId => new ProductGroup { GroupId = groupId })));
 
         CreateMap<OrderUpdateCommand, Order>();
 
@@ -139,8 +147,18 @@ public class MappingProfile : Profile
 
         CreateMap<Product, ProductUpdateDetailsDto>()
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
-            .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Any() ? src.ProductGroups.Select(pg => pg.Group.Name).ToList() : null))
-            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Any() ? src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList() : null));
+            .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()))
+            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList()));
+
+
+        //CreateMap<ProductSize, SizeDto>()
+        //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Size.Name))
+        //    .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.QuantityInStock));
+
+        //CreateMap<Product, ProductUpdateDetailsDto>()
+        //    .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
+        //    .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()));
+
 
         CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
