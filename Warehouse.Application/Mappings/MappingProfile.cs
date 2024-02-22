@@ -150,16 +150,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()))
             .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList()));
 
-
-        //CreateMap<ProductSize, SizeDto>()
-        //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Size.Name))
-        //    .ForMember(dest => dest.QuantityInStock, opt => opt.MapFrom(src => src.QuantityInStock));
-
-        //CreateMap<Product, ProductUpdateDetailsDto>()
-        //    .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
-        //    .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()));
-
-
         CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));

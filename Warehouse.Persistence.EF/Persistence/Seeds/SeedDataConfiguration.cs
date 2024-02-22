@@ -6,7 +6,7 @@ using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Entities.Users;
 using Warehouse.Domain.Enums;
 
-namespace Warehouse.Persistence.EF.Persistence.Seed;
+namespace Warehouse.Persistence.EF.Persistence.Seeds;
 
 public class SeedDataConfiguration :
     IEntityTypeConfiguration<Brand>,
@@ -161,12 +161,9 @@ public class SeedDataConfiguration :
         builder.HasData(
             new ProductSize { ProductId = Guid.Parse("88888888-8888-8888-8888-888888888888"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
             new ProductSize { ProductId = Guid.Parse("88888888-8888-8888-8888-888888888888"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 },
-
             new ProductSize { ProductId = Guid.Parse("99999999-9999-9999-9999-999999999999"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
-
             new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
             new ProductSize { ProductId = Guid.Parse("12345678-1234-5678-9012-345678901234"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 },
-
             new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("55555555-5555-5555-5555-555555555555"), QuantityInStock = 30 },
             new ProductSize { ProductId = Guid.Parse("23456789-2345-6789-0123-456789012345"), SizeId = Guid.Parse("44444444-4444-4444-4444-444444444444"), QuantityInStock = 20 }
         );
@@ -174,12 +171,6 @@ public class SeedDataConfiguration :
 
     public void Configure(EntityTypeBuilder<Payment> builder)
     {
-        //builder.HasData(
-        //    new Payment { PaymentId = Guid.Parse("23439789-2345-6789-0123-456789012345"), PaymentMethod = PaymentMethod.Cash, PaymentDate = DateTime.Now },
-        //    new Payment { PaymentId = Guid.Parse("23333789-2345-6789-0123-456789012345"), PaymentMethod = PaymentMethod.CreditCard, PaymentDate = DateTime.Now },
-        //    new Payment { PaymentId = Guid.Parse("23439789-2345-6789-0123-456789015574"), PaymentMethod = PaymentMethod.PayPal, PaymentDate = DateTime.Now },
-        //    new Payment { PaymentId = Guid.Parse("23439789-0098-6789-0123-456789012345"), PaymentMethod = PaymentMethod.BankTransfer, PaymentDate = DateTime.Now },
-        //    new Payment { PaymentId = Guid.Parse("23488889-2345-5789-0123-456789012345"), PaymentMethod = PaymentMethod.Other, PaymentDate = DateTime.Now }
-        //);
+
     }
 }

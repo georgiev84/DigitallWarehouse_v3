@@ -15,7 +15,7 @@ public class ProductUpdateCommandHandler : IRequestHandler<ProductUpdateCommand,
     public ProductUpdateCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
     {
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _unitOfWork = unitOfWork;
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork)); ;
     }
 
     public async Task<ProductUpdateDetailsDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)
