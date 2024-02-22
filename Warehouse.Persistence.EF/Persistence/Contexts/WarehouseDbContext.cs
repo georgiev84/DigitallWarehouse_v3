@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using Warehouse.Domain.Entities.Baskets;
 using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
@@ -10,6 +11,7 @@ public class WarehouseDbContext : DbContext
 {
     public WarehouseDbContext(DbContextOptions options) : base(options)
     {
+        Database.Migrate();
     }
 
     public DbSet<User> Users { get; set; }
