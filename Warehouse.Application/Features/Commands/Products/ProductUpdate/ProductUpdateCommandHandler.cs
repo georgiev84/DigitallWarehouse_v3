@@ -18,7 +18,7 @@ public class ProductUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
         }
 
         _mapper.Map(command, existingProduct);
-       
+
         existingProduct.ProductSizes.Clear();
         foreach (var newSize in command.SizeInformation)
         {

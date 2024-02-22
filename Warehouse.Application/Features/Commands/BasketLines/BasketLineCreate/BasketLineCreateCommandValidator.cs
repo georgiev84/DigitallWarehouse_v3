@@ -18,6 +18,5 @@ public class BasketLineCreateCommandValidator : AbstractValidator<BasketLineCrea
         RuleFor(command => command.BasketLine)
             .NotNull().WithMessage(ValidationMessages.RequiredItem("BasketLine"))
             .SetValidator(new BasketLineDtoValidator(_unitOfWork)!);
-        
     }
 }

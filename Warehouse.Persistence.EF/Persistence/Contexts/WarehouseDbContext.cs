@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using Warehouse.Domain.Entities.Baskets;
 using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
@@ -29,11 +28,13 @@ public class WarehouseDbContext : DbContext
     public DbSet<Basket> Baskets { get; set; }
     public DbSet<BasketLine> BasketLines { get; set; }
     public DbSet<Role> Roles { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(typeof(WarehouseDbContext).Assembly);
         base.OnModelCreating(builder);
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

@@ -28,15 +28,11 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
                 .SingleAsync(o => o.Id == orderId);
 
             return result;
-
         }
         catch
         {
             throw new OrderNotFoundException($"Order with ID {orderId} not found.");
         }
-
-
-
     }
 
     public async Task<IEnumerable<Order>> GetOrdersListAsync()

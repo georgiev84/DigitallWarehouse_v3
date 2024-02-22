@@ -171,6 +171,5 @@ public class SeedDataConfiguration :
 
     public void Configure(EntityTypeBuilder<Payment> builder)
     {
-
     }
 }

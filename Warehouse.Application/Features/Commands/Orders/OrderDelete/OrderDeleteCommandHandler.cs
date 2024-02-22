@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Domain.Exceptions;
 
 namespace Warehouse.Application.Features.Commands.Orders.OrderDelete;
 
