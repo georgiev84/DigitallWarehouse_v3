@@ -41,9 +41,13 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
 
             return result;
         }
-        catch (Exception ex)
+        catch (InvalidOperationException ex)
         {
             throw new BasketNotFoundException($"Basket for User with ID {userId} not found.", ex);
+        }
+        catch
+        {
+            throw;
         }
     }
 }

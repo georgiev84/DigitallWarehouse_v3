@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Orders;
+using Warehouse.Domain.Entities.Products;
+using Warehouse.Domain.Exceptions;
 using Warehouse.Domain.Exceptions.OrderExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
@@ -29,9 +31,13 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
             return result;
         }
-        catch
+        catch (InvalidOperationException ex)
         {
             throw new OrderNotFoundException($"Order with ID {orderId} not found.");
+        }
+        catch
+        {
+            throw;
         }
     }
 

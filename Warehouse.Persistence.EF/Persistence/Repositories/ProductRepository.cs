@@ -48,7 +48,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         {
             throw new ProductNotFoundException($"Product with ID {productId} not found.", ex);
         }
-        catch (Exception ex)
+        catch
         {
             throw;
         }

@@ -1,5 +1,6 @@
 ﻿using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Products;
+using Warehouse.Domain.Exceptions;
 using Warehouse.Domain.Exceptions.ProductExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.EF.Persistence.Contexts;
@@ -14,13 +15,17 @@ public class ProductSizeRepository : GenericRepository<ProductSize>, IProductSiz
 
     public async Task<ProductSize> GetByCompositeKey(Guid productId, Guid sizeId)
     {
-        var productSize = await _dbContext.Set<ProductSize>().FindAsync(productId, sizeId);
-
-        if (productSize == null)
+        try
         {
-            throw new ProductSizeNotFoundException($"ProductSize with ProductId {productId} and SizeId {sizeId} not found.");
+            return await _dbContext.Set<ProductSize>().FindAsync(productId, sizeId);
         }
-
-        return productSize;
+        catch (InvalidOperationException ex)
+        {
+            throw new ProductSizeNotFoundException($"ProductSize with ProductId {productId} and SizeId {sizeId} not found.", ex);
+        }
+        catch
+        {
+            throw;
+        }
     }
 }

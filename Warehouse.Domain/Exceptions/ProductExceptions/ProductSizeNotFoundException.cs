@@ -6,4 +6,9 @@ public class ProductSizeNotFoundException : Exception
     : base(message)
     {
     }
+
+    public ProductSizeNotFoundException(string message, Exception exception)
+    : base(message, exception)
+    {
+    }
 }
