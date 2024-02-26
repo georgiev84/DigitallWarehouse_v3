@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using Warehouse.Application.Features.Queries.Product;
+using Warehouse.Application.Features.Commands.Products.ProductCreate;
+using Warehouse.Application.Features.Queries.Product.ProductList;
 
 namespace Warehouse.Application.Extensions;
 
@@ -33,5 +34,11 @@ public static partial class LoggingExtensions
     public static partial void LogRequestValidationFailed(this ILogger logger);
 
     [LoggerMessage(EventId = 13, Level = LogLevel.Debug, Message = "Executing Handler with request: {ProductQuery}")]
-    public static partial void LogRequestHandlerMessage(this ILogger logger, ProductQuery ProductQuery);
+    public static partial void LogRequestHandlerMessage(this ILogger logger, ProductListGetQuery ProductQuery);
+
+    [LoggerMessage(EventId = 14, Level = LogLevel.Error, Message = "{Message}")]
+    public static partial void LogProductCreationFailed(this ILogger logger, string Message, Exception ex);
+
+    [LoggerMessage(EventId = 15, Level = LogLevel.Debug, Message = "Creating {Command}")]
+    public static partial void LogCreateMessage(this ILogger logger, ProductCreateCommand Command);
 }

@@ -1,19 +1,16 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Common.Interfaces;
-using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Infrastructure.Client;
-using Warehouse.Infrastructure.Configuration;
-using Warehouse.Infrastructure.Persistence;
-using Warehouse.Infrastructure.Services;
+using Warehouse.Persistence.EF.Client;
+using Warehouse.Persistence.EF.Configuration;
 
-namespace Warehouse.Infrastructure.Extensions;
+namespace Warehouse.Persistence.EF.Extensions;
 
 public static class DependencyRegistrationExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        if (configuration == null)
+        if (configuration is null)
         {
             throw new ArgumentNullException(nameof(configuration));
         }
@@ -21,8 +18,6 @@ public static class DependencyRegistrationExtension
         services.Configure<MockyClientConfiguration>(configuration.GetSection("MockyClient"));
         services.AddHttpClient<MockApiCLient>();
         services.AddScoped<IMockApiClient, MockApiCLient>();
-        services.AddScoped<IWarehouseRepository, WarehouseRepository>();
-        services.AddScoped<IProductService, ProductService>();
         return services;
     }
 }

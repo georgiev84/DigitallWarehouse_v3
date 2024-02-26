@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
-using Warehouse.Domain.Entities;
-using Warehouse.Infrastructure.Extensions;
+using Warehouse.Domain.Entities.Products;
+using Warehouse.Persistence.EF.Extensions;
 
-namespace Warehouse.Infrastructure.Client;
+namespace Warehouse.Persistence.EF.Client;
 
 public class MockApiCLient : IMockApiClient
 {
@@ -20,7 +20,7 @@ public class MockApiCLient : IMockApiClient
     public async Task<IEnumerable<Product>> GetProductsAsync(string url)
     {
         MockApiClientLoggerExtensions.LogApiFetch(_logger);
-        
+
         try
         {
             var response = await _httpClient.GetAsync(url);
@@ -46,4 +46,3 @@ public class MockApiCLient : IMockApiClient
         }
     }
 }
-

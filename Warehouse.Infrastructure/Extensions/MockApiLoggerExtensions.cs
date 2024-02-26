@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Warehouse.Infrastructure.Extensions;
+namespace Warehouse.Persistence.EF.Extensions;
 
 public static partial class MockApiClientLoggerExtensions
 {

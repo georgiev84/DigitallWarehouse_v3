@@ -1,10 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data;
 using System.Net;
 using Warehouse.Api.Models.Errors;
 using Warehouse.Domain.Exceptions;
+using Warehouse.Domain.Exceptions.BasketExceptions;
+using Warehouse.Domain.Exceptions.ProductExceptions;
 
 namespace Warehouse.Api.Filters;
 
@@ -21,15 +22,18 @@ public class ErrorHandlingFilter : IExceptionFilter
             Message = exception.Message
         };
 
-        if (exceptionType == typeof(DBConcurrencyException))
+        switch (exceptionType.Name)
         {
-            error.Message = exception.Message;
-            error.StatusCode = HttpStatusCode.Conflict;
-        }
-        else if(exceptionType == typeof(ProductNotFoundException))
-        {
-            error.Message = exception.Message;
-            error.StatusCode = HttpStatusCode.NotFound;
+            case nameof(DBConcurrencyException):
+            case nameof(ProductCreationException):
+            case nameof(BasketLineExistException):
+                error.StatusCode = HttpStatusCode.Conflict;
+                break;
+
+            case nameof(ProductNotFoundException):
+            case nameof(BasketNotFoundException):
+                error.StatusCode = HttpStatusCode.NotFound;
+                break;
         }
 
         context.Result = new JsonResult(error);

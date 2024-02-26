@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Warehouse.Application.Extensions;
-using Warehouse.Application.Models.Dto;
+using Warehouse.Application.Models.Dto.ProductDtos;
 
 namespace Warehouse.Application.Behavior;
 
-public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse : ProductDto
 {
