@@ -2,9 +2,9 @@
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Baskets;
 using Warehouse.Persistence.Abstractions;
-using Warehouse.Persistence.EF.Persistence.Contexts;
+using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
-namespace Warehouse.Persistence.EF.Persistence.Repositories;
+namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
 public class BasketLineRepository : GenericRepository<BasketLine>, IBasketLineRepository
 {

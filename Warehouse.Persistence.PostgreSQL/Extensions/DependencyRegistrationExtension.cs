@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Persistence.EF.Persistence;
-using Warehouse.Persistence.EF.Persistence.Contexts;
-using Warehouse.Persistence.EF.Persistence.Repositories;
+using Warehouse.Persistence.PostgreSQL.Persistence;
+using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
+using Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
-namespace Warehouse.Persistence.EF.Extensions;
+namespace Warehouse.Persistence.PostgreSQL.Extensions;
 
 public static class DependencyRegistrationExtension
 {

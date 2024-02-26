@@ -2,7 +2,7 @@
 using MediatR;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Application.Models.Dto.ProductDtos;
-using Warehouse.Persistence.EF.Extensions;
+using Warehouse.Persistence.PostgreSQL.Extensions;
 
 namespace Warehouse.Application.Features.Queries.Product.ProductList;
 

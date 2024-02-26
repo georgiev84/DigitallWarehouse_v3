@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Warehouse.Persistence.EF.Persistence.Contexts;
+using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 #nullable disable
 

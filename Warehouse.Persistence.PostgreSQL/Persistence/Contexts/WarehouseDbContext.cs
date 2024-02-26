@@ -4,7 +4,7 @@ using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Entities.Users;
 
-namespace Warehouse.Persistence.EF.Persistence.Contexts;
+namespace Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 public class WarehouseDbContext : DbContext
 {

@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Persistence.EF.Configuration.Contstants;
+﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
 
 public static class ColumnTypeConstants
 {

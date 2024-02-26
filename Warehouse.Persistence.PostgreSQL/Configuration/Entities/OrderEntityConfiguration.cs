@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities.Orders;
-using Warehouse.Persistence.EF.Configuration.Contstants;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
 
-namespace Warehouse.Persistence.EF.Configuration.Entities;
+namespace Warehouse.Persistence.PostgreSQL.Configuration.Entities;
 
 public class OrderEntityConfiguration : IEntityTypeConfiguration<Order>
 {

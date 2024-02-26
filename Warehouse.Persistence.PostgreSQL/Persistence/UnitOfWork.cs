@@ -1,7 +1,7 @@
 ﻿using Warehouse.Application.Common.Interfaces.Persistence;
-using Warehouse.Persistence.EF.Persistence.Contexts;
+using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
-namespace Warehouse.Persistence.EF.Persistence;
+namespace Warehouse.Persistence.PostgreSQL.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {

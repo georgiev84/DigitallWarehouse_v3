@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 using Warehouse.Api.Filters;
 using Warehouse.Application.Behavior;
 using Warehouse.Application.Extensions;
-using Warehouse.Persistence.EF.Extensions;
+using Warehouse.Persistence.PostgreSQL.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

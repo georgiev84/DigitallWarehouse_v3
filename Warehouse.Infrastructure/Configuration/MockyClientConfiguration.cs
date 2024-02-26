@@ -1,4 +1,4 @@
-﻿namespace Warehouse.Persistence.EF.Configuration;
+﻿namespace Warehouse.Persistence.PostgreSQL.Configuration;
 
 public class MockyClientConfiguration
 {

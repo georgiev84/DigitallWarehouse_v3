@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Entities.Products;
 
-namespace Warehouse.Persistence.EF.Configuration.Entities;
+namespace Warehouse.Persistence.PostgreSQL.Configuration.Entities;
 
 public class ProductSizeEntityConfiguration : IEntityTypeConfiguration<ProductSize>
 {

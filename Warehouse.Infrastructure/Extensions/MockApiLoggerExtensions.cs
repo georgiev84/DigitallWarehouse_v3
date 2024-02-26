@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Warehouse.Persistence.EF.Extensions;
+namespace Warehouse.Persistence.PostgreSQL.Extensions;
 
 public static partial class MockApiClientLoggerExtensions
 {

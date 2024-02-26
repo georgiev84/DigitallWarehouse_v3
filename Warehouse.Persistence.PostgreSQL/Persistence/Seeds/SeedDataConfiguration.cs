@@ -6,7 +6,7 @@ using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Entities.Users;
 using Warehouse.Domain.Enums;
 
-namespace Warehouse.Persistence.EF.Persistence.Seeds;
+namespace Warehouse.Persistence.PostgreSQL.Persistence.Seeds;
 
 public class SeedDataConfiguration :
     IEntityTypeConfiguration<Brand>,
