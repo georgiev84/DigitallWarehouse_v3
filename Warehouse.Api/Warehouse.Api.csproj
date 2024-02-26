@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Warehouse.Application\Warehouse.Application.csproj" />
     <ProjectReference Include="..\Warehouse.Infrastructure\Warehouse.Infrastructure.csproj" />
     <ProjectReference Include="..\Warehouse.Persistence.EF\Warehouse.Persistence.PostgreSQL.csproj" />
+    <ProjectReference Include="..\Warehouse.Persistence.PostgreSQL\Warehouse.Persistence.PostgreSQL.csproj" />
   </ItemGroup>
 
 </Project>
