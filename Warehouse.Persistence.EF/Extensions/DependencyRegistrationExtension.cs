@@ -18,8 +18,8 @@ public static class DependencyRegistrationExtension
         }
 
         services.AddDbContext<WarehouseDbContext>(
-            options => options.UseSqlServer(configuration.GetConnectionString("WarehouseDbConnection"),
-            options => options.UseCompatibilityLevel(150)));
+            options => options.UseNpgsql(configuration.GetConnectionString("WerehousePgsqlDbConnectionString"))
+        );
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ISizeRepository, SizeRepository>();

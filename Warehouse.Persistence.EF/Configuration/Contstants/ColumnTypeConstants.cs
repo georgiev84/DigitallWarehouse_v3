@@ -2,8 +2,8 @@
 
 public static class ColumnTypeConstants
 {
-    public const string DecimalColumnType = "decimal(18, 2)";
-    public const string BitColumnType = "bit";
+    public const string DecimalColumnType = "numeric(18, 2)";
+    public const string BitColumnType = "boolean";
     public const int DescriptionMaxLength = 1000;
     public const int TitleMaxLength = 100;
     public const int LoginMaxLength = 50;
