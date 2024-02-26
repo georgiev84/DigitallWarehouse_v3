@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using System.Net;
-using Warehouse.Persistence.EF.Client;
+using Warehouse.Persistence.PostgreSQL.Client;
 
 namespace Warehouse.Tests;
 

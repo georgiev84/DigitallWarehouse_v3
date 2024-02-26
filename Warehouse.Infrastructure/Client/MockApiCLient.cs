@@ -2,9 +2,9 @@
 using System.Text.Json;
 using Warehouse.Application.Common.Interfaces;
 using Warehouse.Domain.Entities.Products;
-using Warehouse.Persistence.EF.Extensions;
+using Warehouse.Persistence.PostgreSQL.Extensions;
 
-namespace Warehouse.Persistence.EF.Client;
+namespace Warehouse.Persistence.PostgreSQL.Client;
 
 public class MockApiCLient : IMockApiClient
 {

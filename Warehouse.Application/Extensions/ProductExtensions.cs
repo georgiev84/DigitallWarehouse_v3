@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using Warehouse.Application.Models.Dto.ProductDtos;
 
-namespace Warehouse.Persistence.EF.Extensions;
+namespace Warehouse.Persistence.PostgreSQL.Extensions;
 
 public static class ProductExtensions
 {
