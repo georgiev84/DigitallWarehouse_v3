@@ -1,4 +1,5 @@
-﻿using Warehouse.Application.Common.Interfaces.Persistence;
+﻿using System.Data;
+using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Exceptions;
 using Warehouse.Domain.Exceptions.ProductExceptions;
@@ -9,7 +10,7 @@ namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
 public class ProductSizeRepository : GenericRepository<ProductSize>, IProductSizeRepository
 {
-    public ProductSizeRepository(WarehouseDbContext context) : base(context)
+    public ProductSizeRepository(WarehouseDbContext context, IDbConnection dbConnection) : base(context, dbConnection)
     {
     }
 

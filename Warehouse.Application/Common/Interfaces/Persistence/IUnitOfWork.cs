@@ -10,4 +10,5 @@ public interface IUnitOfWork : IDisposable
     IProductSizeRepository ProductSizes { get; }
 
     Task<int> SaveAsync();
+    void Commit();
 }

@@ -40,22 +40,21 @@ Content-Type: application/json
 }
 
 ### Update Product
-PUT {{Warehouse.Api_HostAddress}}/api/products/93e50586-1151-4f79-beee-08dc33b8f06f
+PUT {{Warehouse.Api_HostAddress}}/api/products/12345678-1234-5678-9012-345678901234
 Content-Type: application/json
 
 {
   "brandId": "22222222-2222-2222-2222-222222222222",
-  "title": "Test222 Digitall Product",
+  "title": "483Test222 Digitall Product",
   "description": "Test333 Product",
   "price": 44,
   "groupIds": [
-    "88888888-8888-8888-8888-888888888888",
     "99999999-9999-9999-9999-999999999999"
   ],
   "sizeInformation": [
     {
       "sizeId": "33333333-3333-3333-3333-333333333333",
-      "quantity": 34
+      "quantity": 54
     },
     {
       "sizeId": "44444444-4444-4444-4444-444444444444",

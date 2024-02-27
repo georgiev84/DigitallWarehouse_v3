@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
@@ -11,7 +12,7 @@ namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
 public class OrderRepository : GenericRepository<Order>, IOrderRepository
 {
-    public OrderRepository(WarehouseDbContext dbContext) : base(dbContext)
+    public OrderRepository(WarehouseDbContext dbContext, IDbConnection dbConnection) : base(dbContext, dbConnection)
     {
     }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Baskets;
 using Warehouse.Domain.Exceptions.BasketExceptions;
@@ -9,7 +10,7 @@ namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
 public class BasketRepository : GenericRepository<Basket>, IBasketRepository
 {
-    public BasketRepository(WarehouseDbContext dbContext) : base(dbContext)
+    public BasketRepository(WarehouseDbContext dbContext, IDbConnection dbConnection) : base(dbContext, dbConnection)
     {
     }
 

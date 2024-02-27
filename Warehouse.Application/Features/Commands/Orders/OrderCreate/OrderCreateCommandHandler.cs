@@ -17,7 +17,7 @@ public class OrderCreateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork)
         await _unitOfWork.SaveAsync();
 
         var checkedOrder = await _unitOfWork.Orders.GetById(order.Id);
-
+        
         var orderDto = _mapper.Map<OrderCreateDto>(checkedOrder);
 
         return orderDto;
