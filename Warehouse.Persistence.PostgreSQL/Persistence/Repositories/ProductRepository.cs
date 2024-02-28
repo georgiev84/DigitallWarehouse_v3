@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Products;
@@ -21,13 +20,10 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         try
         {
-
             var result = await _dbConnection.QueryAsync<Product, Brand, ProductGroup, ProductSize, Size, Group, Product>(
                 DapperConstants.GetProductsDetailsQuery,
                 (product, brand, productGroup, productSize, size, group) =>
                 {
-
-
                     product.Brand = brand;
                     product.ProductSizes = product.ProductSizes ?? new List<ProductSize>();
                     productSize.Size = size;
@@ -37,45 +33,10 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                     product.ProductGroups.Add(productGroup);
                     return product;
                 },
-                splitOn: "Id, ProductId, ProductId, Id, Id"
+                splitOn: $"{nameof(Brand.Id)}, {nameof(ProductGroup.ProductId)}, {nameof(ProductSize.ProductId)}, {nameof(Size.Id)}, {nameof(Group.Id)}"
             );
-            //var distinctResult = result.Distinct();
-           
-            // Dictionary to store product sizes by product ID
-            var productSizesDict = new Dictionary<Guid, List<ProductSize>>();
-            // Dictionary to store product groups by product ID
-            var productGroupsDict = new Dictionary<Guid, List<ProductGroup>>();
 
-            // Iterate over the result to populate dictionaries
-            foreach (var product in result)
-            {
-                if (!productSizesDict.ContainsKey(product.Id))
-                {
-                    productSizesDict[product.Id] = new List<ProductSize>();
-                }
-                productSizesDict[product.Id].AddRange(product.ProductSizes);
-
-                if (!productGroupsDict.ContainsKey(product.Id))
-                {
-                    productGroupsDict[product.Id] = new List<ProductGroup>();
-                }
-                productGroupsDict[product.Id].AddRange(product.ProductGroups);
-            }
-
-            foreach (var product in result)
-            {
-                if (productSizesDict.TryGetValue(product.Id, out var sizes))
-                {
-                    product.ProductSizes = sizes.Distinct().ToList();
-                }
-                if (productGroupsDict.TryGetValue(product.Id, out var groups))
-                {
-                    product.ProductGroups = groups
-                        .GroupBy(pg => new { pg.ProductId, pg.GroupId }) // Group by both ProductId and GroupId
-                        .Select(g => g.First()) // Select the first item of each group
-                        .ToList();
-                }
-            }
+            PopulateProductSizesAndGroups(result);
 
             return result.DistinctBy(p => p.Id); 
         }
@@ -89,26 +50,8 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         try
         {
-            var result = await _dbContext.Set<Product>()
-                .Include(p => p.Brand)
-                .Include(p => p.ProductGroups).ThenInclude(pg => pg.Group)
-                .Include(p => p.ProductSizes).ThenInclude(ps => ps.Size)
-                .SingleAsync(p => p.Id == productId);
-
-            string query = """
-                SELECT p.*, b.*, pg.*, ps.*, s.*, g.*
-                FROM "Products" p
-                LEFT JOIN "Brands" b ON p."BrandId" = b."Id"
-                LEFT JOIN "ProductGroups" pg ON p."Id" = pg."ProductId"
-                LEFT JOIN "Groups" g ON pg."GroupId" = g."Id"
-                LEFT JOIN "ProductSizes" ps ON p."Id" = ps."ProductId"
-                LEFT JOIN "Sizes" s ON ps."SizeId" = s."Id"
-                WHERE p."IsDeleted" = false
-                AND p."Id" = @ProductId
-                """;
-
-            var result1 = await _dbConnection.QueryAsync<Product, Brand, ProductGroup, ProductSize, Size, Group, Product>(
-                query,
+            var result = await _dbConnection.QueryAsync<Product, Brand, ProductGroup, ProductSize, Size, Group, Product>(
+                DapperConstants.GetProductsDetailsSingleQuery,
                 (product, brand, productGroup, productSize, size, group) =>
                 {
                     product.Brand = brand;
@@ -121,11 +64,12 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
                     return product;
                 },
                 new { ProductId = productId },
-                splitOn: "Id, ProductId, ProductId, Id, Id"
+                splitOn: $"{nameof(Brand.Id)}, {nameof(ProductGroup.ProductId)}, {nameof(ProductSize.ProductId)}, {nameof(Size.Id)}, {nameof(Group.Id)}"
             );
 
+            PopulateProductSizesAndGroups(result);
 
-            return result;
+            return result.FirstOrDefault();
         }
         catch (InvalidOperationException ex)
         {
@@ -141,8 +85,52 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         string sql = @$"UPDATE Products SET Title = @Title, Description = @Description, Price = @Price, IsDeleted = @IsDeleted WHERE Id = @Id";
 
+        //_dbConnection.ExecuteAsync(sql, new
+        //{
+        //    entity.Title,
+        //    entity.Description,
+        //    entity.Price,
+        //    entity.IsDeleted,
+        //    entity.Id
+        //});
+
         _dbConnection.ExecuteAsync(sql, entity);
     }
 
+    private void PopulateProductSizesAndGroups(IEnumerable<Product> products)
+    {
+        var productSizesDict = new Dictionary<Guid, List<ProductSize>>();
+        var productGroupsDict = new Dictionary<Guid, List<ProductGroup>>();
+
+        foreach (var product in products)
+        {
+            if (!productSizesDict.ContainsKey(product.Id))
+            {
+                productSizesDict[product.Id] = new List<ProductSize>();
+            }
+            productSizesDict[product.Id].AddRange(product.ProductSizes);
+
+            if (!productGroupsDict.ContainsKey(product.Id))
+            {
+                productGroupsDict[product.Id] = new List<ProductGroup>();
+            }
+            productGroupsDict[product.Id].AddRange(product.ProductGroups);
+        }
+
+        foreach (var product in products)
+        {
+            if (productSizesDict.TryGetValue(product.Id, out var sizes))
+            {
+                product.ProductSizes = sizes.Distinct().ToList();
+            }
+            if (productGroupsDict.TryGetValue(product.Id, out var groups))
+            {
+                product.ProductGroups = groups
+                    .GroupBy(pg => new { pg.ProductId, pg.GroupId })
+                    .Select(g => g.First())
+                    .ToList();
+            }
+        }
+    }
 
 }

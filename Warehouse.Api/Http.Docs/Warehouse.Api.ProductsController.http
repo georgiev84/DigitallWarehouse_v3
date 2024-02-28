@@ -45,16 +45,17 @@ Content-Type: application/json
 
 {
   "brandId": "22222222-2222-2222-2222-222222222222",
-  "title": "483Test222 Digitall Product",
-  "description": "Test333 Product",
+  "title": "583Test222 Digitall Product",
+  "description": "Test3353 Product",
   "price": 44,
   "groupIds": [
-    "99999999-9999-9999-9999-999999999999"
+    "99999999-9999-9999-9999-999999999999",
+    "88888888-8888-8888-8888-888888888888"
   ],
   "sizeInformation": [
     {
       "sizeId": "33333333-3333-3333-3333-333333333333",
-      "quantity": 54
+      "quantity": 58
     },
     {
       "sizeId": "44444444-4444-4444-4444-444444444444",
