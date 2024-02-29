@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Exceptions;
 

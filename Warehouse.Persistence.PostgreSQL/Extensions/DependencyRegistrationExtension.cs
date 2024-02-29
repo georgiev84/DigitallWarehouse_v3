@@ -34,7 +34,8 @@ public static class DependencyRegistrationExtension
             return provider.GetRequiredService<NpgsqlConnection>();
         });
 
-        services.AddScoped<IDbTransaction>(provider => {
+        services.AddScoped<IDbTransaction>(provider =>
+        {
             var connection = provider.GetRequiredService<NpgsqlConnection>();
             connection.Open();
             return connection.BeginTransaction();

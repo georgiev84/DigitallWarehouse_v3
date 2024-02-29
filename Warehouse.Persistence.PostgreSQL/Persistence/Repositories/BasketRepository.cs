@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Baskets;
@@ -17,6 +16,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
     public BasketRepository(WarehouseDbContext dbContext, IDbConnection dbConnection) : base(dbContext, dbConnection)
     {
     }
+
     public async Task<Basket> GetSingleBasketByUserIdAsync(Guid userId)
     {
         try

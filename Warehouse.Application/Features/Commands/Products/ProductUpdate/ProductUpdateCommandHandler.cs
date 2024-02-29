@@ -33,7 +33,6 @@ public class ProductUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
                 existingProduct.ProductGroups.Add(new ProductGroup
                 {
                     GroupId = groupId,
-
                 });
             }
 

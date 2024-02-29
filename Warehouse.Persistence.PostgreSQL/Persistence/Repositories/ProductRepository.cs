@@ -13,6 +13,7 @@ namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 public class ProductRepository : GenericRepository<Product>, IProductRepository
 {
     private readonly IDbTransaction _dbTransaction;
+
     public ProductRepository(WarehouseDbContext dbContext, IDbConnection dbConnection, IDbTransaction dbTransaction) : base(dbContext, dbConnection)
     {
         _dbTransaction = dbTransaction;
@@ -82,6 +83,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             throw;
         }
     }
+
     public override async Task Update(Product entity)
     {
         try
@@ -90,7 +92,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             await _dbConnection.ExecuteAsync(DapperConstants.DeleteProductSizesQuery, new { ProductId = entity.Id }, _dbTransaction);
             await _dbConnection.ExecuteAsync(DapperConstants.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }), _dbTransaction);
             await _dbConnection.ExecuteAsync(DapperConstants.DeleteProductGroupsQuery, new { ProductId = entity.Id }, _dbTransaction);
-            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }),_dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }), _dbTransaction);
         }
         catch
         {
@@ -112,6 +114,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             throw;
         }
     }
+
     public override void Delete(Product entity)
     {
         try
@@ -162,5 +165,4 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             }
         }
     }
-
 }

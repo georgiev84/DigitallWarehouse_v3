@@ -13,6 +13,7 @@ public class SizeRepository : GenericRepository<Size>, ISizeRepository
     public SizeRepository(WarehouseDbContext dbContext, IDbConnection dbConnection) : base(dbContext, dbConnection)
     {
     }
+
     public async Task<IEnumerable<string>> GetSizeNamesAsync()
     {
         try

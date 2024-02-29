@@ -28,12 +28,12 @@ public class DapperConstants
     """;
 
     public const string UpdateProductQuery = """
-    UPDATE "Products" 
+    UPDATE "Products"
     SET
-    "Title" = @Title, 
-    "Description" = @Description, 
-    "Price" = @Price, 
-    "IsDeleted" = @IsDeleted 
+    "Title" = @Title,
+    "Description" = @Description,
+    "Price" = @Price,
+    "IsDeleted" = @IsDeleted
     WHERE "Id" = @Id
     """;
 
@@ -43,17 +43,17 @@ public class DapperConstants
     """;
 
     public const string InsertProductSizesQuery = """
-    INSERT INTO "ProductSizes" ("ProductId", "SizeId", "QuantityInStock") 
+    INSERT INTO "ProductSizes" ("ProductId", "SizeId", "QuantityInStock")
     VALUES (@ProductId, @SizeId, @QuantityInStock)
     """;
 
     public const string DeleteProductGroupsQuery = """
-    DELETE FROM "ProductGroups" 
+    DELETE FROM "ProductGroups"
     WHERE "ProductId" = @ProductId
     """;
 
     public const string InsertProductGroupsQuery = """
-    INSERT INTO "ProductGroups" ("ProductId", "GroupId") 
+    INSERT INTO "ProductGroups" ("ProductId", "GroupId")
     VALUES (@ProductId, @GroupId)
     """;
 

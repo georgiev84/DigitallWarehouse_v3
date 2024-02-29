@@ -2,7 +2,6 @@
 using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Products;
-using Warehouse.Domain.Exceptions;
 using Warehouse.Domain.Exceptions.ProductExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
@@ -15,6 +14,7 @@ public class ProductSizeRepository : GenericRepository<ProductSize>, IProductSiz
     public ProductSizeRepository(WarehouseDbContext context, IDbConnection dbConnection) : base(context, dbConnection)
     {
     }
+
     public async Task<ProductSize> GetByCompositeKey(Guid productId, Guid sizeId)
     {
         try

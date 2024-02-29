@@ -39,10 +39,12 @@ public class UnitOfWork : IUnitOfWork
     {
         return await _dbContext.SaveChangesAsync();
     }
+
     public void Commit()
     {
         _dbTransaction.Commit();
     }
+
     public void Rollback()
     {
         _dbTransaction.Rollback();
@@ -59,7 +61,6 @@ public class UnitOfWork : IUnitOfWork
         if (disposing)
         {
             _dbContext.Dispose();
-
         }
     }
 }

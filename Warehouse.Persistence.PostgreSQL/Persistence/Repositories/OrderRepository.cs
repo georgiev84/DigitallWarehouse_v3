@@ -1,18 +1,12 @@
 ﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Data.Common;
-using System.Net.NetworkInformation;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Entities.Users;
-using Warehouse.Domain.Exceptions;
-using Warehouse.Domain.Exceptions.OrderExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
