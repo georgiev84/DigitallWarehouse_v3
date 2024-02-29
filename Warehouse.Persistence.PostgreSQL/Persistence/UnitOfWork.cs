@@ -1,12 +1,16 @@
-﻿using System.Data;
+﻿using Npgsql;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using System.Transactions;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly IDbConnection _dbConnection;
     private readonly IDbTransaction _dbTransaction;
     private readonly WarehouseDbContext _dbContext;
     public IProductRepository Products { get; }
@@ -24,7 +28,6 @@ public class UnitOfWork : IUnitOfWork
         IBasketRepository baskets,
         IBasketLineRepository basketLines,
         IProductSizeRepository productSizes,
-        IDbConnection dbConnection,
         IDbTransaction dbTransaction)
     {
         _dbContext = dbContext;
@@ -34,7 +37,6 @@ public class UnitOfWork : IUnitOfWork
         Baskets = baskets;
         BasketLines = basketLines;
         ProductSizes = productSizes;
-        _dbConnection = dbConnection;
         _dbTransaction = dbTransaction;
     }
 
@@ -42,39 +44,27 @@ public class UnitOfWork : IUnitOfWork
     {
         return await _dbContext.SaveChangesAsync();
     }
-
     public void Commit()
     {
-        try
-        {
-            _dbTransaction.Commit();
-        }
-        catch (Exception ex)
-        {
-            _dbTransaction.Rollback();
-        }
+        _dbTransaction.Commit();
+    }
+    public void Rollback()
+    {
+        _dbTransaction.Rollback();
     }
 
     public void Dispose()
     {
-        //Close the SQL Connection and dispose the objects
-        _dbTransaction.Connection?.Close();
-        _dbTransaction.Connection?.Dispose();
-        _dbTransaction.Dispose();
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
-
-    //public void Dispose()
-    //{
-    //    Dispose(true);
-    //    GC.SuppressFinalize(this);
-    //}
 
     protected virtual void Dispose(bool disposing)
     {
         if (disposing)
         {
             _dbContext.Dispose();
-            _dbConnection.Dispose();
+
         }
     }
 }

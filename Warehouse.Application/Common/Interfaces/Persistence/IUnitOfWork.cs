@@ -8,7 +8,7 @@ public interface IUnitOfWork : IDisposable
     IBasketRepository Baskets { get; }
     IBasketLineRepository BasketLines { get; }
     IProductSizeRepository ProductSizes { get; }
-
     Task<int> SaveAsync();
     void Commit();
+    void Rollback();
 }

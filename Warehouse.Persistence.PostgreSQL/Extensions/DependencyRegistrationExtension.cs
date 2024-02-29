@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
@@ -21,21 +20,24 @@ public static class DependencyRegistrationExtension
         }
 
         services.AddDbContext<WarehouseDbContext>(
-            options => options.UseNpgsql(configuration.GetConnectionString("WerehousePgsqlDbConnectionString"))
+            options => options.UseNpgsql(configuration.GetConnectionString("WarehousePgsqlDbConnectionString"))
         );
 
-        services.AddScoped<IDbConnection>(provider =>
+        services.AddScoped<NpgsqlConnection>(provider =>
         {
-            var connectionString = configuration.GetConnectionString("WerehousePgsqlDbConnectionString");
+            var connectionString = configuration.GetConnectionString("WarehousePgsqlDbConnectionString");
             return new NpgsqlConnection(connectionString);
         });
 
-        services.AddScoped((s) => new NpgsqlConnection(configuration.GetConnectionString("WerehousePgsqlDbConnectionString")));
-        services.AddScoped<IDbTransaction>(s =>
+        services.AddScoped<IDbConnection>(provider =>
         {
-            var conn = s.GetRequiredService<NpgsqlConnection>();
-            conn.Open();
-            return conn.BeginTransaction();
+            return provider.GetRequiredService<NpgsqlConnection>();
+        });
+
+        services.AddScoped<IDbTransaction>(provider => {
+            var connection = provider.GetRequiredService<NpgsqlConnection>();
+            connection.Open();
+            return connection.BeginTransaction();
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();

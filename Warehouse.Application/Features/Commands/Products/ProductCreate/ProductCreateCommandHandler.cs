@@ -10,15 +10,26 @@ public class ProductCreateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
 {
     public async Task<ProductCreateDetailsDto> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
     {
-        var product = _mapper.Map<Product>(command);
+        try
+        {
+            var product = _mapper.Map<Product>(command);
 
-        await _unitOfWork.Products.Add(product);
-        await _unitOfWork.SaveAsync();
+            await _unitOfWork.Products.Add(product);
+            _unitOfWork.Commit();
 
-        var checkedProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(product.Id);
+            var checkedProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(product.Id);
+            var productDto = _mapper.Map<ProductCreateDetailsDto>(checkedProduct);
 
-        var productDto = _mapper.Map<ProductCreateDetailsDto>(checkedProduct);
-
-        return productDto;
+            return productDto;
+        }
+        catch (Exception ex)
+        {
+            _unitOfWork.Rollback();
+            throw new ApplicationException("An error occurred while processing the request.", ex);
+        }
+        finally
+        {
+            _unitOfWork.Dispose();
+        }
     }
 }

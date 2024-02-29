@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
   "brandId": "22222222-2222-2222-2222-222222222222",
-  "title": "Digitall Product225",
-  "description": "Test Product",
+  "title": "Petar Product227",
+  "description": "KZL Product",
   "price": 41,
   "groupIds": [
     "88888888-8888-8888-8888-888888888888",
@@ -45,8 +45,8 @@ Content-Type: application/json
 
 {
   "brandId": "22222222-2222-2222-2222-222222222222",
-  "title": "583Test222 Digitall Product",
-  "description": "Test3353 Product",
+  "title": "983Test222 Digitall Product",
+  "description": "Product",
   "price": 44,
   "groupIds": [
     "99999999-9999-9999-9999-999999999999",
@@ -55,18 +55,14 @@ Content-Type: application/json
   "sizeInformation": [
     {
       "sizeId": "33333333-3333-3333-3333-333333333333",
-      "quantity": 58
+      "quantity": 53
     },
     {
       "sizeId": "44444444-4444-4444-4444-444444444444",
-      "quantity": 34
-    },
-    {
-      "sizeId": "55555555-5555-5555-5555-555555555555",
       "quantity": 34
     }
   ]
 }
 
 ### Delete Product
-DELETE {{Warehouse.Api_HostAddress}}/api/products/12345678-1234-5678-9012-345678901234
+DELETE {{Warehouse.Api_HostAddress}}/api/products/dc20576f-ea81-4a02-bef8-b38819e05ca9

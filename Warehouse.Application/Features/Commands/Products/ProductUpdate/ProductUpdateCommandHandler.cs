@@ -11,35 +11,47 @@ public class ProductUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
 {
     public async Task<ProductUpdateDetailsDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)
     {
-        var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
-        if (existingProduct is null)
+        try
         {
-            throw new ProductNotFoundException($"Product with ID {command.Id} not found.");
-        }
-
-        _mapper.Map(command, existingProduct);
-
-        existingProduct.ProductSizes.Clear();
-        foreach (var newSize in command.SizeInformation)
-        {
-            existingProduct.ProductSizes.Add(_mapper.Map<ProductSize>(newSize));
-        }
-
-        existingProduct.ProductGroups.Clear();
-        foreach (var groupId in command.GroupIds)
-        {
-            existingProduct.ProductGroups.Add(new ProductGroup
+            var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
+            if (existingProduct is null)
             {
-                GroupId = groupId,
+                throw new ProductNotFoundException($"Product with ID {command.Id} not found.");
+            }
 
-            });
+            _mapper.Map(command, existingProduct);
+
+            existingProduct.ProductSizes.Clear();
+            foreach (var newSize in command.SizeInformation)
+            {
+                existingProduct.ProductSizes.Add(_mapper.Map<ProductSize>(newSize));
+            }
+
+            existingProduct.ProductGroups.Clear();
+            foreach (var groupId in command.GroupIds)
+            {
+                existingProduct.ProductGroups.Add(new ProductGroup
+                {
+                    GroupId = groupId,
+
+                });
+            }
+
+            _unitOfWork.Products.Update(existingProduct);
+            _unitOfWork.Commit();
+
+            var updatedProductDto = _mapper.Map<ProductUpdateDetailsDto>(existingProduct);
+
+            return updatedProductDto;
         }
-
-        _unitOfWork.Products.Update(existingProduct);
-        await _unitOfWork.SaveAsync();
-
-        var updatedProductDto = _mapper.Map<ProductUpdateDetailsDto>(existingProduct);
-
-        return updatedProductDto;
+        catch (Exception ex)
+        {
+            _unitOfWork.Rollback();
+            throw new ApplicationException("An error occurred while processing the request.", ex);
+        }
+        finally
+        {
+            _unitOfWork.Dispose();
+        }
     }
 }

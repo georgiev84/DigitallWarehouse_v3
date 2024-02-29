@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Reflection;
+using Warehouse.Persistence.Abstractions.Constants;
 using Warehouse.Persistence.Abstractions.Interfaces;
 
 namespace Warehouse.Persistence.Abstractions;
@@ -20,12 +21,12 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
 
     public async Task<TEntity> GetById(Guid id)
     {
-        //return await _dbContext.Set<TEntity>().FindAsync(id);
         var tableName = GetTableName<TEntity>();
         var parameters = new DynamicParameters();
         parameters.Add("id", id);
         parameters.Add(tableName, tableName, DbType.AnsiString);
-        string sql = $@"SELECT * FROM ""{tableName}"" WHERE ""Id"" = @Id";
+
+        string sql = string.Format(DapperConstants.GetById, tableName);
 
         return await _dbConnection.QueryFirstOrDefaultAsync<TEntity>(sql, parameters);
     }
@@ -35,12 +36,12 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
         return await _dbContext.Set<TEntity>().ToListAsync();
     }
 
-    public async Task Add(TEntity entity)
+    public virtual async Task Add(TEntity entity)
     {
         await _dbContext.Set<TEntity>().AddAsync(entity);
     }
 
-    public void Delete(TEntity entity)
+    public virtual void Delete(TEntity entity)
     {
         if (_dbContext.Entry(entity).State == EntityState.Detached)
         {
@@ -54,6 +55,7 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
     {
         _dbContext.Set<TEntity>().Update(entity);
     }
+
     public string GetTableName<TEntity>() where TEntity : class
     {
         var tableAttribute = typeof(TEntity).GetCustomAttribute<TableAttribute>();
@@ -62,6 +64,6 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
             return tableAttribute.Name;
         }
 
-        return typeof(TEntity).Name + "s"; // Default: pluralize entity name
+        return typeof(TEntity).Name + "s";
     }
 }

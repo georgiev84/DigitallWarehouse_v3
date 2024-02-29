@@ -12,8 +12,10 @@ namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
 public class ProductRepository : GenericRepository<Product>, IProductRepository
 {
-    public ProductRepository(WarehouseDbContext dbContext, IDbConnection dbConnection) : base(dbContext, dbConnection)
+    private readonly IDbTransaction _dbTransaction;
+    public ProductRepository(WarehouseDbContext dbContext, IDbConnection dbConnection, IDbTransaction dbTransaction) : base(dbContext, dbConnection)
     {
+        _dbTransaction = dbTransaction;
     }
 
     public async Task<IEnumerable<Product>> GetProductsDetailsAsync()
@@ -38,7 +40,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
 
             PopulateProductSizesAndGroups(result);
 
-            return result.DistinctBy(p => p.Id); 
+            return result.DistinctBy(p => p.Id);
         }
         catch (Exception ex)
         {
@@ -80,21 +82,46 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             throw;
         }
     }
-
     public override void Update(Product entity)
     {
-        string sql = @$"UPDATE Products SET Title = @Title, Description = @Description, Price = @Price, IsDeleted = @IsDeleted WHERE Id = @Id";
+        try
+        {
+            _dbConnection.Execute(DapperConstants.UpdateProductQuery, entity, _dbTransaction);
+            _dbConnection.Execute(DapperConstants.DeleteProductSizesQuery, new { ProductId = entity.Id }, _dbTransaction);
+            _dbConnection.Execute(DapperConstants.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }), _dbTransaction);
+            _dbConnection.Execute(DapperConstants.DeleteProductGroupsQuery, new { ProductId = entity.Id }, _dbTransaction);
+            _dbConnection.Execute(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }),_dbTransaction);
+        }
+        catch
+        {
+            throw;
+        }
+    }
 
-        //_dbConnection.ExecuteAsync(sql, new
-        //{
-        //    entity.Title,
-        //    entity.Description,
-        //    entity.Price,
-        //    entity.IsDeleted,
-        //    entity.Id
-        //});
-
-        _dbConnection.ExecuteAsync(sql, entity);
+    public override async Task Add(Product entity)
+    {
+        try
+        {
+            entity.Id = Guid.NewGuid();
+            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductQuery, entity);
+            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }));
+            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }));
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    public override void Delete(Product entity)
+    {
+        try
+        {
+            _dbConnection.Execute(DapperConstants.SetDeleteProductQuery, new { IsDeleted = true, Id = entity.Id }, _dbTransaction);
+        }
+        catch
+        {
+            throw;
+        }
     }
 
     private void PopulateProductSizesAndGroups(IEnumerable<Product> products)
@@ -121,7 +148,10 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         {
             if (productSizesDict.TryGetValue(product.Id, out var sizes))
             {
-                product.ProductSizes = sizes.Distinct().ToList();
+                product.ProductSizes = sizes
+                  .GroupBy(ps => ps.SizeId)
+                  .Select(group => group.First())
+                  .ToList();
             }
             if (productGroupsDict.TryGetValue(product.Id, out var groups))
             {
