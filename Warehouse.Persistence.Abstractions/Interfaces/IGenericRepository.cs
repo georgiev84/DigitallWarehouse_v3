@@ -10,5 +10,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
 
     void Delete(TEntity entity);
 
-    void Update(TEntity entity);
+    Task Update(TEntity entity);
 }

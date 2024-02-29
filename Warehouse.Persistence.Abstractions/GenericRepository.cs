@@ -51,7 +51,7 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
         _dbContext.Set<TEntity>().Remove(entity);
     }
 
-    public virtual void Update(TEntity entity)
+    public virtual async Task Update(TEntity entity)
     {
         _dbContext.Set<TEntity>().Update(entity);
     }

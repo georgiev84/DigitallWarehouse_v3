@@ -1,11 +1,6 @@
-﻿using Npgsql;
-using System.Data;
-using System.Data.Common;
-using System.Security.Cryptography;
-using System.Transactions;
+﻿using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence;
 

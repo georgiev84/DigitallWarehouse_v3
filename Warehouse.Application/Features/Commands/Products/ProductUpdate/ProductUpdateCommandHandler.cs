@@ -37,7 +37,7 @@ public class ProductUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
                 });
             }
 
-            _unitOfWork.Products.Update(existingProduct);
+            await _unitOfWork.Products.Update(existingProduct);
             _unitOfWork.Commit();
 
             var updatedProductDto = _mapper.Map<ProductUpdateDetailsDto>(existingProduct);

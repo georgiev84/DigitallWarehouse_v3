@@ -82,15 +82,15 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             throw;
         }
     }
-    public override void Update(Product entity)
+    public override async Task Update(Product entity)
     {
         try
         {
-            _dbConnection.Execute(DapperConstants.UpdateProductQuery, entity, _dbTransaction);
-            _dbConnection.Execute(DapperConstants.DeleteProductSizesQuery, new { ProductId = entity.Id }, _dbTransaction);
-            _dbConnection.Execute(DapperConstants.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }), _dbTransaction);
-            _dbConnection.Execute(DapperConstants.DeleteProductGroupsQuery, new { ProductId = entity.Id }, _dbTransaction);
-            _dbConnection.Execute(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }),_dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperConstants.UpdateProductQuery, entity, _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperConstants.DeleteProductSizesQuery, new { ProductId = entity.Id }, _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }), _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperConstants.DeleteProductGroupsQuery, new { ProductId = entity.Id }, _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }),_dbTransaction);
         }
         catch
         {

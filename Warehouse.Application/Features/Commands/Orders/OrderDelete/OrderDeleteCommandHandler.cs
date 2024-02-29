@@ -10,7 +10,7 @@ public class OrderDeleteCommandHandler(IUnitOfWork _unitOfWork) : IRequestHandle
         var existingProduct = await _unitOfWork.Orders.GetById(command.orderId);
 
         existingProduct.IsDeleted = true;
-        _unitOfWork.Orders.Update(existingProduct);
+        await _unitOfWork.Orders.Update(existingProduct);
         await _unitOfWork.SaveAsync();
     }
 }
