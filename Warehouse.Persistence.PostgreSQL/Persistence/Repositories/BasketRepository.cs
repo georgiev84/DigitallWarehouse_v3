@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Baskets;
+using Warehouse.Domain.Entities.Products;
+using Warehouse.Domain.Entities.Users;
 using Warehouse.Domain.Exceptions.BasketExceptions;
 using Warehouse.Persistence.Abstractions;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
@@ -13,14 +17,29 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
     public BasketRepository(WarehouseDbContext dbContext, IDbConnection dbConnection) : base(dbContext, dbConnection)
     {
     }
-
     public async Task<Basket> GetSingleBasketByUserIdAsync(Guid userId)
     {
         try
         {
-            return await _dbContext.Set<Basket>()
-                .Include(b => b.BasketLines)
-                .SingleAsync(o => o.UserId == userId);
+            var basketDictionary = new Dictionary<Guid, Basket>();
+            var basketLines = await _dbConnection.QueryAsync<Basket, BasketLine, Basket>(
+                DapperConstants.GetSingleBasketQuery,
+                (basket, basketLine) =>
+                {
+                    Basket basketEntry;
+                    if (!basketDictionary.TryGetValue(basket.Id, out basketEntry))
+                    {
+                        basketDictionary.Add(basket.Id, basketEntry = basket);
+                        basketEntry.BasketLines = new List<BasketLine>();
+                    }
+                    basketEntry.BasketLines.Add(basketLine);
+                    return basketEntry;
+                },
+                new { UserId = userId },
+                splitOn: $"{nameof(BasketLine.Id)}"
+            );
+
+            return basketDictionary.Values.FirstOrDefault();
         }
         catch (Exception ex)
         {
@@ -32,23 +51,41 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
     {
         try
         {
-            var result = await _dbContext.Set<Basket>()
-                .Include(b => b.User)
-                .Include(b => b.BasketLines)
-                    .ThenInclude(bl => bl.Product)
-                .Include(p => p.BasketLines)
-                    .ThenInclude(x => x.Size)
-                .SingleAsync(o => o.UserId == userId);
+            var basketDictionary = new Dictionary<Guid, Basket>();
+            var basketLinesDictionary = new Dictionary<Guid, BasketLine>();
 
-            return result;
+            var basket = await _dbConnection.QueryAsync<Basket, User, BasketLine, Product, Size, Basket>(
+                DapperConstants.GetSingleBasketDetailsQuery,
+                (basket, user, basketLine, product, size) =>
+                {
+                    Basket basketEntry;
+                    if (!basketDictionary.TryGetValue(basket.Id, out basketEntry))
+                    {
+                        basketDictionary.Add(basket.Id, basketEntry = basket);
+                        basketEntry.User = user;
+                        basketEntry.BasketLines = new List<BasketLine>();
+                    }
+
+                    BasketLine basketLineEntry;
+                    if (!basketLinesDictionary.TryGetValue(basketLine.Id, out basketLineEntry))
+                    {
+                        basketLinesDictionary.Add(basketLine.Id, basketLineEntry = basketLine);
+                        basketLineEntry.Product = product;
+                        basketLineEntry.Size = size;
+                        basketEntry.BasketLines.Add(basketLineEntry);
+                    }
+
+                    return basketEntry;
+                },
+                new { UserId = userId },
+                splitOn: $"{nameof(User.Id)},{nameof(BasketLine.Id)},{nameof(Product.Id)},{nameof(Size.Id)}"
+            );
+
+            return basketDictionary.Values.FirstOrDefault();
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
             throw new BasketNotFoundException($"Basket for User with ID {userId} not found.", ex);
-        }
-        catch
-        {
-            throw;
         }
     }
 }
