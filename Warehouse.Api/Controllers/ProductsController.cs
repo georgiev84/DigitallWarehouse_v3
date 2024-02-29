@@ -13,6 +13,8 @@ namespace Warehouse.Api.Controllers;
 public class ProductsController : BaseController
 {
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetProducts(
          [FromQuery] ProductFilterRequest productFilter,
          [FromServices] ISender _mediator,
