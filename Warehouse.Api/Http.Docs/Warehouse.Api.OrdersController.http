@@ -11,7 +11,7 @@ Content-Type: application/json
     "paymentId": "11111111-2222-2321-2321-111111111321",
     "orderDate": "2024-02-05T11:35:45.648Z",
     "userId": "11111111-2222-2321-2321-111111111456",
-    "totalAmount": 109,
+    "totalAmount": 110,
     "orderLines": [
         {
             "productId": "23456789-2345-6789-0123-456789012345",

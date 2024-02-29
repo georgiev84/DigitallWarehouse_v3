@@ -109,4 +109,10 @@ public class DapperConstants
     LEFT JOIN "Sizes" s ON bl."SizeId" = s."Id"
     WHERE b."UserId" = @UserId
     """;
+
+    public const string GetProductSizeQuery = """
+    SELECT *
+    FROM "ProductSizes"
+    WHERE "ProductId" = @ProductId AND "SizeId" = @SizeId
+    """;
 }
