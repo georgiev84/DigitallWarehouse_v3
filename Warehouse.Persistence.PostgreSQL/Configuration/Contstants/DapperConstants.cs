@@ -115,4 +115,9 @@ public class DapperConstants
     FROM "ProductSizes"
     WHERE "ProductId" = @ProductId AND "SizeId" = @SizeId
     """;
+
+    public const string GetSizeNames = """
+    SELECT "Name"
+    FROM "Sizes"
+    """;
 }
