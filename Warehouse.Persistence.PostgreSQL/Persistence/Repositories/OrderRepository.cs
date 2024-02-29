@@ -1,12 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Data.Common;
+using System.Net.NetworkInformation;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Orders;
 using Warehouse.Domain.Entities.Products;
+using Warehouse.Domain.Entities.Users;
 using Warehouse.Domain.Exceptions;
 using Warehouse.Domain.Exceptions.OrderExceptions;
 using Warehouse.Persistence.Abstractions;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
@@ -18,37 +24,65 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
 
     public async Task<Order> GetSingleOrderAsync(Guid orderId)
     {
-        try
-        {
-            var result = await _dbContext.Set<Order>()
-                .Include(o => o.User)
-                .Include(o => o.Status)
-                .Include(o => o.OrderLines)
-                    .ThenInclude(od => od.Product)
-                    .ThenInclude(p => p.ProductSizes)
-                    .ThenInclude(ps => ps.Size)
-                .Where(p => p.IsDeleted == false)
-                .SingleAsync(o => o.Id == orderId);
+        var orderDictionary = new Dictionary<Guid, Order>();
+        var order = await _dbConnection.QueryAsync<Order, User, OrderStatus, Order>(
+            DapperConstants.GetSingleOrdersQuery,
+            (o, u, os) =>
+            {
+                Order orderEntry;
+                if (!orderDictionary.TryGetValue(o.Id, out orderEntry))
+                {
+                    orderDictionary.Add(o.Id, orderEntry = o);
+                    orderEntry.User = u;
+                    orderEntry.Status = os;
+                    orderEntry.OrderLines = orderEntry.OrderLines ?? new List<OrderLine>();
+                }
+                return orderEntry;
+            },
+            new { OrderId = orderId },
+            splitOn: $"{nameof(User.Id)},{nameof(OrderStatus.Id)}"
+        );
 
-            return result;
-        }
-        catch (InvalidOperationException ex)
+        var orderLines = await _dbConnection.QueryAsync<OrderLine, Product, ProductSize, Size, OrderLine>(
+            DapperConstants.GetOrderLinesQuery,
+            (od, p, ps, s) =>
+            {
+                od.Product = p;
+                od.SizeId = s.Id;
+                ps.Size = s;
+                od.Size = s;
+                return od;
+            },
+            new { OrderId = orderId },
+            splitOn: $"{nameof(Product.Id)},{nameof(ProductSize.ProductId)},{nameof(Size.Id)}"
+        );
+
+        foreach (var orderLine in orderLines)
         {
-            throw new OrderNotFoundException($"Order with ID {orderId} not found.");
+            orderDictionary[orderId].OrderLines.Add(orderLine);
         }
-        catch
-        {
-            throw;
-        }
+
+        return orderDictionary.ContainsKey(orderId) ? orderDictionary[orderId] : null;
     }
 
     public async Task<IEnumerable<Order>> GetOrdersListAsync()
     {
-        var result = await _dbContext.Set<Order>()
-            .Include(o => o.User)
-            .Include(o => o.Status)
-            .Where(p => p.IsDeleted == false)
-            .ToListAsync();
+        var lookup = new Dictionary<Guid, Order>();
+        var result = await _dbConnection.QueryAsync<Order, User, OrderStatus, Order>(
+            DapperConstants.GetAllOrdersQuery,
+            (order, user, orderstatus) =>
+            {
+                Order orderEntry;
+                if (!lookup.TryGetValue(order.Id, out orderEntry))
+                {
+                    lookup.Add(order.Id, orderEntry = order);
+                    orderEntry.User = user;
+                    orderEntry.Status = orderstatus;
+                }
+                return orderEntry;
+            },
+            splitOn: $"{nameof(User.Id)},{nameof(OrderStatus.Id)}"
+        );
 
         return result;
     }
