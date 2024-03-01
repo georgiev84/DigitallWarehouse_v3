@@ -7,6 +7,7 @@ using Warehouse.Domain.Entities.Users;
 using Warehouse.Domain.Exceptions.BasketExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperBasketConstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
@@ -23,7 +24,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
         {
             var basketDictionary = new Dictionary<Guid, Basket>();
             var basketLines = await _dbConnection.QueryAsync<Basket, BasketLine, Basket>(
-                DapperConstants.GetSingleBasketQuery,
+                DapperBasketReadConst.GetSingleBasketQuery,
                 (basket, basketLine) =>
                 {
                     Basket basketEntry;
@@ -32,7 +33,10 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
                         basketDictionary.Add(basket.Id, basketEntry = basket);
                         basketEntry.BasketLines = new List<BasketLine>();
                     }
-                    basketEntry.BasketLines.Add(basketLine);
+                    if (basketLine != null)
+                    {
+                        basketEntry.BasketLines.Add(basketLine);
+                    }
                     return basketEntry;
                 },
                 new { UserId = userId },
@@ -55,7 +59,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
             var basketLinesDictionary = new Dictionary<Guid, BasketLine>();
 
             var basket = await _dbConnection.QueryAsync<Basket, User, BasketLine, Product, Size, Basket>(
-                DapperConstants.GetSingleBasketDetailsQuery,
+                DapperBasketReadConst.GetSingleBasketDetailsQuery,
                 (basket, user, basketLine, product, size) =>
                 {
                     Basket basketEntry;

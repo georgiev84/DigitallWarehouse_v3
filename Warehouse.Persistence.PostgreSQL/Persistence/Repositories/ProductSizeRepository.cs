@@ -5,6 +5,7 @@ using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Exceptions.ProductExceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperSizeConstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
@@ -20,7 +21,7 @@ public class ProductSizeRepository : GenericRepository<ProductSize>, IProductSiz
         try
         {
             return await _dbConnection.QueryFirstOrDefaultAsync<ProductSize>(
-                DapperConstants.GetProductSizeQuery,
+                DapperSizeReadConst.GetProductSizeQuery,
                 new { ProductId = productId, SizeId = sizeId }
             );
         }

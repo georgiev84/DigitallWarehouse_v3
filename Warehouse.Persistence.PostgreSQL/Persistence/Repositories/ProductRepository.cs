@@ -5,6 +5,7 @@ using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Exceptions;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperProductConstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 using static Dapper.SqlMapper;
 
@@ -24,7 +25,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         try
         {
             var result = await _dbConnection.QueryAsync<Product, Brand, ProductGroup, ProductSize, Size, Group, Product>(
-                DapperConstants.GetProductsDetailsQuery,
+                DapperProductReadConst.GetProductsDetailsQuery,
                 (product, brand, productGroup, productSize, size, group) =>
                 {
                     product.Brand = brand;
@@ -54,7 +55,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         try
         {
             var result = await _dbConnection.QueryAsync<Product, Brand, ProductGroup, ProductSize, Size, Group, Product>(
-                DapperConstants.GetProductsDetailsSingleQuery,
+                DapperProductReadConst.GetProductsDetailsSingleQuery,
                 (product, brand, productGroup, productSize, size, group) =>
                 {
                     product.Brand = brand;
@@ -88,11 +89,11 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         try
         {
-            await _dbConnection.ExecuteAsync(DapperConstants.UpdateProductQuery, entity, _dbTransaction);
-            await _dbConnection.ExecuteAsync(DapperConstants.DeleteProductSizesQuery, new { ProductId = entity.Id }, _dbTransaction);
-            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }), _dbTransaction);
-            await _dbConnection.ExecuteAsync(DapperConstants.DeleteProductGroupsQuery, new { ProductId = entity.Id }, _dbTransaction);
-            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }), _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.UpdateProductQuery, entity, _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.DeleteProductSizesQuery, new { ProductId = entity.Id }, _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }), _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.DeleteProductGroupsQuery, new { ProductId = entity.Id }, _dbTransaction);
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }), _dbTransaction);
         }
         catch
         {
@@ -105,9 +106,9 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         try
         {
             entity.Id = Guid.NewGuid();
-            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductQuery, entity);
-            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }));
-            await _dbConnection.ExecuteAsync(DapperConstants.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }));
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.InsertProductQuery, entity);
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.InsertProductSizesQuery, entity.ProductSizes.Select(ps => new { ProductId = entity.Id, ps.SizeId, ps.QuantityInStock }));
+            await _dbConnection.ExecuteAsync(DapperProductMutateConst.InsertProductGroupsQuery, entity.ProductGroups.Select(pg => new { ProductId = entity.Id, pg.GroupId }));
         }
         catch (Exception)
         {
@@ -119,7 +120,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         try
         {
-            _dbConnection.Execute(DapperConstants.SetDeleteProductQuery, new { IsDeleted = true, Id = entity.Id }, _dbTransaction);
+            _dbConnection.Execute(DapperProductMutateConst.SetDeleteProductQuery, new { IsDeleted = true, Id = entity.Id }, _dbTransaction);
         }
         catch
         {

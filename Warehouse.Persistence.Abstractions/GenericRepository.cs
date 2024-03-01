@@ -26,7 +26,7 @@ public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> w
         parameters.Add("id", id);
         parameters.Add(tableName, tableName, DbType.AnsiString);
 
-        string sql = string.Format(DapperConstants.GetById, tableName);
+        string sql = string.Format(DapperGenericConstants.GetById, tableName);
 
         return await _dbConnection.QueryFirstOrDefaultAsync<TEntity>(sql, parameters);
     }

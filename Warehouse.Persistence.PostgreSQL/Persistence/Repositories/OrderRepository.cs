@@ -6,6 +6,7 @@ using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Entities.Users;
 using Warehouse.Persistence.Abstractions;
 using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperOrderConstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
@@ -20,7 +21,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         var orderDictionary = new Dictionary<Guid, Order>();
         var order = await _dbConnection.QueryAsync<Order, User, OrderStatus, Order>(
-            DapperConstants.GetSingleOrdersQuery,
+            DapperOrderReadConst.GetSingleOrdersQuery,
             (o, u, os) =>
             {
                 Order orderEntry;
@@ -38,7 +39,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
         );
 
         var orderLines = await _dbConnection.QueryAsync<OrderLine, Product, ProductSize, Size, OrderLine>(
-            DapperConstants.GetOrderLinesQuery,
+            DapperOrderReadConst.GetOrderLinesQuery,
             (od, p, ps, s) =>
             {
                 od.Product = p;
@@ -63,7 +64,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         var lookup = new Dictionary<Guid, Order>();
         var result = await _dbConnection.QueryAsync<Order, User, OrderStatus, Order>(
-            DapperConstants.GetAllOrdersQuery,
+            DapperOrderReadConst.GetAllOrdersQuery,
             (order, user, orderstatus) =>
             {
                 Order orderEntry;
