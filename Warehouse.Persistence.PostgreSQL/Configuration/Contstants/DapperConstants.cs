@@ -11,7 +11,6 @@ public class DapperConstants
     LEFT JOIN "ProductSizes" ps ON p."Id" = ps."ProductId"
     LEFT JOIN "Sizes" s ON ps."SizeId" = s."Id"
     WHERE p."IsDeleted" = false
-    GROUP BY p."Id", b."Id", pg."ProductId", pg."GroupId", g."Id", ps."ProductId", ps."SizeId", s."Id"
     """;
 
     public const string GetProductsDetailsSingleQuery = """

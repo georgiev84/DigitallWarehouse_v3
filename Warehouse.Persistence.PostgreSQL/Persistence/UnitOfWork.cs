@@ -60,6 +60,7 @@ public class UnitOfWork : IUnitOfWork
     {
         if (disposing)
         {
+            _dbTransaction?.Dispose();
             _dbContext.Dispose();
         }
     }
