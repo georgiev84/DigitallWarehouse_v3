@@ -3,8 +3,8 @@ using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Products;
 using Warehouse.Persistence.Abstractions;
+using Warehouse.Persistence.PostgreSQL.Configuration.Constants.ReadableQueries;
 using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
-using Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperSizeConstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
@@ -19,7 +19,7 @@ public class SizeRepository : GenericRepository<Size>, ISizeRepository
     {
         try
         {
-            return await _dbConnection.QueryAsync<string>(DapperSizeReadConst.GetSizeNames);
+            return await _dbConnection.QueryAsync<string>(ReadableQuerySizeConst.GetSizeNames);
         }
         catch (Exception ex)
         {

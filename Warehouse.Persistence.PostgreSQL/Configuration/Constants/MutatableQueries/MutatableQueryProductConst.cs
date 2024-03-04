@@ -1,5 +1,5 @@
-﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperProductConstants;
-public static class DapperProductMutateConst
+﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Constants.MutatableQueries;
+public static class MutatableQueryProductConst
 {
     public const string UpdateProductQuery = """
     UPDATE "Products"

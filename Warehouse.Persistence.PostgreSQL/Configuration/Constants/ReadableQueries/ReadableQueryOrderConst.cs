@@ -1,5 +1,5 @@
-﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperOrderConstants;
-public static class DapperOrderReadConst
+﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Constants.ReadableQueries;
+public static class ReadableQueryOrderConst
 {
     public const string GetAllOrdersQuery = """
     SELECT o.*, u.*, s.*

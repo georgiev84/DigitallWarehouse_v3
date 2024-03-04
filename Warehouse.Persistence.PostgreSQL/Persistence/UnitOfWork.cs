@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
@@ -42,7 +43,20 @@ public class UnitOfWork : IUnitOfWork
 
     public void Commit()
     {
-        _dbTransaction.Commit();
+        try
+        {
+            _dbTransaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            _dbTransaction.Rollback();
+            _dbTransaction.Dispose();
+            throw new ApplicationException("An error occurred while committing changes.", ex);
+        }
+        finally
+        {
+            _dbTransaction.Dispose();
+        }
     }
 
     public void Rollback()

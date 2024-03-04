@@ -1,5 +1,5 @@
-﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperSizeConstants;
-public static class DapperSizeReadConst
+﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Constants.ReadableQueries;
+public static class ReadableQuerySizeConst
 {
     public const string GetProductSizeQuery = """
     SELECT *

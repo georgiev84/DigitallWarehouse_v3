@@ -11,46 +11,34 @@ public class ProductUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
 {
     public async Task<ProductUpdateDetailsDto> Handle(ProductUpdateCommand command, CancellationToken cancellationToken)
     {
-        try
+        var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
+        if (existingProduct is null)
         {
-            var existingProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(command.Id);
-            if (existingProduct is null)
-            {
-                throw new ProductNotFoundException($"Product with ID {command.Id} not found.");
-            }
-
-            _mapper.Map(command, existingProduct);
-
-            existingProduct.ProductSizes.Clear();
-            foreach (var newSize in command.SizeInformation)
-            {
-                existingProduct.ProductSizes.Add(_mapper.Map<ProductSize>(newSize));
-            }
-
-            existingProduct.ProductGroups.Clear();
-            foreach (var groupId in command.GroupIds)
-            {
-                existingProduct.ProductGroups.Add(new ProductGroup
-                {
-                    GroupId = groupId,
-                });
-            }
-
-            await _unitOfWork.Products.Update(existingProduct);
-            _unitOfWork.Commit();
-
-            var updatedProductDto = _mapper.Map<ProductUpdateDetailsDto>(existingProduct);
-
-            return updatedProductDto;
+            throw new ProductNotFoundException($"Product with ID {command.Id} not found.");
         }
-        catch (Exception ex)
+
+        _mapper.Map(command, existingProduct);
+
+        existingProduct.ProductSizes.Clear();
+        foreach (var newSize in command.SizeInformation)
         {
-            _unitOfWork.Rollback();
-            throw new ApplicationException("An error occurred while processing the request.", ex);
+            existingProduct.ProductSizes.Add(_mapper.Map<ProductSize>(newSize));
         }
-        finally
+
+        existingProduct.ProductGroups.Clear();
+        foreach (var groupId in command.GroupIds)
         {
-            _unitOfWork.Dispose();
+            existingProduct.ProductGroups.Add(new ProductGroup
+            {
+                GroupId = groupId,
+            });
         }
+
+        await _unitOfWork.Products.Update(existingProduct);
+        _unitOfWork.Commit();
+
+        var updatedProductDto = _mapper.Map<ProductUpdateDetailsDto>(existingProduct);
+
+        return updatedProductDto;
     }
 }

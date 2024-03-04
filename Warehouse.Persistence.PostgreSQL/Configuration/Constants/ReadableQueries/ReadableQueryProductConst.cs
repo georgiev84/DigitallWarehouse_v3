@@ -1,5 +1,5 @@
-﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperProductConstants;
-public static class DapperProductReadConst
+﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Constants.ReadableQueries;
+public static class ReadableQueryProductConst
 {
     public const string GetProductsDetailsQuery = """
     SELECT p.*, b.*, pg.*, ps.*, s.*, g.*

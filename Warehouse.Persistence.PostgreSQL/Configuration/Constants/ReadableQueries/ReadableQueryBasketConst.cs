@@ -1,5 +1,5 @@
-﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperBasketConstants;
-public static class DapperBasketReadConst
+﻿namespace Warehouse.Persistence.PostgreSQL.Configuration.Constants.ReadableQueries;
+public static class ReadableQueryBasketConst
 {
     public const string GetSingleBasketQuery = """
     SELECT b.*, bl.*

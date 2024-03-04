@@ -6,8 +6,7 @@ using Warehouse.Domain.Entities.Products;
 using Warehouse.Domain.Entities.Users;
 using Warehouse.Domain.Exceptions.BasketExceptions;
 using Warehouse.Persistence.Abstractions;
-using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
-using Warehouse.Persistence.PostgreSQL.Configuration.Contstants.DapperBasketConstants;
+using Warehouse.Persistence.PostgreSQL.Configuration.Constants.ReadableQueries;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
@@ -24,7 +23,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
         {
             var basketDictionary = new Dictionary<Guid, Basket>();
             var basketLines = await _dbConnection.QueryAsync<Basket, BasketLine, Basket>(
-                DapperBasketReadConst.GetSingleBasketQuery,
+                ReadableQueryBasketConst.GetSingleBasketQuery,
                 (basket, basketLine) =>
                 {
                     Basket basketEntry;
@@ -59,7 +58,7 @@ public class BasketRepository : GenericRepository<Basket>, IBasketRepository
             var basketLinesDictionary = new Dictionary<Guid, BasketLine>();
 
             var basket = await _dbConnection.QueryAsync<Basket, User, BasketLine, Product, Size, Basket>(
-                DapperBasketReadConst.GetSingleBasketDetailsQuery,
+                ReadableQueryBasketConst.GetSingleBasketDetailsQuery,
                 (basket, user, basketLine, product, size) =>
                 {
                     Basket basketEntry;
