@@ -1,15 +1,18 @@
-﻿using Warehouse.Application.Common.Interfaces.Persistence;
+﻿using Dapper;
+using System.Data;
+using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Domain.Entities.Products;
-using Warehouse.Domain.Exceptions;
 using Warehouse.Domain.Exceptions.ProductExceptions;
 using Warehouse.Persistence.Abstractions;
+using Warehouse.Persistence.PostgreSQL.Configuration.Constants.ReadableQueries;
+using Warehouse.Persistence.PostgreSQL.Configuration.Contstants;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence.Repositories;
 
 public class ProductSizeRepository : GenericRepository<ProductSize>, IProductSizeRepository
 {
-    public ProductSizeRepository(WarehouseDbContext context) : base(context)
+    public ProductSizeRepository(WarehouseDbContext context, IDbConnection dbConnection) : base(context, dbConnection)
     {
     }
 
@@ -17,15 +20,14 @@ public class ProductSizeRepository : GenericRepository<ProductSize>, IProductSiz
     {
         try
         {
-            return await _dbContext.Set<ProductSize>().FindAsync(productId, sizeId);
+            return await _dbConnection.QueryFirstOrDefaultAsync<ProductSize>(
+                ReadableQuerySizeConst.GetProductSizeQuery,
+                new { ProductId = productId, SizeId = sizeId }
+            );
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
             throw new ProductSizeNotFoundException($"ProductSize with ProductId {productId} and SizeId {sizeId} not found.", ex);
-        }
-        catch
-        {
-            throw;
         }
     }
 }

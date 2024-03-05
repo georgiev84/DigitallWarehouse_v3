@@ -8,14 +8,14 @@ public class ProductDeleteCommandHandler(IUnitOfWork _unitOfWork) : IRequestHand
 {
     public async Task Handle(ProductDeleteCommand command, CancellationToken cancellationToken)
     {
+
         var existingProduct = await _unitOfWork.Products.GetById(command.productId);
         if (existingProduct is null)
         {
             throw new ProductNotFoundException($"Product with ID {command.productId} not found.");
         }
 
-        existingProduct.IsDeleted = true;
-        _unitOfWork.Products.Update(existingProduct);
-        await _unitOfWork.SaveAsync();
+        _unitOfWork.Products.Delete(existingProduct);
+        _unitOfWork.Commit();
     }
 }

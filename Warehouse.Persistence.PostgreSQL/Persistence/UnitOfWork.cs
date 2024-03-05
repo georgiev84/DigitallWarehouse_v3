@@ -1,10 +1,13 @@
-﻿using Warehouse.Application.Common.Interfaces.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
+using Warehouse.Application.Common.Interfaces.Persistence;
 using Warehouse.Persistence.PostgreSQL.Persistence.Contexts;
 
 namespace Warehouse.Persistence.PostgreSQL.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
+    private readonly IDbTransaction _dbTransaction;
     private readonly WarehouseDbContext _dbContext;
     public IProductRepository Products { get; }
     public ISizeRepository Sizes { get; }
@@ -20,7 +23,8 @@ public class UnitOfWork : IUnitOfWork
         IOrderRepository orders,
         IBasketRepository baskets,
         IBasketLineRepository basketLines,
-        IProductSizeRepository productSizes)
+        IProductSizeRepository productSizes,
+        IDbTransaction dbTransaction)
     {
         _dbContext = dbContext;
         Products = productRepository;
@@ -29,11 +33,35 @@ public class UnitOfWork : IUnitOfWork
         Baskets = baskets;
         BasketLines = basketLines;
         ProductSizes = productSizes;
+        _dbTransaction = dbTransaction;
     }
 
     public async Task<int> SaveAsync()
     {
         return await _dbContext.SaveChangesAsync();
+    }
+
+    public void Commit()
+    {
+        try
+        {
+            _dbTransaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            _dbTransaction.Rollback();
+            _dbTransaction.Dispose();
+            throw new ApplicationException("An error occurred while committing changes.", ex);
+        }
+        finally
+        {
+            _dbTransaction.Dispose();
+        }
+    }
+
+    public void Rollback()
+    {
+        _dbTransaction.Rollback();
     }
 
     public void Dispose()
@@ -46,6 +74,7 @@ public class UnitOfWork : IUnitOfWork
     {
         if (disposing)
         {
+            _dbTransaction?.Dispose();
             _dbContext.Dispose();
         }
     }

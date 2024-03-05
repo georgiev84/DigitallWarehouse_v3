@@ -30,12 +30,12 @@ public class ProductUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
         {
             existingProduct.ProductGroups.Add(new ProductGroup
             {
-                GroupId = groupId
+                GroupId = groupId,
             });
         }
 
-        _unitOfWork.Products.Update(existingProduct);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.Products.Update(existingProduct);
+        _unitOfWork.Commit();
 
         var updatedProductDto = _mapper.Map<ProductUpdateDetailsDto>(existingProduct);
 

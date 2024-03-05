@@ -18,7 +18,7 @@ public class OrderUpdateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork)
 
         _mapper.Map(command, existingOrder);
 
-        _unitOfWork.Orders.Update(existingOrder);
+        await _unitOfWork.Orders.Update(existingOrder);
         await _unitOfWork.SaveAsync();
 
         var updatedOrderDto = _mapper.Map<OrderUpdateDto>(existingOrder);

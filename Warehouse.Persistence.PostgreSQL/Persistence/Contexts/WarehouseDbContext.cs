@@ -37,6 +37,7 @@ public class WarehouseDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        // optionsBuilder.LogTo(Console.WriteLine);
         base.OnConfiguring(optionsBuilder);
     }
 }

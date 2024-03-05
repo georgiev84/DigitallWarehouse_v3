@@ -40,7 +40,7 @@ public class OrderCreateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWork)
                 }
                 else
                 {
-                    _unitOfWork.ProductSizes.Update(productSize);
+                    await _unitOfWork.ProductSizes.Update(productSize);
                 }
             }
         }

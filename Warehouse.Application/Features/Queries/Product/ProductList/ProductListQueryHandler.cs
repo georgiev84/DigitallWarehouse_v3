@@ -14,7 +14,7 @@ public record ProductListQueryHandler(IMapper _mapper, IUnitOfWork _unitOfWork) 
 
         var productDetailEntities = await _unitOfWork.Products.GetProductsDetailsAsync();
 
-        var productDetailsDtos = _mapper.Map<IEnumerable<ProductDetailsDto>>(productDetailEntities);
+        var productDetailsDtos = _mapper.Map<IEnumerable<ProductDetailsDto>?>(productDetailEntities);
 
         var filteredProducts = FilterProducts(productDetailsDtos, requestItems);
 

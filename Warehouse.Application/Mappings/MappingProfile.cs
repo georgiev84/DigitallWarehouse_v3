@@ -138,17 +138,17 @@ public class MappingProfile : Profile
         CreateMap<Product, ProductDetailsDto>()
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
             .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()))
-            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList()));
+            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name, SizeId = ps.SizeId }).ToList()));
 
         CreateMap<Product, ProductCreateDetailsDto>()
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
             .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()))
-            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList()));
+            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name, SizeId = ps.SizeId }).ToList()));
 
         CreateMap<Product, ProductUpdateDetailsDto>()
             .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand.Name))
-            .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups.Select(pg => pg.Group.Name).ToList()))
-            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, Name = ps.Size.Name }).ToList()));
+            .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductGroups != null ? src.ProductGroups.Select(pg => pg.GroupId).ToList() : null))
+            .ForMember(dest => dest.Sizes, opt => opt.MapFrom(src => src.ProductSizes != null ? src.ProductSizes.Select(ps => new SizeDto { QuantityInStock = ps.QuantityInStock, SizeId = ps.SizeId }).ToList() : null));
 
         CreateMap<Order, OrderDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))

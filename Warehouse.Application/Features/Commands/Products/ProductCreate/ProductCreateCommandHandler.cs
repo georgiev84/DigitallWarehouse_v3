@@ -13,10 +13,9 @@ public class ProductCreateCommandHandler(IMapper _mapper, IUnitOfWork _unitOfWor
         var product = _mapper.Map<Product>(command);
 
         await _unitOfWork.Products.Add(product);
-        await _unitOfWork.SaveAsync();
+        _unitOfWork.Commit();
 
         var checkedProduct = await _unitOfWork.Products.GetProductDetailsByIdAsync(product.Id);
-
         var productDto = _mapper.Map<ProductCreateDetailsDto>(checkedProduct);
 
         return productDto;
